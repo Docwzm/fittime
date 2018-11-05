@@ -18,9 +18,11 @@ import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigati
 import {
   LoadingPlugin,
   XImg,
+  XButton
 } from 'vux'
 Vue.use(LoadingPlugin)
 Vue.component('XImg', XImg)
+Vue.component('x-button', XButton)
 Vue.use(VueResource)
 
 FastClick.attach(document.body)
@@ -42,9 +44,10 @@ console.log(Vue.prototype.systemType)
 LSJavascriptBridgeInit(function(){
   setApp()
 })
-function setApp(){
+function setApp(title=''){
   // window.bus.$root.$emit('APP-CB')
-  setAppNavTitle('万圣节の冒险狂欢')
+  setAppNavTitle(title)
+  console.log(title)
   //分享2.0
   // shareData(
   //   {
@@ -55,23 +58,23 @@ function setApp(){
   //   }
   // )
   //分享 3.0
-  setNavigationBarButton({
-    title: '分享',
-    imageUrl: Vue.prototype.systemType == 'ios' ? require('./assets/ic_share.png') :'',
-    buttonId: 'shareBtn',
-    callbackFunctionName: 'appCb'
-  })
+  // setNavigationBarButton({
+  //   title: '分享',
+  //   imageUrl: Vue.prototype.systemType == 'ios' ? require('./assets/ic_share.png') :'',
+  //   buttonId: 'shareBtn',
+  //   callbackFunctionName: 'appCb'
+  // })
 }
-window.appCb = ()=>{
-  _czc.push(['_trackEvent', '万圣节', '点击', '分享按钮'])
-  window.shareSuccess()
-  callShareUrl({
-    title:'万圣节狂欢，砸南瓜，丰富壕礼免费领！',
-    url:location.origin+'/activities/181101/#/other?id=39&from=fx',
-    imgUrl:'https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png',
-    desc:'登录乐心运动，每天都有机会抢千元壕礼，立即参与'
-  })
-}
+// window.appCb = ()=>{
+//   _czc.push(['_trackEvent', '万圣节', '点击', '分享按钮'])
+//   window.shareSuccess()
+//   callShareUrl({
+//     title:'万圣节狂欢，砸南瓜，丰富壕礼免费领！',
+//     url:location.origin+'/activities/181101/#/other?id=39&from=fx',
+//     imgUrl:'https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png',
+//     desc:'登录乐心运动，每天都有机会抢千元壕礼，立即参与'
+//   })
+// }
 //分享回调
 window.shareSuccess = (channel) => {
   let _d ={
@@ -96,7 +99,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from, next) => {
   setTimeout(()=>{
     // Vue.$vux.loading.hide();
-    setApp()
+    setApp(to.meta.title)
   },200)
 })
 

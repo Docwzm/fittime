@@ -18,7 +18,7 @@ export default new Router({
       meta: {
         keepAlive: true, //保活
         title: 'fittime',
-        title: 'fittime',
+        refName: 'fittime',
       }
     },
     {
