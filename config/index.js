@@ -47,10 +47,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/activities/181101/index.html'),
+    index: path.resolve(__dirname, '../dist/fitime/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist/activities/181101'),
+    assetsRoot: path.resolve(__dirname, '../dist/fitime'),
     assetsSubDirectory: './static',
     assetsPublicPath: './',
     productionGzip: true,
