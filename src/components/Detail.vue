@@ -36,7 +36,7 @@
 </template>
 <script>
 import { getCourseDetail } from "@/api";
-import mockDetail from "@/mock/detail.js";
+import mockList from "@/mock/list.js";
 export default {
   data() {
     return {
@@ -52,9 +52,10 @@ export default {
   methods: {
     getDetail() {
       //获取本地视频详情
-      for (let x in mockDetail) {
-        if (mockDetail[x].courseKey == this.id) {
-          this.detail = mockDetail[x];
+      console.log(mockList)
+      for (let x in mockList) {
+        if (mockList[x].courseKey == this.id) {
+          this.detail = mockList[x];
         }
       }
       //获取视频播放地址

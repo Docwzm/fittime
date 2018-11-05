@@ -22,6 +22,7 @@
 <script>
 import { getCourseList, addHotCourse } from "@/api";
 import mockList from "@/mock/list.js";
+
 export default {
   data() {
     return {
@@ -60,6 +61,7 @@ export default {
     },
     //前往视频详情页面
     toDetail(item) {
+      item.hotCount = item.hotCount + 1;
       //公开课点击，请求添加热度
       // addHotCourse(item.courseKey).then(() => {
       //   item.hotcount = item.hotcount + 1;
