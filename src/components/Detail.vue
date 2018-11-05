@@ -4,6 +4,13 @@
       <!-- 视频 -->
       <div class="video-box">
         <video id="media" class="video-js vjs-big-play-centered"></video>
+        <!-- 视频简介 -->
+        <div class="base-wrap" v-if="!isPlay">
+          <p class="title">{{ detail.title }}</p>
+          <p class="hot-count">
+            <img src="../assets/icon_hot.png"><span>{{detail.hotCount}}人参加</span>
+          </p>
+        </div>
       </div>
       <!-- 标签 -->
       <div class="label">
@@ -23,51 +30,72 @@
       </div>
     </div>
     <div v-transfer-dom>
-      <loading :show="!detail" text=""></loading>
+      <x-loading :show="!detail" text=""></x-loading>
     </div>
   </div>
 </template>
 <script>
-import { Loading, XImg, TransferDomDirective as TransferDom } from "vux";
+import { getCourseDetail } from "@/api";
+import mockDetail from "@/mock/detail.js";
 export default {
-  directives: {
-    TransferDom
-  },
-  components: {
-    Loading,
-    XImg
-  },
   data() {
     return {
       detail: null,
       id: this.$route.query.id,
-      player: null
+      player: null,
+      isPlay: false
     };
-  },
-  created() {
-    this.getDetail();
   },
   mounted() {
-    let options = {
-      controls: true,
-      url:
-        "http://phjztkxul.bkt.clouddn.com/qGPExvkCZQO2y2vVSDreY-rT4Qk=/lq3gTJhmbQ6P7q2YmUuyoRDBU_4t",
-      type: "hls",
-      preload: true,
-      autoplay: false // 如为 true，则视频将会自动播放
-      // poster:
-      //   "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
-    };
-    this.player = new QiniuPlayer("media", options);
+    this.getDetail();
   },
   methods: {
     getDetail() {
-      this.detail = require(`../config/${this.id}.json`);
+      //获取本地视频详情
+      for (let x in mockDetail) {
+        if (mockDetail[x].courseKey == this.id) {
+          this.detail = mockDetail[x];
+        }
+      }
+      //获取视频播放地址
+      getCourseDetail(this.$route.query.id)
+        .then(res => {
+          console.log(res.video_info.video_address);
+        })
+        .catch(e => {
+          let options = {
+            controls: true,
+            url: "https://fit-time.lifesense.com/m3u8/test_01.m3u8",
+            type: "hls",
+            preload: true,
+            autoplay: false, // 如为 true，则视频将会自动播放
+            poster:
+              "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
+          };
+          this.player = new QiniuPlayer("media", options);
+          this.watchPlayer();
+        });
+    },
+    //监听视频player 事件
+    watchPlayer() {
+      this.player.ready(() => {
+        this.player.on("play", () => {
+          //播放 隐藏视频简介
+          this.isPlay = true;
+        });
+        this.player.on("pause", () => {
+          //暂停 显示视频简介
+          // this.isPlay = false;
+        });
+      });
     },
     //开始播放
     play() {
       this.player.ready(() => {
-        this.player.play();
+        //暂停之后开始播放---视频结束默认暂停
+        if (this.player.isPaused()) {
+          this.player.play();
+        }
       });
     }
   }
@@ -86,11 +114,38 @@ export default {
 
 <style lang="less" scoped>
 .home-page {
+  padding-bottom: 70px;
   background: rgba(240, 240, 240, 1);
 }
 .video-box {
   width: 100%;
   height: 185px;
+  position: relative;
+  .title,
+  .hot-count {
+    position: absolute;
+    left: 20px;
+  }
+  .title {
+    bottom: 42px;
+    width: 180px;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 20px;
+  }
+  .hot-count {
+    bottom: 15px;
+    height: 12px;
+    font-size: 12px;
+    color: rgba(226, 226, 226, 1);
+    line-height: 12px;
+    img {
+      width: 8px;
+      height: 10px;
+      margin-right: 4px;
+    }
+  }
 }
 .label {
   display: flex;
@@ -126,28 +181,28 @@ export default {
     width: 100%;
   }
 }
-// .btn-wrap{
-//   position:fixed;
-//   width:100%;
-//   left:50%;
-//   bottom:10px;
-//   transform:translateX(-50%);
-//   text-align:center;
-// }
-// .btn-player {
-//   font-size: 16px;
-//   color: rgba(255, 255, 255, 1);
-//   width: 345px;
-//   height: 50px;
-//   line-height: 50px;
-//   background: linear-gradient(
-//     316deg,
-//     rgba(36, 121, 255, 1) 0%,
-//     rgba(46, 175, 255, 1) 100%
-//   );
-//   border-radius: 50px;
-//   border:0;
-// }
+.btn-wrap {
+  position: fixed;
+  width: 100%;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.btn-player {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 1);
+  width: 345px;
+  height: 50px;
+  line-height: 50px;
+  background: linear-gradient(
+    316deg,
+    rgba(36, 121, 255, 1) 0%,
+    rgba(46, 175, 255, 1) 100%
+  );
+  border-radius: 50px;
+  border: 0;
+}
 </style>
 
 

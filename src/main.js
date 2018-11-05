@@ -4,26 +4,30 @@ import Vue from 'vue'
 import App from './App'
 import FastClick from 'fastclick'
 import router from './router'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
 import './util'
 import './styles/reset.less'
 /*全局引入*/
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'//这里注意具体看使用的版本是否需要引入样式，以及具体位置。
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
-import  { ToastPlugin } from 'vux'
-Vue.use(ToastPlugin)
-import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigationBarButton} from './util/appApi'
-
 import {
+  ToastPlugin,
   LoadingPlugin,
   XImg,
-  XButton
+  XButton,
+  Loading,
+  TransferDom
 } from 'vux'
 Vue.use(LoadingPlugin)
+Vue.use(ToastPlugin)
+Vue.directive('transfer-dom', TransferDom)
 Vue.component('XImg', XImg)
-Vue.component('x-button', XButton)
-Vue.use(VueResource)
+Vue.component('xButton', XButton)
+Vue.component('xLoading', Loading)
+// Vue.use(VueResource)
+
+import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigationBarButton} from './util/appApi'
 
 FastClick.attach(document.body)
 

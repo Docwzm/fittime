@@ -16,9 +16,9 @@
     "build-online": "node build/build.js --env online"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "vue": "^2.5.17",
     "vue-awesome-swiper": "^3.1.3",
-    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vux": "^2.9.2"
   },
