@@ -58,11 +58,11 @@ export default {
         }
       }
       //获取视频播放地址
-      getCourseDetail(this.$route.query.id)
-        .then(res => {
-          console.log(res.video_info.video_address);
-        })
-        .catch(e => {
+      // getCourseDetail(this.$route.query.id)
+      //   .then(res => {
+      //     console.log(res.video_info.video_address);
+      //   })
+      //   .catch(e => {
           let options = {
             controls: true,
             url: "https://fit-time.lifesense.com/m3u8/test_01.m3u8",
@@ -73,12 +73,16 @@ export default {
               "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
           };
           this.player = new QiniuPlayer("media", options);
+          
           this.watchPlayer();
-        });
+        // });
     },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
+        this.player.fullscreen(false,() => {
+          console.log('hahha.............')
+        })
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
