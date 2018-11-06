@@ -1,5 +1,6 @@
+import Vue from 'vue'
 import axios from 'axios'
-
+import {getAppVersionFromUserAgent} from './appApi'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.BUILD_URL // api 的 base_url
@@ -9,11 +10,13 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    console.log(config)
     // Do something before request is sent
     // if (store.getters.token) {
     //   // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     //   config.headers['X-Token'] = getToken()
     // }
+    config.url += `?appType=${6}&version=${getAppVersionFromUserAgent()||"3.6.5"}&systemType=${1}&requestId=${Vue.prototype._g.getuuid()}`
     return config
   },
   error => {
@@ -29,7 +32,7 @@ service.interceptors.response.use(
     if(response.status=200){
       return response.data
     }else{
-      this.$vux.toast.show({
+      Vue.$vux.toast.show({
         text: e.msg
       });
       return Promise.reject('error')

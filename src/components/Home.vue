@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <ul>
+    <ul v-if="list">
       <li v-for="item in list" :key="item.courseKey" @click="toDetail(item)">
         <!-- <x-img :offset="20" default-src="https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png" :src="item.imgUrl"></x-img> -->
         <img v-lazy="item.imgUrl">
@@ -27,7 +27,7 @@ import mockList from "@/mock/courseList.js";
 export default {
   data() {
     return {
-      list: [],
+      list: null,
       loading: true
     };
   },

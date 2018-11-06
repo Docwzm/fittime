@@ -1,9 +1,13 @@
-// import request from '@/util/request'
+import request from '@/util/request'
 import Vue from 'vue';
 
 //获取公开课热度列表
 export function getCourseList() {
-    return Vue.http.post("/opencourse_service/course/hotcounts")
+    // return Vue.http.post("/opencourse_service/course/hotcounts",{})
+    return request({
+        url: '/opencourse_service/course/hotcounts',
+        method: 'post'
+    })
 }
 
 
