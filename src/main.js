@@ -27,6 +27,9 @@ Vue.component('xLoading', Loading)
 
 import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigationBarButton} from './util/appApi'
 
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
+
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false

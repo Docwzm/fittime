@@ -21,7 +21,7 @@
       <!-- 详情 -->
       <ul class="introduction">
         <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
-          <x-img :src="imgUrl" class="x-img" :offset="-100" container="#vux_view_box_body"></x-img>
+          <img v-lazy="imgUrl" class="x-img"/>
         </li>
       </ul>
       <!-- 按钮 -->
@@ -47,9 +47,7 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.getDetail();
-    })
+    this.getDetail();
   },
   beforeDestroy() {
     QiniuPlayer.dispose("my-video");//释放播放器实例
@@ -57,7 +55,6 @@ export default {
   methods: {
     getDetail() {
       //获取本地视频详情
-      console.log(mockList)
       for (let x in mockList) {
         if (mockList[x].courseKey == this.id) {
           this.detail = mockList[x];
@@ -85,9 +82,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.player.fullscreen(false, () => {
-          console.log("hahha.............");
-        });
+        // this.player.fullscreen(false, () => {
+        //   console.log("hahha.............");
+        // });
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
@@ -104,9 +101,9 @@ export default {
         //暂停之后开始播放---视频结束默认暂停
         if (this.player.isPaused()) {
           this.player.play();
-          this.player.fullscreen(false, () => {
-            console.log("hahha.............");
-          });
+          // this.player.fullscreen(false, () => {
+          //   console.log("hahha.............");
+          // });
         }
       });
     }
