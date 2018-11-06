@@ -3,7 +3,7 @@
     <div v-if="detail">
       <!-- 视频 -->
       <div class="video-box">
-        <video id="media" class="video-js vjs-big-play-centered"></video>
+        <video id="my-video" class="video-js vjs-big-play-centered" width="100%"></video>
         <!-- 视频简介 -->
         <div class="base-wrap" v-if="!isPlay">
           <p class="title">{{ detail.title }}</p>
@@ -47,7 +47,12 @@ export default {
     };
   },
   mounted() {
-    this.getDetail();
+    this.$nextTick(() => {
+      this.getDetail();
+    })
+  },
+  beforeDestroy() {
+    QiniuPlayer.dispose("my-video");//释放播放器实例
   },
   methods: {
     getDetail() {
@@ -70,10 +75,9 @@ export default {
         type: "hls",
         preload: true,
         autoplay: false, // 如为 true，则视频将会自动播放
-        poster:
-          "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
+        poster:"https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
       };
-      this.player = new QiniuPlayer("media", options);
+      this.player = new QiniuPlayer("my-video", options);
 
       this.watchPlayer();
       // });

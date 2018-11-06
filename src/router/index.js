@@ -16,7 +16,7 @@ export default new Router({
       path: '/',
       component: Home,
       meta: {
-        keepAlive: true, //保活
+        // keepAlive: true, //保活
         title: 'fittime',
         refName: 'fittime',
       }
@@ -25,7 +25,7 @@ export default new Router({
       path: '/index',
       component: Home,
       meta: {
-        keepAlive: true, //保活
+        // keepAlive: true, //保活
         title: 'fittime',
         refName:'fittime'
       }

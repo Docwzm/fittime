@@ -1,6 +1,6 @@
 import './errImg'
 import './umeng'
-// import './interceptor'
+import './interceptor'
 import './global'
 import './staticData'
 import './dateFormat'

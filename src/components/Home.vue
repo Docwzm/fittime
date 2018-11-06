@@ -2,6 +2,7 @@
   <div class="home-page">
     <ul>
       <li v-for="item in list" :key="item.courseKey" @click="toDetail(item)">
+        <!-- <x-img :offset="20" default-src="https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png" :src="item.imgUrl"></x-img> -->
         <img :src="item.imgUrl">
         <div class="detail">
           <p class="top">{{item.title}}</p>
@@ -52,7 +53,7 @@ export default {
       this.list = mockList;
       this.loading = false;
       // getCourseList().then(res => {
-        // this.loading = false;
+      //   this.loading = false;
       //   let data = res.data.hotcounts;
       //   // for (let x in list) {
       //   //   Object.assign(list[x],data[x])
@@ -61,7 +62,7 @@ export default {
     },
     //前往视频详情页面
     toDetail(item) {
-      item.hotCount = item.hotCount + 1;
+      // item.hotCount = item.hotCount + 1;
       //公开课点击，请求添加热度
       // addHotCourse(item.courseKey).then(() => {
       //   item.hotcount = item.hotcount + 1;

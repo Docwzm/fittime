@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import FastClick from 'fastclick'
 import router from './router'
-// import VueResource from 'vue-resource'
 import './util'
 import './styles/reset.less'
 /*全局引入*/
@@ -25,7 +24,6 @@ Vue.directive('transfer-dom', TransferDom)
 Vue.component('XImg', XImg)
 Vue.component('xButton', XButton)
 Vue.component('xLoading', Loading)
-// Vue.use(VueResource)
 
 import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigationBarButton} from './util/appApi'
 
