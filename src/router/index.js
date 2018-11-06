@@ -5,8 +5,6 @@ Vue.use(Router)
 
 import Home from '@/components/Home.vue'
 import Detail from '@/components/Detail.vue'
-// const Other = r => require.ensure([], () => r(require('@/components/other.vue')), 'other')
-// const AwardList = r => require.ensure([], () => r(require('@/components/awardList.vue')), 'list')
 
 export default new Router({
   // mode: 'history',
@@ -21,15 +19,15 @@ export default new Router({
         refName: 'fittime',
       }
     },
-    {
-      path: '/index',
-      component: Home,
-      meta: {
-        keepAlive: true, //保活
-        title: 'fittime',
-        refName:'fittime'
-      }
-    },
+    // {
+    //   path: '/index',
+    //   component: Home,
+    //   meta: {
+    //     keepAlive: true, //保活
+    //     title: 'fittime',
+    //     refName:'fittime'
+    //   }
+    // },
     {
       path:'/detail',
       name:'detail',
