@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <div v-if="detail">
+    <div v-if="player">
       <!-- 视频 -->
       <div class="video-box">
         <video id="my-video" class="video-js vjs-big-play-centered" width="100%"></video>
@@ -21,7 +21,7 @@
       <!-- 详情 -->
       <ul class="introduction">
         <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
-          <img v-lazy="imgUrl" class="x-img"/>
+          <img v-lazy="imgUrl" class="x-img" />
         </li>
       </ul>
       <!-- 按钮 -->
@@ -30,13 +30,13 @@
       </div>
     </div>
     <div v-transfer-dom>
-      <x-loading :show="!detail" text=""></x-loading>
+      <x-loading :show="!detail"></x-loading>
     </div>
   </div>
 </template>
 <script>
-import { getCourseDetail } from "@/api";
-import mockList from "@/mock/list.js";
+import { getCourseDetail, addHotCourse } from "@/api";
+import mockList from "@/mock/courseList.js";
 export default {
   data() {
     return {
@@ -46,11 +46,15 @@ export default {
       isPlay: false
     };
   },
+  created() {
+    //请求添加热度
+    addHotCourse(this.id);
+  },
   mounted() {
     this.getDetail();
   },
   beforeDestroy() {
-    QiniuPlayer.dispose("my-video");//释放播放器实例
+    QiniuPlayer.dispose("my-video"); //释放播放器实例
   },
   methods: {
     getDetail() {
@@ -61,23 +65,22 @@ export default {
         }
       }
       //获取视频播放地址
-      // getCourseDetail(this.$route.query.id)
-      //   .then(res => {
-      //     console.log(res.video_info.video_address);
-      //   })
-      //   .catch(e => {
-      let options = {
-        controls: true,
-        url: "https://fit-time.lifesense.com/m3u8/test_01.m3u8",
-        type: "hls",
-        preload: true,
-        autoplay: false, // 如为 true，则视频将会自动播放
-        poster:"https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
-      };
-      this.player = new QiniuPlayer("my-video", options);
-
-      this.watchPlayer();
-      // });
+      getCourseDetail(this.$route.query.id).then(res => {
+        let data = res.data;
+        if (data && data.videoAddress) {
+          this.detail.hotCount = data.hotCount;
+          let options = {
+            controls: true,
+            url: data.videoAddress,
+            type: "hls",
+            preload: true,
+            autoplay: false // 如为 true，则视频将会自动播放
+            // poster:"https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
+          };
+          this.player = new QiniuPlayer("my-video", options);
+          this.watchPlayer();
+        }
+      });
     },
     //监听视频player 事件
     watchPlayer() {
@@ -119,6 +122,12 @@ export default {
 // .vjs-big-play-button{
 //   display: none!important;
 // }
+.video-damage-note{
+  text-align:center;
+  padding:30px;
+  font-size:20px;
+  justify-content:flex-start;
+}
 </style>
 
 <style lang="less" scoped>

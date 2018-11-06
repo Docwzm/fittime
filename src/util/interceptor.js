@@ -40,6 +40,7 @@ Vue.http.interceptors.push(function (request, next) {
       }
       return response
     } else {
+      Vue.$vux.toast.text('接口异常', 'center')
       console.log('接口异常')
     }
   })

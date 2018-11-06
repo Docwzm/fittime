@@ -15,20 +15,20 @@
         </div>
       </li>
     </ul>
-    <div v-transfer-dom>
+    <!-- <div v-transfer-dom>
       <x-loading :show="loading" text=""></x-loading>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
-import { getCourseList, addHotCourse } from "@/api";
-import mockList from "@/mock/list.js";
+import { getCourseList } from "@/api";
+import mockList from "@/mock/courseList.js";
 
 export default {
   data() {
     return {
       list: [],
-      loading:true
+      loading: true
     };
   },
   created() {
@@ -37,36 +37,18 @@ export default {
   methods: {
     //获取视频列表
     getList() {
-      let data = [
-        {
-          courseKey: "course_key_2018_11_08_001",
-          hotCount: 1
-        },
-        {
-          courseKey: "course_key_2018_11_08_002",
-          hotCount: 2
+      getCourseList().then(res => {
+        let list = res.data;
+        for (let x in list) {
+          Object.assign(mockList[x], list[x]);
         }
-      ];
-      for (let x in mockList) {
-        Object.assign(mockList[x], data[x]);
-      }
-      this.list = mockList;
-      this.loading = false;
-      // getCourseList().then(res => {
-      //   this.loading = false;
-      //   let data = res.data.hotcounts;
-      //   // for (let x in list) {
-      //   //   Object.assign(list[x],data[x])
-      //   // }
-      // });
+        this.list = mockList.slice(0,list.length);
+        this.loading = false;
+      });
     },
     //前往视频详情页面
     toDetail(item) {
-      // item.hotCount = item.hotCount + 1;
-      //公开课点击，请求添加热度
-      // addHotCourse(item.courseKey).then(() => {
-      //   item.hotcount = item.hotcount + 1;
-      // })
+      item.hotCount++;
       this.$router.push({ name: "detail", query: { id: item.courseKey } });
     }
   }
