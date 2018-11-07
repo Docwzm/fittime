@@ -48,6 +48,7 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
 function setApp(title=''){
   // window.bus.$root.$emit('APP-CB')
   LSJavascriptBridgeInit(() => {
+    console.log(title)
     setAppNavTitle(title)
   })
   //分享2.0
