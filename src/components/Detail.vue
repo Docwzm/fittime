@@ -19,11 +19,11 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <ul class="introduction" v-if="detail.Introduction">
-        <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
+      <div class="introduction" v-if="detail.Introduction">
+        <p v-for="(imgUrl,index) in detail.Introduction" :key="index">
           <img v-lazy="imgUrl">
-        </li>
-      </ul>
+        </p>
+      </div>
       <!-- 按钮 -->
       <div class="btn-wrap">
         <button class="btn-player" @click="play">开始训练</button>

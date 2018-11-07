@@ -5,6 +5,7 @@ const list = [
     "imgUrl": require('../assets/course/course_01/list_01.png'),
     "time": "10",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
       require('../assets/course/course_01/detail_01.png'),
       require('../assets/course/course_01/detail_02.png')
@@ -16,6 +17,7 @@ const list = [
     "imgUrl": require('../assets/course/course_02/list_02.png'),
     "time": "12",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
       require('../assets/course/course_02/detail_01.png'),
       require('../assets/course/course_02/detail_02.png')
@@ -27,6 +29,7 @@ const list = [
     "imgUrl": require('../assets/course/course_03/list_03.png'),
     "time": "18",
     "level": "中级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -36,6 +39,7 @@ const list = [
     "imgUrl": require('../assets/course/course_04/list_04.png'),
     "time": "8",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -45,6 +49,7 @@ const list = [
     "imgUrl": require('../assets/course/course_05/list_05.png'),
     "time": "8",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -54,6 +59,7 @@ const list = [
     "imgUrl": require('../assets/course/course_06/list_06.png'),
     "time": "8",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -63,6 +69,7 @@ const list = [
     "imgUrl": require('../assets/course/course_07/list_07.png'),
     "time": "7",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -72,6 +79,7 @@ const list = [
     "imgUrl": require('../assets/course/course_08/list_08.png'),
     "time": "23",
     "level": "中级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -81,6 +89,7 @@ const list = [
     "imgUrl": require('../assets/course/course_09/list_09.png'),
     "time": "23",
     "level": "高级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -90,6 +99,7 @@ const list = [
     "imgUrl": require('../assets/course/course_10/list_10.png'),
     "time": "8",
     "level": "中级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -99,6 +109,7 @@ const list = [
     "imgUrl": require('../assets/course/course_11/list_11.png'),
     "time": "18",
     "level": "低级",
+    "hotCount":0,
     "Introduction": [
     ]
   },
@@ -108,6 +119,7 @@ const list = [
     "imgUrl": require('../assets/course/course_12/list_12.png'),
     "time": "20",
     "level": "高级",
+    "hotCount":0,
     "Introduction": [
     ]
   }

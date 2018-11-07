@@ -35,10 +35,14 @@ export default {
     getList() {
       getCourseList().then(res => {
         let list = res.data;
-        for (let x in list) {
-          Object.assign(mockList[x], list[x]);
+        for(let y in mockList){
+          for (let x in list) {
+            if(list[x].courseKey==mockList[y].courseKey){
+              Object.assign(mockList[y], list[x]);
+            }
+          }
         }
-        this.list = mockList.slice(0,list.length);
+        this.list = mockList;
         this.loading = false;
       });
     },
