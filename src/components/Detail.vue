@@ -3,7 +3,7 @@
     <div v-if="player">
       <!-- 视频 -->
       <div class="video-box">
-        <video id="my-video" class="video-js"></video>
+        <video id="my-video" class="video-js vjs-big-play-centered"></video>
         <!-- 视频简介 -->
         <div class="base-wrap" v-if="!isPlay">
           <p class="title">{{ detail.title }}</p>
@@ -70,8 +70,9 @@ export default {
         if (data && data.videoAddress) {
           this.detail.hotCount = data.hotCount;
           let options = {
-            // controls: true,
+            controls: true,
             url: data.videoAddress,
+            // url:'http://phjztkxul.bkt.clouddn.com/qGPExvkCZQO2y2vVSDreY-rT4Qk=/lq3gTJhmbQ6P7q2YmUuyoRDBU_4t',
             type: "hls",
             preload: true,
             autoplay: false // 如为 true，则视频将会自动播放
@@ -85,13 +86,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        // this.player.fullscreen(false, () => {
-        //   console.log("hahha.............");
-        // });
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
-          this.player.fullscreen(false);
         });
         this.player.on("pause", () => {
           //暂停 显示视频简介
@@ -105,9 +102,6 @@ export default {
         //暂停之后开始播放---视频结束默认暂停
         if (this.player.isPaused()) {
           this.player.play();
-          // this.player.fullscreen(false, () => {
-          //   console.log("hahha.............");
-          // });
         }
       });
     }

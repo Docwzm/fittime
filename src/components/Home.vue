@@ -2,7 +2,6 @@
   <div class="home-page">
     <ul v-if="list">
       <li v-for="(item,index) in list" :key="index" @click="toDetail(item)">
-        <!-- <x-img :offset="20" default-src="https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png" :src="item.imgUrl"></x-img> -->
         <img v-lazy="item.imgUrl">
         <div class="detail">
           <p class="top">{{item.title}}</p>
@@ -15,9 +14,6 @@
         </div>
       </li>
     </ul>
-    <!-- <div v-transfer-dom>
-      <x-loading :show="loading" text=""></x-loading>
-    </div> -->
   </div>
 </template>
 <script>

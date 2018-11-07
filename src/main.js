@@ -6,29 +6,23 @@ import FastClick from 'fastclick'
 import router from './router'
 import './util'
 import './styles/reset.less'
+
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
+
 /*全局引入*/
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'//这里注意具体看使用的版本是否需要引入样式，以及具体位置。
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
 import {
   ToastPlugin,
   LoadingPlugin,
-  XImg,
-  XButton,
   Loading,
   TransferDom
 } from 'vux'
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.directive('transfer-dom', TransferDom)
-Vue.component('XImg', XImg)
-Vue.component('xButton', XButton)
 Vue.component('xLoading', Loading)
 
-import {setAppNavTitle,LSJavascriptBridgeInit,shareData,callShareUrl,setNavigationBarButton} from './util/appApi'
-
-import VueLazyLoad from 'vue-lazyload'
-Vue.use(VueLazyLoad)
+import {setAppNavTitle,LSJavascriptBridgeInit} from './util/appApi'
 
 FastClick.attach(document.body)
 
@@ -44,7 +38,6 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
 }else{
   Vue.prototype.systemType = 'web'
 }
-console.log(Vue.prototype.systemType)
 
 LSJavascriptBridgeInit(function(){
   setApp()
@@ -81,29 +74,25 @@ function setApp(title=''){
 //   })
 // }
 //分享回调
-window.shareSuccess = (channel) => {
-  let _d ={
-    eventId:39,         //活动的ID, 本次活动ID=39
-    increaseReason:2,  //增加原因，1标识进入活动页，2标识分享成功
-  }
+// window.shareSuccess = (channel) => {
+//   let _d ={
+//     eventId:39,         //活动的ID, 本次活动ID=39
+//     increaseReason:2,  //增加原因，1标识进入活动页，2标识分享成功
+//   }
   
-  Vue.http.post('/marketing_service/halloween/increasePrizeCount',_d).then(res=>{
-    window.bus.$root.$emit('CHANGE-COUNT',res)
-  })
-}
+//   Vue.http.post('/marketing_service/halloween/increasePrizeCount',_d).then(res=>{
+//     window.bus.$root.$emit('CHANGE-COUNT',res)
+//   })
+// }
 
 
 //
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  // Vue.$vux.loading.show({
-  //   text: '加载中...'
-  // })
   next()
 })
 router.afterEach((to, from, next) => {
   setTimeout(()=>{
-    // Vue.$vux.loading.hide();
     setApp(to.meta.title)
   },200)
 })
