@@ -6,7 +6,8 @@ const list = [
     "time": "10",
     "level": "低级",
     "Introduction": [
-      require('../assets/course/course_01/list_01.png')
+      require('../assets/course/course_01/detail_01.png'),
+      require('../assets/course/course_01/detail_02.png')
     ]
   },
   {
@@ -16,7 +17,8 @@ const list = [
     "time": "12",
     "level": "低级",
     "Introduction": [
-      require('../assets/course/course_01/list_01.png')
+      require('../assets/course/course_02/detail_01.png'),
+      require('../assets/course/course_02/detail_02.png')
     ]
   },
   {
@@ -26,7 +28,6 @@ const list = [
     "time": "18",
     "level": "中级",
     "Introduction": [
-      require('../assets/course/course_01/list_01.png')
     ]
   },
   {
@@ -36,7 +37,6 @@ const list = [
     "time": "8",
     "level": "低级",
     "Introduction": [
-      require('../assets/course/course_01/list_01.png')
     ]
   },
   {
@@ -46,7 +46,6 @@ const list = [
     "time": "8",
     "level": "低级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -56,7 +55,6 @@ const list = [
     "time": "8",
     "level": "低级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -66,7 +64,6 @@ const list = [
     "time": "7",
     "level": "低级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -76,7 +73,6 @@ const list = [
     "time": "23",
     "level": "中级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -86,7 +82,6 @@ const list = [
     "time": "23",
     "level": "高级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -96,7 +91,6 @@ const list = [
     "time": "8",
     "level": "中级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -106,7 +100,6 @@ const list = [
     "time": "18",
     "level": "低级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   },
   {
@@ -116,7 +109,6 @@ const list = [
     "time": "20",
     "level": "高级",
     "Introduction": [
-       "https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
     ]
   }
 ]

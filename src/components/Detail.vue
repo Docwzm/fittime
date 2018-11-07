@@ -192,6 +192,7 @@ export default {
 .introduction {
   .x-img {
     width: 100%;
+    display: block;
   }
 }
 .btn-wrap {
