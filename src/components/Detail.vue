@@ -21,7 +21,7 @@
       <!-- 详情 -->
       <ul class="introduction">
         <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
-          <img v-lazy="imgUrl" class="x-img" />
+          <img v-lazy="imgUrl" />
         </li>
       </ul>
       <!-- 按钮 -->
@@ -190,7 +190,7 @@ export default {
   }
 }
 .introduction {
-  .x-img {
+  img {
     width: 100%;
     display: block;
   }
