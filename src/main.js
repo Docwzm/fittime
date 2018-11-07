@@ -7,11 +7,12 @@ import router from './router'
 import './util'
 import './styles/reset.less'
 
+var vConsole = new VConsole()
+
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad,{
-  preLoad: 1.3,
-  loading: require('./assets/icon_hot.png'),
-  attempt: 1
+  attempt: 1,
+  throttleWait:20
 })
 
 /*全局引入*/
