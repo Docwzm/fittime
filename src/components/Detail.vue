@@ -21,7 +21,7 @@
       <!-- 详情 -->
       <ul class="introduction" v-if="detail.Introduction">
         <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
-          <img v-lazy="imgUrl" />
+          <img v-lazy="imgUrl">
         </li>
       </ul>
       <!-- 按钮 -->
