@@ -44,13 +44,12 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
   Vue.prototype.systemType = 'web'
 }
 
-LSJavascriptBridgeInit(function(){
-  setApp()
-})
+
 function setApp(title=''){
   // window.bus.$root.$emit('APP-CB')
-  setAppNavTitle(title)
-  console.log(title)
+  LSJavascriptBridgeInit(() => {
+    setAppNavTitle(title)
+  })
   //分享2.0
   // shareData(
   //   {
@@ -89,19 +88,17 @@ function setApp(title=''){
 //     window.bus.$root.$emit('CHANGE-COUNT',res)
 //   })
 // }
-
-
 //
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
+  // document.title = to.meta.title;
+  setApp(to.meta.title)
   next()
 })
 router.afterEach((to, from, next) => {
-  setTimeout(()=>{
-    setApp(to.meta.title)
-  },200)
+  // setTimeout(()=>{
+    // setApp(to.meta.title)
+  // },200)
 })
-
 
 window.bus = new Vue({
   router,

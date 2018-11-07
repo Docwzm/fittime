@@ -205,6 +205,7 @@ export function callShareUrl(param,callback) {
 export function LSJavascriptBridgeInit(callback) {
   try {
     if (window.LSJavascriptBridge) {
+      callback()
     } else {
       window.LSJavascriptBridgeDidSetUp = (bridge) => {
         callback()
