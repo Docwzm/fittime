@@ -3,7 +3,7 @@
     <div v-if="player">
       <!-- 视频 -->
       <div class="video-box">
-        <video id="my-video" class="video-js vjs-big-play-centered"></video>
+        <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
         <!-- 视频简介 -->
         <div class="base-wrap" v-if="!isPlay">
           <p class="title">{{ detail.title }}</p>
@@ -43,7 +43,8 @@ export default {
       detail: null,
       id: this.$route.query.id,
       player: null,
-      isPlay: false
+      isPlay: false,
+      playFlag:false
     };
   },
   created() {
@@ -86,6 +87,7 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
+        this.playFlag = true;
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
@@ -100,6 +102,7 @@ export default {
     play() {
       this.player.ready(() => {
         //暂停之后开始播放---视频结束默认暂停
+        this.player.fullscreen(true);
         if (this.player.isPaused()) {
           this.player.play();
         }
@@ -132,9 +135,13 @@ export default {
   background: rgba(240, 240, 240, 1);
 }
 .video-box {
-  width: 100%;
+  width: 375px;
   height: 185px;
   position: relative;
+  #my-video{
+    width:100%;
+    height:100%;
+  }
   .title,
   .hot-count {
     position: absolute;
@@ -200,8 +207,10 @@ export default {
   position: fixed;
   width: 100%;
   left: 50%;
-  bottom: 10px;
+  bottom: 0;
   transform: translateX(-50%);
+  padding: 10px;
+  background:#fff;
   text-align: center;
 }
 .btn-player {
