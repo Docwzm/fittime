@@ -42,6 +42,7 @@ export default {
             }
           }
         }
+        console.log(mockList)
         this.list = mockList;
         this.loading = false;
       });
