@@ -127,6 +127,7 @@ export default {
 
 <style lang="less" scoped>
 .home-page {
+  width:100%;
   padding-bottom: 70px;
   background: rgba(240, 240, 240, 1);
 }
