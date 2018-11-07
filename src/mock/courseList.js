@@ -11,18 +11,18 @@ const list = [
       require('../assets/course/course_01/detail_02.png')
     ]
   },
-  {
-    "courseKey":"course_key_2018_11_08_002",
-    "title": "纤体全身拉伸",
-    "imgUrl": require('../assets/course/course_02/list_02.png'),
-    "time": "12",
-    "level": "低级",
-    "hotCount":0,
-    "Introduction": [
-      require('../assets/course/course_02/detail_01.png'),
-      require('../assets/course/course_02/detail_02.png')
-    ]
-  },
+  // {
+  //   "courseKey":"course_key_2018_11_08_002",
+  //   "title": "纤体全身拉伸",
+  //   "imgUrl": require('../assets/course/course_02/list_02.png'),
+  //   "time": "12",
+  //   "level": "低级",
+  //   "hotCount":0,
+  //   "Introduction": [
+  //     require('../assets/course/course_02/detail_01.png'),
+  //     require('../assets/course/course_02/detail_02.png')
+  //   ]
+  // },
   {
     "courseKey":"course_key_2018_11_08_003",
     "title": "挑战全身体能入门",
@@ -43,16 +43,16 @@ const list = [
     "Introduction": [
     ]
   },
-  {
-    "courseKey":"course_key_2018_11_08_005",
-    "title": "瘦腿翘臀完美体态",
-    "imgUrl": require('../assets/course/course_05/list_05.png'),
-    "time": "8",
-    "level": "低级",
-    "hotCount":0,
-    "Introduction": [
-    ]
-  },
+  // {
+  //   "courseKey":"course_key_2018_11_08_005",
+  //   "title": "瘦腿翘臀完美体态",
+  //   "imgUrl": require('../assets/course/course_05/list_05.png'),
+  //   "time": "8",
+  //   "level": "低级",
+  //   "hotCount":0,
+  //   "Introduction": [
+  //   ]
+  // },
   {
     "courseKey":"course_key_2018_11_08_006",
     "title": "八分钟纠正驼背",
@@ -83,16 +83,16 @@ const list = [
     "Introduction": [
     ]
   },
-  {
-    "courseKey":"course_key_2018_11_08_009",
-    "title": "健身燃脂舞",
-    "imgUrl": require('../assets/course/course_09/list_09.png'),
-    "time": "23",
-    "level": "高级",
-    "hotCount":0,
-    "Introduction": [
-    ]
-  },
+  // {
+  //   "courseKey":"course_key_2018_11_08_009",
+  //   "title": "健身燃脂舞",
+  //   "imgUrl": require('../assets/course/course_09/list_09.png'),
+  //   "time": "23",
+  //   "level": "高级",
+  //   "hotCount":0,
+  //   "Introduction": [
+  //   ]
+  // },
   {
     "courseKey":"course_key_2018_11_08_010",
     "title": "瑜伽入门热身篇",
