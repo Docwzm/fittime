@@ -19,7 +19,7 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <ul class="introduction">
+      <ul class="introduction" v-if="detail.Introduction">
         <li v-for="(imgUrl,index) in detail.Introduction" :key="index">
           <img v-lazy="imgUrl" />
         </li>

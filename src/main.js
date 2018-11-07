@@ -8,7 +8,11 @@ import './util'
 import './styles/reset.less'
 
 import VueLazyLoad from 'vue-lazyload'
-Vue.use(VueLazyLoad)
+Vue.use(VueLazyLoad,{
+  preLoad: 1.3,
+  loading: require('./assets/icon_hot.png'),
+  attempt: 1
+})
 
 /*全局引入*/
 import {
