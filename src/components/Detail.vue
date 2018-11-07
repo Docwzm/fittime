@@ -3,7 +3,7 @@
     <div v-if="player">
       <!-- 视频 -->
       <div class="video-box">
-        <video id="my-video" class="video-js vjs-big-play-centered" width="100%"></video>
+        <video id="my-video" class="video-js" width="100%"></video>
         <!-- 视频简介 -->
         <div class="base-wrap" v-if="!isPlay">
           <p class="title">{{ detail.title }}</p>
@@ -14,7 +14,7 @@
       </div>
       <!-- 标签 -->
       <div class="label">
-        <p><span class="title">锻炼时长</span><span class="content">{{detail.time}}</span></p>
+        <p><span class="title">锻炼时长</span><span class="content">{{detail.time}}分钟</span></p>
         <div class="line"></div>
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
@@ -85,9 +85,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        // this.player.fullscreen(false, () => {
-        //   console.log("hahha.............");
-        // });
+        this.player.fullscreen(false, () => {
+          console.log("hahha.............");
+        });
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
@@ -104,9 +104,9 @@ export default {
         //暂停之后开始播放---视频结束默认暂停
         if (this.player.isPaused()) {
           this.player.play();
-          // this.player.fullscreen(false, () => {
-          //   console.log("hahha.............");
-          // });
+          this.player.fullscreen(false, () => {
+            console.log("hahha.............");
+          });
         }
       });
     }
