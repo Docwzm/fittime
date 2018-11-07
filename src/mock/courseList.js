@@ -83,16 +83,16 @@ const list = [
     "Introduction": [
     ]
   },
-  // {
-  //   "courseKey":"course_key_2018_11_08_009",
-  //   "title": "健身燃脂舞",
-  //   "imgUrl": require('../assets/course/course_09/list_09.png'),
-  //   "time": "23",
-  //   "level": "高级",
-  //   "hotCount":0,
-  //   "Introduction": [
-  //   ]
-  // },
+  {
+    "courseKey":"course_key_2018_11_08_009",
+    "title": "健身燃脂舞",
+    "imgUrl": require('../assets/course/course_09/list_09.png'),
+    "time": "23",
+    "level": "高级",
+    "hotCount":0,
+    "Introduction": [
+    ]
+  },
   {
     "courseKey":"course_key_2018_11_08_010",
     "title": "瑜伽入门热身篇",
