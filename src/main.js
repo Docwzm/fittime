@@ -96,6 +96,7 @@ router.beforeEach((to, from, next) => {
   next()
 })
 router.afterEach((to, from, next) => {
+  setApp(to.meta.title)
   // setTimeout(()=>{
     // setApp(to.meta.title)
   // },200)
