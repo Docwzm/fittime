@@ -22,7 +22,7 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <div class="introduction" ref="intro">
+      <div class="introduction" ref="intro" :style="'height:'+introHeight+'px'">
         <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
         <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl" @load="imgLoad">
         <!-- </p> -->
@@ -47,7 +47,8 @@ export default {
       id: this.$route.query.id,
       player: null,
       isPlay: false,
-      playFlag:false
+      playFlag:false,
+      introHeight:0
     };
   },
   created() {
@@ -97,7 +98,7 @@ export default {
     watchPlayer() {
       this.player.ready(() => {
         this.$nextTick(() => {
-          console.log(this.$refs.intro.clientHeight);
+          this.introHeight = this.$refs.intro.scrollHeight
         });
         this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
