@@ -7,12 +7,9 @@ import router from './router'
 import './util'
 import './styles/reset.less'
 
-
-
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad,{
-  attempt: 1,
-  throttleWait:20
+  attempt: 1
 })
 
 /*全局引入*/
