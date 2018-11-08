@@ -143,6 +143,7 @@ const list = [
       require('../assets/course/course_12/detail_02.png')
     ]
   }
+  
 ]
 
 module.exports = list;
