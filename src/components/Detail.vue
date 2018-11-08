@@ -200,6 +200,7 @@ export default {
 .introduction {
   img {
     width: 100%;
+    height:auto;
     display: block;
   }
 }
