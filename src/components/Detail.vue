@@ -79,7 +79,7 @@ export default {
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
             poster: this.detail.imgUrl
-            // stretching:'letter'
+            // stretching:'fitwindow'
           };
           this.player = new QiniuPlayer("my-video", options);
           this.$nextTick(() => {
@@ -92,14 +92,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        console.log(this.player.width())
-        console.log(this.player)
-        this.player.aspectRatio("72:48",() => {
-          console.log('...................')
-          alert('fafa')
-        });
-
+        this.player.aspectRatio("16:9",() => {});
         this.player.on("play", () => {
+          
           //播放 隐藏视频简介
           this.isPlay = true;
         });
@@ -148,7 +143,7 @@ export default {
 }
 .video-box {
   width: 375px;
-  height: 185px;
+  height: 211px;
   position: relative;
   #my-video {
     width: 100%;
