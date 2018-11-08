@@ -198,6 +198,7 @@ export default {
   }
 }
 .introduction {
+  height:1200px;
   img {
     width: 100%;
     height:auto;
