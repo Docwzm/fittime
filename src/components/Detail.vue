@@ -43,8 +43,7 @@ export default {
       detail: null,
       id: this.$route.query.id,
       player: null,
-      isPlay: false,
-      playFlag:false
+      isPlay: false
     };
   },
   created() {
@@ -87,7 +86,6 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.playFlag = true;
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
@@ -103,10 +101,11 @@ export default {
       this.player.ready(() => {
         //暂停之后开始播放---视频结束默认暂停
         this.player.fullscreen(true);
-        alert(this.player.isPaused())
-        if (this.player.isPaused()) {
-          this.player.play();
-        }
+        this.player.play();
+        // alert(this.player.isPaused())
+        // if (this.player.isPaused()) {
+          
+        // }
       });
     }
   }
