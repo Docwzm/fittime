@@ -153,6 +153,7 @@ export default {
   width: 375px;
   height: 211px;
   position: relative;
+  overflow: hidden;
   #my-video {
     width: 100%;
     height: 100%;
