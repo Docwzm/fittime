@@ -44,9 +44,10 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
   Vue.prototype.systemType = 'web'
 }
 
-
 function setApp(title=''){
   // window.bus.$root.$emit('APP-CB')
+  console.log('...........')
+  console.log(title+'....')
   LSJavascriptBridgeInit(() => {
     console.log(title)
     setAppNavTitle(title)
@@ -92,10 +93,11 @@ function setApp(title=''){
 //
 router.beforeEach((to, from, next) => {
   // document.title = to.meta.title;
-  setApp(to.meta.title)
+  // setApp(to.meta.title)
   next()
 })
 router.afterEach((to, from, next) => {
+  console.log(to.meta.title)
   setApp(to.meta.title)
   // setTimeout(()=>{
     // setApp(to.meta.title)
