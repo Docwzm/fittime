@@ -19,9 +19,9 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <div class="introduction">
+      <div class="introduction" ref="intro">
         <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
-        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl">
+        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl" @load="imgLoad">
         <!-- </p> -->
       </div>
       <!-- 按钮 -->
@@ -59,6 +59,7 @@ export default {
   },
   mounted() {
     this.getDetail();
+    
   },
   beforeDestroy() {
     QiniuPlayer.dispose("my-video"); //释放播放器实例
@@ -77,9 +78,13 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster: this.detail.imgUrl
+            poster: this.detail.imgUrl,
+            stretching:'none'
           };
           this.player = new QiniuPlayer("my-video", options);
+          this.$nextTick(() => {
+            console.log(this.$refs.intro.scrollHeight)
+          })
           this.watchPlayer();
         }
       });
@@ -198,7 +203,6 @@ export default {
   }
 }
 .introduction {
-  height:1200px;
   img {
     width: 100%;
     height:auto;
