@@ -7,7 +7,7 @@ import router from './router'
 import './util'
 import './styles/reset.less'
 
-var vConsole = new VConsole()
+
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad,{
