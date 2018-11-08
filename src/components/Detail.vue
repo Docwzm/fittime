@@ -11,6 +11,9 @@
             <img src="../assets/icon_hot.png"><span>{{detail.hotCount}}人参加</span>
           </p>
         </div>
+        <div class="mask" v-if="!playFlag">
+          <img :src="detail.imgUrl" />
+        </div>
       </div>
       <!-- 标签 -->
       <div class="label">
@@ -21,7 +24,7 @@
       <!-- 详情 -->
       <div class="introduction" ref="intro">
         <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
-        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl">
+        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl" @load="imgLoad">
         <!-- </p> -->
       </div>
       <!-- 按钮 -->
@@ -43,7 +46,8 @@ export default {
       detail: null,
       id: this.$route.query.id,
       player: null,
-      isPlay: false
+      isPlay: false,
+      playFlag:false
     };
   },
   created() {
@@ -59,12 +63,14 @@ export default {
   },
   mounted() {
     this.getDetail();
-    
   },
   beforeDestroy() {
     QiniuPlayer.dispose("my-video"); //释放播放器实例
   },
   methods: {
+    imgLoad(e) {
+      console.log(e);
+    },
     getDetail() {
       //获取视频播放地址
       getCourseDetail(this.$route.query.id).then(res => {
@@ -78,13 +84,11 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster: this.detail.imgUrl,
+            poster: this.detail.imgUrl
             // stretching:'fitwindow'
           };
           this.player = new QiniuPlayer("my-video", options);
-          this.$nextTick(() => {
-            console.log(this.$refs.intro.scrollHeight)
-          })
+
           this.watchPlayer();
         }
       });
@@ -92,13 +96,17 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.player.aspectRatio("16:9",() => {});
+        this.$nextTick(() => {
+          console.log(this.$refs.intro.clientHeight);
+        });
+        this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
-          
+          this.playFlag = true;
           //播放 隐藏视频简介
           this.isPlay = true;
         });
         this.player.on("pause", () => {
+          // this.playFlag = false;
           //暂停 显示视频简介
           // this.isPlay = false;
         });
@@ -148,6 +156,18 @@ export default {
   #my-video {
     width: 100%;
     height: 100%;
+  }
+  .mask {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
   }
   .title,
   .hot-count {
@@ -207,7 +227,7 @@ export default {
 .introduction {
   img {
     width: 100%;
-    height:auto;
+    height: auto;
     display: block;
   }
 }
