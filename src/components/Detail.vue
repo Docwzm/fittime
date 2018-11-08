@@ -127,6 +127,11 @@ export default {
   }
 };
 </script>
+<style>
+html{
+  overflow: auto;
+}
+</style>
 
 
 <style lang="less">
