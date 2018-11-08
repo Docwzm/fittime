@@ -92,6 +92,11 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
+        this.player.aspectRatio("16:9",() => {
+          console.log('...................')
+          alert('fafa')
+        });
+
         this.player.on("play", () => {
           //播放 隐藏视频简介
           this.isPlay = true;
