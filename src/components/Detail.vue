@@ -19,10 +19,10 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <div class="introduction" v-if="detail.Introduction">
-        <p v-for="(imgUrl,index) in detail.Introduction" :key="index">
-          <img v-lazy="imgUrl">
-        </p>
+      <div class="introduction">
+        <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
+        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl">
+        <!-- </p> -->
       </div>
       <!-- 按钮 -->
       <div class="btn-wrap">
@@ -49,6 +49,13 @@ export default {
   created() {
     //请求添加热度
     addHotCourse(this.id);
+
+    //获取本地视频详情
+    for (let x in mockList) {
+      if (mockList[x].courseKey == this.id) {
+        this.detail = mockList[x];
+      }
+    }
   },
   mounted() {
     this.getDetail();
@@ -58,12 +65,6 @@ export default {
   },
   methods: {
     getDetail() {
-      //获取本地视频详情
-      for (let x in mockList) {
-        if (mockList[x].courseKey == this.id) {
-          this.detail = mockList[x];
-        }
-      }
       //获取视频播放地址
       getCourseDetail(this.$route.query.id).then(res => {
         let data = res.data;
@@ -76,7 +77,7 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster:this.detail.imgUrl
+            poster: this.detail.imgUrl
           };
           this.player = new QiniuPlayer("my-video", options);
           this.watchPlayer();
@@ -101,6 +102,7 @@ export default {
       this.player.ready(() => {
         //暂停之后开始播放---视频结束默认暂停
         this.player.fullscreen(true);
+        //安卓全屏播放时需手动触发视频中的播放按钮（待解决。）
         if (this.player.isPaused()) {
           this.player.play();
         }
@@ -118,17 +120,17 @@ export default {
 // .vjs-big-play-button{
 //   display: none!important;
 // }
-.video-damage-note{
-  text-align:center;
-  padding:30px;
-  font-size:20px;
-  justify-content:flex-start;
+.video-damage-note {
+  text-align: center;
+  padding: 30px;
+  font-size: 20px;
+  justify-content: flex-start;
 }
 </style>
 
 <style lang="less" scoped>
 .home-page {
-  width:100%;
+  width: 100%;
   padding-bottom: 70px;
   background: rgba(240, 240, 240, 1);
 }
@@ -136,9 +138,9 @@ export default {
   width: 375px;
   height: 185px;
   position: relative;
-  #my-video{
-    width:100%;
-    height:100%;
+  #my-video {
+    width: 100%;
+    height: 100%;
   }
   .title,
   .hot-count {
@@ -208,7 +210,7 @@ export default {
   bottom: 0;
   transform: translateX(-50%);
   padding: 10px;
-  background:#fff;
+  background: #fff;
   text-align: center;
 }
 .btn-player {

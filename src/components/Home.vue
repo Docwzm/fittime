@@ -49,8 +49,8 @@ export default {
     //前往视频详情页面
     toDetail(item) {
       item.hotCount++;
-      location.href = '/fittime/#/detail?id='+item.courseKey
-      // this.$router.push({ name: "detail", query: { id: item.courseKey } });
+      // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
+      this.$router.push({ name: "detail", query: { id: item.courseKey } });
     }
   }
 };
