@@ -76,8 +76,8 @@ export default {
             // url:'http://phjztkxul.bkt.clouddn.com/qGPExvkCZQO2y2vVSDreY-rT4Qk=/lq3gTJhmbQ6P7q2YmUuyoRDBU_4t',
             type: "hls",
             preload: true,
-            autoplay: false // 如为 true，则视频将会自动播放
-            // poster:"https://sports-qa-files.lifesense.com/other/20180930/ffa2b97443f64c6891accba1ab4023f3.png"
+            autoplay: false, // 如为 true，则视频将会自动播放
+            poster:require('../assets/course/course_01/list_01.png')
           };
           this.player = new QiniuPlayer("my-video", options);
           this.watchPlayer();
