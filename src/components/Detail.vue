@@ -159,6 +159,7 @@ export default {
   }
   .mask {
     position: absolute;
+    z-index:1;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
@@ -171,6 +172,7 @@ export default {
   .title,
   .hot-count {
     position: absolute;
+    z-index:2;
     left: 20px;
   }
   .title {
