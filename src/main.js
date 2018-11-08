@@ -94,11 +94,11 @@ function setApp(title=''){
 router.beforeEach((to, from, next) => {
   // document.title = to.meta.title;
   // setApp(to.meta.title)
+  console.log(to.meta.title)
+  setApp(to.meta.title)
   next()
 })
 router.afterEach((to, from, next) => {
-  console.log(to.meta.title)
-  setApp(to.meta.title)
   // setTimeout(()=>{
     // setApp(to.meta.title)
   // },200)
