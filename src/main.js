@@ -86,7 +86,7 @@ function setApp(title=''){
 // }
 //
 router.beforeEach((to, from, next) => {
-  // document.title = to.meta.title;
+  document.title = to.meta.title;
   setApp(to.meta.title)
   // setApp(to.meta.title)
   next()
