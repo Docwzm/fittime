@@ -14,6 +14,9 @@
         </div>
       </li>
     </ul>
+    <div v-transfer-dom>
+      <x-loading :show="!list"></x-loading>
+    </div>
   </div>
 </template>
 <script>
