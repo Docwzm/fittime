@@ -78,7 +78,7 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster: this.detail.imgUrl
+            poster: this.detail.imgUrl,
             // stretching:'fitwindow'
           };
           this.player = new QiniuPlayer("my-video", options);
