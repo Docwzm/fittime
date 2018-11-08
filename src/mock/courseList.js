@@ -38,7 +38,7 @@ const list = [
   {
     "courseKey": "course_key_2018_11_08_004",
     "title": "三个动作直击小蛮腰",
-    "imgUrl": require('../assets/course/course_04/list_04.png'),
+    "imgUrl": require('../assets/course/course_04/list_04.jpg'),
     "time": "8",
     "level": "低级",
     "hotCount": 0,
@@ -74,7 +74,7 @@ const list = [
   {
     "courseKey": "course_key_2018_11_08_007",
     "title": "男士核心轰炸初级",
-    "imgUrl": require('../assets/course/course_07/list_07.png'),
+    "imgUrl": require('../assets/course/course_07/list_07.jpg'),
     "time": "7",
     "level": "低级",
     "hotCount": 0,
@@ -134,7 +134,7 @@ const list = [
   {
     "courseKey": "course_key_2018_11_08_012",
     "title": "力量提升训练",
-    "imgUrl": require('../assets/course/course_12/list_12.png'),
+    "imgUrl": require('../assets/course/course_12/list_12.jpg'),
     "time": "20",
     "level": "高级",
     "hotCount": 0,
