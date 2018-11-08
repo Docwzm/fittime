@@ -22,9 +22,9 @@
         <p><span class="title">难度</span><span class="content">{{detail.level}}</span></p>
       </div>
       <!-- 详情 -->
-      <div class="introduction" ref="intro" :style="'height:'+introHeight+'px'">
+      <div class="introduction">
         <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
-        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl" @load="imgLoad">
+        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl">
         <!-- </p> -->
       </div>
       <!-- 按钮 -->
@@ -47,8 +47,7 @@ export default {
       id: this.$route.query.id,
       player: null,
       isPlay: false,
-      playFlag:false,
-      introHeight:0
+      playFlag:false
     };
   },
   created() {
@@ -69,9 +68,6 @@ export default {
     QiniuPlayer.dispose("my-video"); //释放播放器实例
   },
   methods: {
-    imgLoad(e) {
-      console.log(e);
-    },
     getDetail() {
       //获取视频播放地址
       getCourseDetail(this.$route.query.id).then(res => {
@@ -97,9 +93,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.$nextTick(() => {
-          this.introHeight = this.$refs.intro.scrollHeight
-        });
+        // this.$nextTick(() => {
+        //   this.introHeight = this.$refs.intro.scrollHeight
+        // });
         this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
           this.playFlag = true;
