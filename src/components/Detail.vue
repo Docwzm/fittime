@@ -21,7 +21,7 @@
       <!-- 详情 -->
       <div class="introduction" ref="intro">
         <!-- <p v-for="(imgUrl,index) in detail.Introduction" :key="index"> -->
-        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl" @load="imgLoad">
+        <img v-for="(imgUrl,index) in detail.Introduction" :key="index" :src="imgUrl">
         <!-- </p> -->
       </div>
       <!-- 按钮 -->
@@ -78,8 +78,8 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster: this.detail.imgUrl,
-            stretching:'none'
+            poster: this.detail.imgUrl
+            // stretching:'letter'
           };
           this.player = new QiniuPlayer("my-video", options);
           this.$nextTick(() => {
@@ -92,7 +92,9 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.player.aspectRatio("16:9",() => {
+        console.log(this.player.width())
+        console.log(this.player)
+        this.player.aspectRatio("72:48",() => {
           console.log('...................')
           alert('fafa')
         });
