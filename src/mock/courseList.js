@@ -4,7 +4,7 @@ const list = [
     "title": "跑步热身 心肺激活",
     "imgUrl": require('../assets/course/course_01/list_01.png'),
     "time": "10",
-    "level": "低级",
+    "level": "初级",
     "hotCount": 0,
     "Introduction": [
       require('../assets/course/course_01/detail_01.png'),
@@ -16,7 +16,7 @@ const list = [
   //   "title": "纤体全身拉伸",
   //   "imgUrl": require('../assets/course/course_02/list_02.png'),
   //   "time": "12",
-  //   "level": "低级",
+  //   "level": "初级",
   //   "hotCount":0,
   //   "Introduction": [
   //     require('../assets/course/course_02/detail_01.png'),
@@ -40,7 +40,7 @@ const list = [
     "title": "三个动作直击小蛮腰",
     "imgUrl": require('../assets/course/course_04/list_04.jpg'),
     "time": "8",
-    "level": "低级",
+    "level": "初级",
     "hotCount": 0,
     "Introduction": [
       require('../assets/course/course_04/detail_01.png'),
@@ -52,7 +52,7 @@ const list = [
   //   "title": "瘦腿翘臀完美体态",
   //   "imgUrl": require('../assets/course/course_05/list_05.png'),
   //   "time": "8",
-  //   "level": "低级",
+  //   "level": "初级",
   //   "hotCount": 0,
   //   "Introduction": [
   //     require('../assets/course/course_05/detail_01.png'),
@@ -64,7 +64,7 @@ const list = [
     "title": "八分钟纠正驼背",
     "imgUrl": require('../assets/course/course_06/list_06.png'),
     "time": "8",
-    "level": "低级",
+    "level": "初级",
     "hotCount": 0,
     "Introduction": [
       require('../assets/course/course_06/detail_01.png'),
@@ -76,7 +76,7 @@ const list = [
     "title": "男士核心轰炸初级",
     "imgUrl": require('../assets/course/course_07/list_07.jpg'),
     "time": "7",
-    "level": "低级",
+    "level": "初级",
     "hotCount": 0,
     "Introduction": [
       require('../assets/course/course_07/detail_01.png'),
@@ -124,7 +124,7 @@ const list = [
     "title": "助眠瑜伽缓解失眠",
     "imgUrl": require('../assets/course/course_11/list_11.png'),
     "time": "18",
-    "level": "低级",
+    "level": "初级",
     "hotCount": 0,
     "Introduction": [
       require('../assets/course/course_11/detail_01.png'),
