@@ -77,7 +77,7 @@ export default {
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
-            poster:require('../assets/course/course_01/list_01.png')
+            poster:this.detail.imgUrl
           };
           this.player = new QiniuPlayer("my-video", options);
           this.watchPlayer();

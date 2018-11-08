@@ -19,15 +19,14 @@ export default new Router({
         refName: 'fittime',
       }
     },
-    // {
-    //   path: '/index',
-    //   component: Home,
-    //   meta: {
-    //     keepAlive: true, //保活
-    //     title: 'fittime',
-    //     refName:'fittime'
-    //   }
-    // },
+    {
+      path: '/index',
+      component: Home,
+      meta: {
+        title: '全部课程',
+        refName:'fittime'
+      }
+    },
     {
       path:'/detail',
       name:'detail',
