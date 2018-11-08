@@ -103,6 +103,7 @@ export default {
       this.player.ready(() => {
         //暂停之后开始播放---视频结束默认暂停
         this.player.fullscreen(true);
+        alert(this.player.isPaused())
         if (this.player.isPaused()) {
           this.player.play();
         }
