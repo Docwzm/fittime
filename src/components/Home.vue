@@ -50,7 +50,8 @@ export default {
     //前往视频详情页面
     toDetail(item) {
       item.hotCount++;
-      this.$router.push({ name: "detail", query: { id: item.courseKey } });
+      location.href = '/fittime/#/detial?id='+item.courseKey
+      // this.$router.push({ name: "detail", query: { id: item.courseKey } });
     }
   }
 };
