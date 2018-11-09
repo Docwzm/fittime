@@ -51,7 +51,7 @@ export default {
     },
     //前往视频详情页面
     toDetail(item) {
-      _czc.push(["_trackEvent", "视频列表", "点击", item.courseKey]);
+      _czc.push(["_trackEvent", "class_fitime_listing", "点击", item.courseKey]);
       item.hotCount++;
       // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
       this.$router.push({ name: "detail", query: { id: item.courseKey } });

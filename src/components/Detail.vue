@@ -98,6 +98,9 @@ export default {
         // });
         this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
+          if(!this.playFlag){
+            _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
+          }
           this.playFlag = true;
           //播放 隐藏视频简介
           this.isPlay = true;
