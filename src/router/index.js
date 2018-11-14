@@ -14,7 +14,7 @@ export default new Router({
       path: '/',
       component: Home,
       meta: {
-        // keepAlive: true, //保活
+        keepAlive: true, //保活
         title: '全部课程',
         refName: 'fittime',
       }
