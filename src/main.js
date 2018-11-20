@@ -46,10 +46,10 @@ function setApp(title){
 }
 
 router.beforeEach((to, from, next) => {
-  setApp(to.meta.title)
-  // LSJavascriptBridgeInit(() => {
-  //   setAppNavTitle(to.meta.title)
-  // })
+  // setApp(to.meta.title)
+  LSJavascriptBridgeInit(() => {
+    setAppNavTitle(to.meta.title)
+  })
   next()
 })
 
