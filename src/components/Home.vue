@@ -54,8 +54,8 @@ export default {
       _czc.push(["_trackEvent", "class_fitime_listing", "点击", item.courseKey]);
       // addHotCourse(item.courseKey).then(res => {
         item.hotCount += 1;
-        this.$router.push({ name: "detail", query: { id: item.courseKey } });
-        // location.href = '/detail?id='+item.courseKey
+        // this.$router.push({ name: "detail", query: { id: item.courseKey } });
+        location.href = '/detail?id='+item.courseKey
       // });
       // item.hotCount += 1;
       // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
