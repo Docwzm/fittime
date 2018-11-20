@@ -19,6 +19,7 @@ export default {
 <style lang="less">
 .app{
   // height: 100%;
+  overflow: hidden;
   background:rgba(240,240,240,1);
   // >div{
   //  height: 100%; 

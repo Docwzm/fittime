@@ -8,9 +8,7 @@ import './util'
 import './styles/reset.less'
 
 import VueLazyLoad from 'vue-lazyload'
-Vue.use(VueLazyLoad,{
-  attempt: 1
-})
+Vue.use(VueLazyLoad)
 
 /*全局引入*/
 import {
@@ -44,6 +42,7 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
 function setApp(title=''){
   // window.bus.$root.$emit('APP-CB')
   LSJavascriptBridgeInit(() => {
+    alert(title)
     setAppNavTitle(title)
   })
   //分享2.0
@@ -87,6 +86,7 @@ function setApp(title=''){
 //
 router.beforeEach((to, from, next) => {
   // document.title = to.meta.title;
+  alert(to.meta.title)
   setApp(to.meta.title)
   // setApp(to.meta.title)
   next()

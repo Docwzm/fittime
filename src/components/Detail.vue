@@ -52,7 +52,7 @@ export default {
   },
   created() {
     //请求添加热度
-    addHotCourse(this.id);
+    // addHotCourse(this.id);
 
     //获取本地视频详情
     for (let x in mockList) {

@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { getCourseList } from "@/api";
+import { getCourseList,addHotCourse } from "@/api";
 import mockList from "@/mock/courseList.js";
 
 export default {
@@ -52,9 +52,14 @@ export default {
     //前往视频详情页面
     toDetail(item) {
       _czc.push(["_trackEvent", "class_fitime_listing", "点击", item.courseKey]);
-      item.hotCount += 1;
+      // addHotCourse(item.courseKey).then(res => {
+        item.hotCount += 1;
+        this.$router.push({ name: "detail", query: { id: item.courseKey } });
+        // location.href = '/detail?id='+item.courseKey
+      // });
+      // item.hotCount += 1;
       // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
-      this.$router.push({ name: "detail", query: { id: item.courseKey } });
+      // this.$router.push({ name: "detail", query: { id: item.courseKey } });
     }
   }
 };

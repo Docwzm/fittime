@@ -20,14 +20,22 @@ export default new Router({
       }
     },
     {
-      path:'/detail',
-      name:'detail',
-      component:Detail,
+      path: '/detail',
+      name: 'detail',
+      component: Detail,
       meta: {
         title: '课程详情',
-        refName:'detail'
+        refName: 'detail'
       }
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
