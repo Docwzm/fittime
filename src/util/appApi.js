@@ -158,6 +158,7 @@ export function setAppNavTitle(title) {
   }
   if (window.navigationBarControl) {
     try {
+      alert('..'+title)
       window.navigationBarControl.setNavigationBarTitle(title)
     } catch (e) {
       console.warn(e)
