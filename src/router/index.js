@@ -32,7 +32,6 @@ export default new Router({
       name:'detail',
       component:Detail,
       meta: {
-        keepAlive: true, //保活
         title: '课程详情',
         refName:'detail'
       }
