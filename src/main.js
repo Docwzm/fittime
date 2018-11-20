@@ -41,7 +41,7 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
 
 function setApp(title){
   // window.bus.$root.$emit('APP-CB')
-  LSJavascriptBridgeInit(title => {
+  LSJavascriptBridgeInit(() => {
     alert(title)
     setAppNavTitle(title)
   })
