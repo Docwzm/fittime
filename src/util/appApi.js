@@ -158,7 +158,6 @@ export function setAppNavTitle(title) {
   }
   if (window.navigationBarControl) {
     try {
-      alert('..'+title)
       window.navigationBarControl.setNavigationBarTitle(title)
     } catch (e) {
       console.warn(e)
@@ -206,7 +205,7 @@ export function callShareUrl(param,callback) {
 export function LSJavascriptBridgeInit(callback) {
   try {
     if (window.LSJavascriptBridge) {
-      callback()
+      // callback()
     } else {
       window.LSJavascriptBridgeDidSetUp = (bridge) => {
         callback()
