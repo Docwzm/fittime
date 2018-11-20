@@ -39,14 +39,7 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
   Vue.prototype.systemType = 'web'
 }
 
-function setApp(title){
-  LSJavascriptBridgeInit(() => {
-    setAppNavTitle(title)
-  })
-}
-
 router.beforeEach((to, from, next) => {
-  // setApp(to.meta.title)
   LSJavascriptBridgeInit(() => {
     setAppNavTitle(to.meta.title)
   })
