@@ -39,6 +39,7 @@
 </template>
 <script>
 import { getCourseDetail, addHotCourse } from "@/api";
+import { setAppNavTitle, LSJavascriptBridgeInit } from "@/util/appApi";
 import mockList from "@/mock/courseList.js";
 export default {
   data() {
@@ -47,13 +48,13 @@ export default {
       id: this.$route.query.id,
       player: null,
       isPlay: false,
-      playFlag:false
+      playFlag: false
     };
   },
   created() {
     //请求添加热度
     // addHotCourse(this.id);
-
+    setAppNavTitle(this.$route.meta.title);
     //获取本地视频详情
     for (let x in mockList) {
       if (mockList[x].courseKey == this.id) {
@@ -98,7 +99,7 @@ export default {
         // });
         this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
-          if(!this.playFlag){
+          if (!this.playFlag) {
             _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
           }
           this.playFlag = true;
@@ -127,7 +128,7 @@ export default {
 };
 </script>
 <style>
-html{
+html {
   overflow: auto;
 }
 </style>
@@ -165,10 +166,10 @@ html{
   }
   .mask {
     position: absolute;
-    z-index:1;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     height: 100%;
     img {
       height: 100%;
@@ -178,7 +179,7 @@ html{
   .title,
   .hot-count {
     position: absolute;
-    z-index:2;
+    z-index: 2;
     left: 20px;
   }
   .title {
