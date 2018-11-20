@@ -55,7 +55,7 @@ export default {
     //请求添加热度
     // addHotCourse(this.id);
     //设置标题
-    // setAppNavTitle(this.$route.meta.title);
+    setAppNavTitle(this.$route.meta.title);
     //获取本地视频详情
     for (let x in mockList) {
       if (mockList[x].courseKey == this.id) {
