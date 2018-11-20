@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">
+  <div class="home-page" ref="home" @scroll.stop="scrollHandler">
     <ul v-if="list">
       <li v-for="(item,index) in list" :key="index" @click="toDetail(item)">
         <img v-lazy="item.imgUrl">
@@ -33,7 +33,13 @@ export default {
   created() {
     this.getList();
   },
+  activated() {
+    this.$refs.home.scrollTop = this._d.domTopList["home"] || 0;
+  },
   methods: {
+    scrollHandler(e) {
+      this._d.domTopList["home"] = e.target.scrollTop;
+    },
     //获取视频列表
     getList() {
       getCourseList().then(res => {
@@ -52,11 +58,11 @@ export default {
     //前往视频详情页面
     toDetail(item) {
       _czc.push(["_trackEvent", "class_fitime_listing", "点击", item.courseKey]);
-      // addHotCourse(item.courseKey).then(res => {
+      addHotCourse(item.courseKey).then(res => {
         item.hotCount += 1;
         this.$router.push({ name: "detail", query: { id: item.courseKey } });
         // location.href = '/fittime/#/detail?id='+item.courseKey
-      // });
+      });
       // item.hotCount += 1;
       // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
       // this.$router.push({ name: "detail", query: { id: item.courseKey } });

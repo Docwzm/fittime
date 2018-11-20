@@ -46,17 +46,12 @@ function setApp(title){
 }
 
 router.beforeEach((to, from, next) => {
-  // setApp(to.meta.title)
-  LSJavascriptBridgeInit(() => {
-    setAppNavTitle(to.meta.title)
-  })
+  setApp(to.meta.title)
   next()
 })
 
 router.afterEach((to, from, next) => {
-  // setTimeout(()=>{
-    // setApp(to.meta.title)
-  // },200)
+  
 })
 
 window.bus = new Vue({

@@ -28,14 +28,14 @@ export default new Router({
         refName: 'detail'
       }
     }
-  ],
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    }
-    else {
-      return { x: 0, y: 1 }
-    }
-  }
+  ]
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition
+  //   }
+  //   else {
+  //     return { x: 0, y: 1 }
+  //   }
+  // }
 })
 
