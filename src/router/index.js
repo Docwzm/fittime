@@ -20,14 +20,6 @@ export default new Router({
       }
     },
     {
-      path: '/index',
-      component: Home,
-      meta: {
-        title: '全部课程',
-        refName:'fittime'
-      }
-    },
-    {
       path:'/detail',
       name:'detail',
       component:Detail,
