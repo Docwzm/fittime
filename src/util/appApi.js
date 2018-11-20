@@ -204,7 +204,7 @@ export function callShareUrl(param,callback) {
 //通知app注册回调函数
 export function LSJavascriptBridgeInit(callback) {
   try {
-    if (window.LSJavascriptBridge&&window.navigationBarControl) {
+    if (window.navigationBarControl) {
       callback()
     } else {
       window.LSJavascriptBridgeDidSetUp = (bridge) => {
