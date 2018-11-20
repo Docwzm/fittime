@@ -20,8 +20,9 @@
   </div>
 </template>
 <script>
-import { getCourseList,addHotCourse } from "@/api";
+import { getCourseList, addHotCourse } from "@/api";
 import mockList from "@/mock/courseList.js";
+import mixin from '@/util/mixin.js';
 
 export default {
   data() {
@@ -30,6 +31,7 @@ export default {
       loading: true
     };
   },
+  mixins: [mixin],
   created() {
     this.getList();
   },
@@ -44,9 +46,9 @@ export default {
     getList() {
       getCourseList().then(res => {
         let list = res.data;
-        for(let y in mockList){
+        for (let y in mockList) {
           for (let x in list) {
-            if(list[x].courseKey==mockList[y].courseKey){
+            if (list[x].courseKey == mockList[y].courseKey) {
               Object.assign(mockList[y], list[x]);
             }
           }
@@ -57,7 +59,12 @@ export default {
     },
     //前往视频详情页面
     toDetail(item) {
-      _czc.push(["_trackEvent", "class_fitime_listing", "点击", item.courseKey]);
+      _czc.push([
+        "_trackEvent",
+        "class_fitime_listing",
+        "点击",
+        item.courseKey
+      ]);
       addHotCourse(item.courseKey).then(res => {
         item.hotCount += 1;
         this.$router.push({ name: "detail", query: { id: item.courseKey } });

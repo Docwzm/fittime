@@ -22,8 +22,6 @@ Vue.use(ToastPlugin)
 Vue.directive('transfer-dom', TransferDom)
 Vue.component('xLoading', Loading)
 
-import {setAppNavTitle,LSJavascriptBridgeInit} from './util/appApi'
-
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
@@ -38,16 +36,6 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
 }else{
   Vue.prototype.systemType = 'web'
 }
-
-router.beforeEach((to, from, next) => {
-  LSJavascriptBridgeInit(() => {
-    setAppNavTitle(to.meta.title)
-  })
-  next()
-})
-
-router.afterEach((to, from, next) => {
-})
 
 window.bus = new Vue({
   router,

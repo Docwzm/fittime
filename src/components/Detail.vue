@@ -39,7 +39,7 @@
 </template>
 <script>
 import { getCourseDetail, addHotCourse } from "@/api";
-import { setAppNavTitle, LSJavascriptBridgeInit } from "@/util/appApi";
+import mixin from '@/util/mixin.js';
 import mockList from "@/mock/courseList.js";
 export default {
   data() {
@@ -51,11 +51,10 @@ export default {
       playFlag: false
     };
   },
+  mixins: [mixin],
   created() {
     //请求添加热度
     // addHotCourse(this.id);
-    //设置标题
-    setAppNavTitle(this.$route.meta.title);
     //获取本地视频详情
     for (let x in mockList) {
       if (mockList[x].courseKey == this.id) {
