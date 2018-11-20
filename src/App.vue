@@ -18,13 +18,13 @@ export default {
 </script>
 <style lang="less">
 .app{
-  height: 100%;
+  // height: 100%;
   background:rgba(240,240,240,1);
-  >div{
-   height: 100%; 
-   overflow-y: auto;
-   -webkit-overflow-scrolling: touch;
-  }
+  // >div{
+  //  height: 100%; 
+  //  overflow-y: auto;
+  //  -webkit-overflow-scrolling: touch;
+  // }
 }
 </style>
 
