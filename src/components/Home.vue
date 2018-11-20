@@ -63,9 +63,6 @@ export default {
         this.$router.push({ name: "detail", query: { id: item.courseKey } });
         // location.href = '/fittime/#/detail?id='+item.courseKey
       });
-      // item.hotCount += 1;
-      // location.href = '/fittime/#/detail?id='+item.courseKey //安卓标题栏显示问题
-      // this.$router.push({ name: "detail", query: { id: item.courseKey } });
     }
   }
 };

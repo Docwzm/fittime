@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from, next) => {
-  
+  setApp(to.meta.title)
 })
 
 window.bus = new Vue({
