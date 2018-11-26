@@ -78,7 +78,7 @@ export default {
           let options = {
             controls: true,
             url: data.videoAddress,
-            // url:'http://phjztkxul.bkt.clouddn.com/qGPExvkCZQO2y2vVSDreY-rT4Qk=/lq3gTJhmbQ6P7q2YmUuyoRDBU_4t',
+            // url:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
             type: "hls",
             preload: true,
             autoplay: false, // 如为 true，则视频将会自动播放
