@@ -71,7 +71,7 @@ export default {
   methods: {
     getDetail() {
       //获取视频播放地址
-      getCourseDetail(44).then(res => {
+      getCourseDetail(this.$route.query.id).then(res => {
         let data = res.data;
         if (data && data.videoAddress) {
           this.detail.hotCount = data.hotCount;
