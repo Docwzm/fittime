@@ -30,10 +30,6 @@ Vue.http.interceptors.push(function (request, next) {
       let data = response.data
       if (data.code == 200) {
         response.data = data.data
-      } else if (data.code == 304) {
-        console.log('页面重定向')
-      } else if (data.code == '401') {
-        console.log('用户未登录')
       } else {
         Vue.$vux.toast.text(data.msg, 'center')
         response.ok = false

@@ -71,7 +71,7 @@ export default {
   methods: {
     getDetail() {
       //获取视频播放地址
-      getCourseDetail(this.$route.query.id).then(res => {
+      getCourseDetail(44).then(res => {
         let data = res.data;
         if (data && data.videoAddress) {
           this.detail.hotCount = data.hotCount;
@@ -88,6 +88,8 @@ export default {
           this.player = new QiniuPlayer("my-video", options);
 
           this.watchPlayer();
+        }else{
+          this.$vux.toast.text('key_id ' + this.$route.query.id + '无效','center')
         }
       });
     },

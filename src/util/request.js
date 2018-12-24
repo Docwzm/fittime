@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import {getAppVersionFromUserAgent} from './appApi'
+import { getAppVersionFromUserAgent } from './appApi'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.BUILD_URL // api 的 base_url
@@ -16,7 +16,7 @@ service.interceptors.request.use(
     //   // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     //   config.headers['X-Token'] = getToken()
     // }
-    config.url += `?appType=${6}&version=${getAppVersionFromUserAgent()||"3.6.5"}&systemType=${1}&requestId=${Vue.prototype._g.getuuid()}`
+    config.url += `?appType=${6}&version=${getAppVersionFromUserAgent() || "3.6.5"}&systemType=${1}&requestId=${Vue.prototype._g.getuuid()}`
     return config
   },
   error => {
@@ -29,11 +29,12 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   response => {
-    if(response.status=200){
+    if (response.status = 200) {
       return response.data
-    }else{
+    } else {
       Vue.$vux.toast.show({
-        text: e.msg
+        text: JSON.stringify(response),
+        type: 'text'
       });
       return Promise.reject('error')
     }
@@ -73,8 +74,9 @@ service.interceptors.response.use(
   // },
   error => {
     console.log('err' + error) // for debug
-    this.$vux.toast.show({
-      text: e.msg
+    Vue.$vux.toast.show({
+      text: JSON.stringify(error),
+      type: 'text'
     });
     return Promise.reject(error)
   }
