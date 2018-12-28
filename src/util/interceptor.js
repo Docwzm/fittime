@@ -26,6 +26,7 @@ Vue.http.interceptors.push(function (request, next) {
   next(function (response) {
     httpLockArr[request.url] = null
     Vue.$vux.loading.hide();
+    alert(JSON.stringify(response))
     if (response.ok) {
       let data = response.data
       if (data.code == 200) {
