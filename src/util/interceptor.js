@@ -6,6 +6,8 @@ Vue.use(VueResource)
 const httpLockArr = {} //请求锁，避免同一条请求重复发送
 
 Vue.http.interceptors.push(function (request, next) {
+  
+
   let _url = request.url
   if(request.url.indexOf('.json')<0){
     request.url = Vue.prototype.base_url + request.url + `?appType=${6}&version=${getAppVersionFromUserAgent()||"3.6.5"}&systemType=${1}&requestId=${Vue.prototype._g.getuuid()}`
