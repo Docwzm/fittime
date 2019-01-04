@@ -12,15 +12,6 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-let u = navigator.userAgent;
-if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
-  Vue.prototype.systemType = 'android'
-}else if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
-  Vue.prototype.systemType = 'ios'
-}else{
-  Vue.prototype.systemType = 'web'
-}
-
 new Vue({
   router,
   render: h => h(App)

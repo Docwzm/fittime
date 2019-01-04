@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import mixin from '@/pages/courseDetail';
+import mixin from '@/util/mixin';
 export default {
     name:'courseDetail',
     data(){
@@ -23,6 +23,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
     
 </style>
