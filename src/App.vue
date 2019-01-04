@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <transition name="router-fade" mode="out-in">
-      <keep-alive :max="20">
+      <keep-alive>
         <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"></router-view>
       </keep-alive>
     </transition>
@@ -17,16 +17,7 @@ export default {
 }
 </script>
 <style lang="less">
-.app{
-  // height: 100%;
-  overflow: hidden;
-  background:rgba(240,240,240,1);
-  // >div{
-  //  height: 100%; 
-  //  overflow-y: auto;
-  //  -webkit-overflow-scrolling: touch;
-  // }
-}
+
 </style>
 
 

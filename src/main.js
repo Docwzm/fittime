@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import FastClick from 'fastclick'
@@ -10,23 +8,9 @@ import './styles/reset.less'
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
 
-/*全局引入*/
-import {
-  ToastPlugin,
-  LoadingPlugin,
-  Loading,
-  TransferDom
-} from 'vux'
-Vue.use(LoadingPlugin)
-Vue.use(ToastPlugin)
-Vue.directive('transfer-dom', TransferDom)
-Vue.component('xLoading', Loading)
-
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
-
-Vue.prototype.base_url = process.env.BUILD_URL
 
 let u = navigator.userAgent;
 if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
@@ -37,7 +21,7 @@ if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1){
   Vue.prototype.systemType = 'web'
 }
 
-window.bus = new Vue({
+new Vue({
   router,
   render: h => h(App)
 }).$mount('#app-box')
