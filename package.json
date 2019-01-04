@@ -8,19 +8,17 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "dev-lifesense-qa2": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --env qa2",
-    "dev-lifesense-qa": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --env qa",
-    "dev-online": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --env online",
     "build-lifesense-qa2": "node build/build.js --env qa2",
     "build-lifesense-qa": "node build/build.js --env qa",
     "build-online": "node build/build.js --env online"
   },
   "dependencies": {
+    "node-uuid": "^1.4.8",
     "vue": "^2.5.17",
+    "vue-lazyload": "^1.2.6",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
-    "vux": "^2.9.2",
-    "vue-lazyload": "^1.2.6"
+    "vux": "^2.9.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
