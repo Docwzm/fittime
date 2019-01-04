@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import mixin from '@/pages/courseDetail';
 export default {
     name:'courseDetail',
     data(){
@@ -12,6 +13,7 @@ export default {
 
         }
     },
+    mixins:[mixin],
     created(){
 
     },

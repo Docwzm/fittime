@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App'
 import FastClick from 'fastclick'
 import router from './router'
-import './util'
-import './styles/reset.less'
+import '@/util'
+import '@/assets/styles/reset.less'
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
