@@ -7,7 +7,9 @@
 export function getAppVersionFromUserAgent(appName = "lxyd") {
   let ua = navigator.userAgent
   let startIndex = ua.indexOf(appName)
-  if (startIndex == -1) { return undefined }
+  if (startIndex == -1) {
+    return undefined
+  }
   let endIndex = ua.indexOf(" ", startIndex)
   let lxydUa = ""
   if (endIndex > -1) {
@@ -148,11 +150,10 @@ export function setNavigationBarConfig(config, successCallBack, falseCallBack) {
         }
       }
     })
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 export function setAppNavTitle(title) {
-  document.title = title
+  // document.title = title
   if (!title) {
     throw new Error('The title is empty!')
   }
@@ -167,7 +168,7 @@ export function setAppNavTitle(title) {
 
 
 //设置分享按钮
-export function setNavigationBarButton (data){
+export function setNavigationBarButton(data) {
   const btnConfig = {
     title: data.title,
     imageUrl: data.imageUrl,
@@ -186,20 +187,18 @@ export function setNavigationBarButton (data){
  * title:分享标题，url:分享链接,imgUrl:分享图标,desc:分享描述
  * @param {Function} callback 事件调用成功失败回调
  */
-export function callShareUrl(param,callback) {
+export function callShareUrl(param, callback) {
   try {
-    LSJavascriptBridge.callHandler("shareUrl", param,function responseCallback(responseData) {
+    LSJavascriptBridge.callHandler("shareUrl", param, function responseCallback(responseData) {
       if (responseData.code == 1) {
         console.log("调用APP分享链接功能成功")
         callback.call(responseData)
       } else {
-        console.log("调用APP分享链接功能失败",responseData.errMessage)
+        console.log("调用APP分享链接功能失败", responseData.errMessage)
       }
     })
-  } catch(e) {}
+  } catch (e) {}
 }
-
-
 
 //通知app注册回调函数
 export function LSJavascriptBridgeInit(callback) {
@@ -211,7 +210,7 @@ export function LSJavascriptBridgeInit(callback) {
         callback()
       }
     }
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 }

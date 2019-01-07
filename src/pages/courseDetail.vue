@@ -5,86 +5,100 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
 import {
   LSJavascriptBridgeInit,
-  setNavigationBarButton,
-  callShareUrl
-} from "@/util/appApi";
+  navigationButtonsBridge,
+  shareUrlBridge,
+  navigationBarMenuBridge
+} from "@/util/jsBridge";
+import { setTimeout } from "timers";
 
 export default {
   name: "courseDetail",
   data() {
     return {};
   },
-  mixins: [mixin],
-  created() {
-    window.appCb = this.shareApp;
+  mounted() {
+    // this.setNavigationBarButtons();
+    // 展示菜单示例代码
+    //注册一个回调函数，供APP调用
+    // LSJavascriptBridge.registerHandler("MenuCallBack", function(data, responseCallback) {
+    //      console.log("回调" + data.selectedIndex + "" + "data.menuId")
+    // });
+
+    LSJavascriptBridgeInit(() => {
+      let menuItem1 = {
+        title: "xxx", // menu title
+        imageUrl: "xxx" // 图片Url
+      };
+
+      let menuItemArray = new Array(menuItem1, menuItem1, menuItem1);
+
+      let menu = {
+        menuId: "xxxx", //唯一Id
+        menuItems: menuItemArray, // 菜单列表
+        callbackHandlerName: "MenuCallBack" // 事件回调函数名
+      };
+      // setTimeout(() => {
+        LSJavascriptBridge.callHandler(
+          "showNavigationBarMenu",
+          menu,
+          function responseCallback(responseData) {
+            if (responseData.code == 1) {
+              console.log("设置成功");
+            } else {
+              console.log(responseData.errMessage);
+            }
+          }
+        );
+      // }, 1000);
+    });
   },
   methods: {
     // 调用app方法设置
-    callApp() {
-      // LSJavascriptBridge.registerHandler("ButtonCallBack", function(buttonId, responseCallback) {
-      //     console.log("回调" + buttonId)
-      // });
-
-      // let button1 = {
-      //     title: 'xxx1', // 按钮title
-      //     buttonId: 'id1', // 按钮唯一Id
-      //     callbackHandlerName: 'ButtonCallBack', // 事件回调函数名
-      // }
-      // let button2 = {
-      //     title: 'xxx1', // 按钮title
-      //     buttonId: 'id2', // 按钮唯一Id
-      //     callbackHandlerName: 'ButtonCallBack', // 事件回调函数名
-      // }
-
-      // let buttons = new Array(button1, button2)
-
-      // LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons , function responseCallback(responseData) {
-      //     if (responseData.code == 1) {
-      //         console.log("设置成功")
-      //     } else {
-      //         console.log(responseData.errMessage)
-      //     }
-      // })
-
-      var button1 = {
-        title: "xxx1", // 按钮title
-        buttonId: "id1", // 按钮唯一Id
-        callbackHandlerName: "ButtonCallBack" // 事件回调函数名
-      };
-      var button2 = {
-        imageUrl: "http://chuantu.biz/t5/82/1494381971x2728329077.png", // 按钮title
-        buttonId: "id2", // 按钮唯一Id
-        callbackHandlerName: "ButtonCallBack" // 事件回调函数名
-      };
-
-      var buttons = new Array(button1, button2);
-      
-      LSJavascriptBridge.callHandler(
-        "setNavigationBarButtons",
-        buttons,
-        function responseCallback(responseData) {
-          if (responseData.code == 1) {
-            console.log("设置成功");
-          } else {
-            console.log(responseData.errMessage);
-          }
+    setNavigationBarButtons() {
+      let buttons = [
+        {
+          title: "...", // 按钮title
+          buttonId: "id1", // 按钮唯一Id
+          callbackHandlerName: "showMenuCall", // 事件回调函数名
+          callback: this.showNavigationMenu
+        },
+        {
+          title: "分享", // 按钮title
+          buttonId: "id2", // 按钮唯一Id
+          callbackHandlerName: "shareCall", // 事件回调函数名
+          callback: this.shareApp
         }
-      );
+      ];
 
-      // setNavigationBarButton({
-      //     title: "分享",
-      //     imageUrl:
-      //     "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
-      //     buttonId: "shareBtn",
-      //     callbackFunctionName: "appCb"
-      // });
+      navigationButtonsBridge(buttons);
     },
+    // 显示菜单
+    showNavigationMenu() {
+      let menuItemArray = [
+        {
+          title: "删除", // menu title
+          imageUrl: "xxx", // 图片Url
+          callback: this.deleteCourse
+        }
+      ];
+      let menu = {
+        menuId: "xxxx", //唯一Id
+        menuItems: menuItemArray, // 菜单列表
+        callbackHandlerName: "MenuCallBack" // 事件回调函数名
+      };
+
+      navigationBarMenuBridge(menu);
+    },
+    // 点击删除菜单 删除已添加的课程
+    deleteCourse(data) {
+      alert(JSON.stringify(data));
+    },
+    //点击分享
     shareApp() {
       _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
-      callShareUrl({
+      shareUrlBridge({
         title: "课程详情",
         url: location.origin + "/fittime/#/course-detail",
         imgUrl:
