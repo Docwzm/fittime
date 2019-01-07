@@ -9,7 +9,7 @@ const courseShareBridge = (params = {}, callback) => {
             callback && callback(responseData)
         })
     } catch (err) {
-        console.log('调用课程分享失败:', err.message)
+        console.error('调用课程分享失败:', err.message)
     }
 }
 

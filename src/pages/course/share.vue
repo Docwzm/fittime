@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="demo-btn" @click="handleShare">分享</div>
+        <div class="demo-btn" @click.prevent="handleShare">分享</div>
     </div>
 </template>
 
