@@ -5,6 +5,9 @@ export default {
         let title = this.$route.meta.title;
         LSJavascriptBridgeInit(() => {
             setAppNavTitle(title);
+            if(typeof this.callApp == 'function'){
+                this.callApp();
+            }
         });
     },
     activated(){

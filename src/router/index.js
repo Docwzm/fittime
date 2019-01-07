@@ -9,7 +9,7 @@ export default new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/courseDetail',
+      path: '/course-detail',
       name: 'courseDetail',
       component: courseDetail,
       meta: {
