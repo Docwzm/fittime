@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="demo-btn" @click.passive="handleShare">分享</div>
+    <div class="demo-btn" @click.capture="handleShare">分享</div>
   </div>
 </template>
 

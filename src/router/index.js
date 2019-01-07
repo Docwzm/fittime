@@ -26,7 +26,7 @@ export default new Router({
     },
     {
       path: '/course-special',
-      name: 'courseList',
+      name: 'courseSpecial',
       component: courseSpecial,
       meta: {
         title: '课程专题'
