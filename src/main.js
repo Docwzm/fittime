@@ -13,14 +13,14 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-router.beforeEach((to,from,next) => {
-  LSJavascriptBridgeInit(() => {
-    navTitleBridge({
-      title:to.meta.title
-    })
-    next()
-  })
-})
+// router.beforeEach((to,from,next) => {
+//   LSJavascriptBridgeInit(() => {
+//     navTitleBridge({
+//       title:to.meta.title
+//     })
+//     next()
+//   })
+// })
 
 new Vue({
   router,
