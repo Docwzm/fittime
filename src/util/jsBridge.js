@@ -39,7 +39,7 @@ const courseShareBridge = (params = {}, callback) => {
  */
 const navTitleBridge = (params = {}, callback) => {
     try {
-        window.LSJavascriptBridge.callHandler("setNavigationBarTitle", params, (responseData) => {
+        window.LSJavascriptBridge.callHandler("setNavigationBarConfig", params, (responseData) => {
             callback && callback(responseData)
         })
     } catch (err) {
@@ -57,10 +57,10 @@ const navigationButtonsBridge = (buttons = [], callback) => {
         let ButtonCallBackArr = [];
         for (let x in buttons) {
             if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
+                ButtonCallBackArr.push(buttons[x].callbackHandlerName);
                 window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
                     buttons[x].callback && buttons[x].callback(buttonId)
                 });
-                ButtonCallBackArr.push(buttons[x].callbackHandlerName);
             }
         }
 

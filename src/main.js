@@ -13,14 +13,21 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-// router.beforeEach((to,from,next) => {
-//   LSJavascriptBridgeInit(() => {
-//     navTitleBridge({
-//       title:to.meta.title
-//     })
-//     next()
-//   })
-// })
+router.beforeEach((to,from,next) => {
+  LSJavascriptBridgeInit(() => {
+    navTitleBridge({
+      title:to.meta.title,
+      autoResetToDefaultConfigWhtenOpenLink:false,
+      // barLineHidden:true,
+      // topPadding:50,
+      // backButtonType:1,
+      // tintColorType:2,
+      // color:'green',
+      // subTitle:'test'
+    })
+    next()
+  })
+})
 
 new Vue({
   router,

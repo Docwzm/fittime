@@ -16,61 +16,66 @@ import { setTimeout } from "timers";
 export default {
   name: "courseDetail",
   data() {
-    return {};
+    return {
+      isAdd:true
+    };
   },
   mounted() {
-    // this.setNavigationBarButtons();
-    // 展示菜单示例代码
-    //注册一个回调函数，供APP调用
-    // LSJavascriptBridge.registerHandler("MenuCallBack", function(data, responseCallback) {
-    //      console.log("回调" + data.selectedIndex + "" + "data.menuId")
+    this.setNavigationBarButtons();
+    // LSJavascriptBridgeInit(() => {
+    //   let menuItem1 = {
+    //     title: "xxx", // menu title
+    //     imageUrl: "xxx" // 图片Url
+    //   };
+
+    //   let menuItemArray = new Array(menuItem1, menuItem1, menuItem1);
+
+    //   let menu = {
+    //     menuId: "xxxx", //唯一Id
+    //     menuItems: menuItemArray, // 菜单列表
+    //     callbackHandlerName: "MenuCallBack" // 事件回调函数名
+    //   };
+    //   // setTimeout(() => {
+    //     try{
+    //       LSJavascriptBridge.callHandler(
+    //         "showNavigationBarMenu",
+    //         menu,
+    //         function responseCallback(responseData) {
+    //           if (responseData.code == 1) {
+    //             console.log("设置成功");
+    //           } else {
+    //             console.log(responseData.errMessage);
+    //           }
+    //         }
+    //       );
+    //     }catch(err){
+    //       alert(err.message)
+    //     }
+    //   // }, 1000);
     // });
-
-    LSJavascriptBridgeInit(() => {
-      let menuItem1 = {
-        title: "xxx", // menu title
-        imageUrl: "xxx" // 图片Url
-      };
-
-      let menuItemArray = new Array(menuItem1, menuItem1, menuItem1);
-
-      let menu = {
-        menuId: "xxxx", //唯一Id
-        menuItems: menuItemArray, // 菜单列表
-        callbackHandlerName: "MenuCallBack" // 事件回调函数名
-      };
-      // setTimeout(() => {
-        LSJavascriptBridge.callHandler(
-          "showNavigationBarMenu",
-          menu,
-          function responseCallback(responseData) {
-            if (responseData.code == 1) {
-              console.log("设置成功");
-            } else {
-              console.log(responseData.errMessage);
-            }
-          }
-        );
-      // }, 1000);
-    });
   },
   methods: {
     // 调用app方法设置
     setNavigationBarButtons() {
-      let buttons = [
-        {
-          title: "...", // 按钮title
-          buttonId: "id1", // 按钮唯一Id
-          callbackHandlerName: "showMenuCall", // 事件回调函数名
-          callback: this.showNavigationMenu
-        },
+      let buttons = [];
+      if(this.isAdd){
+        buttons = [
+            {
+            title: "...", // 按钮title
+            buttonId: "id1", // 按钮唯一Id
+            callbackHandlerName: "showMenuCall", // 事件回调函数名
+            callback: this.showNavigationMenu
+          }
+        ]
+      }
+      buttons.push(
         {
           title: "分享", // 按钮title
           buttonId: "id2", // 按钮唯一Id
           callbackHandlerName: "shareCall", // 事件回调函数名
           callback: this.shareApp
         }
-      ];
+      );
 
       navigationButtonsBridge(buttons);
     },
@@ -79,7 +84,7 @@ export default {
       let menuItemArray = [
         {
           title: "删除", // menu title
-          imageUrl: "xxx", // 图片Url
+          imageUrl: '', // 图片Url
           callback: this.deleteCourse
         }
       ];
