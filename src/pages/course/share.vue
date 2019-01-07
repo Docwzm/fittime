@@ -16,7 +16,7 @@ export default {
   mixins: [mixin],
   created() {},
   methods: {
-    handleShare: () => {
+    handleShare() {
       courseShareBridge(
         {
           count: 45,
@@ -25,7 +25,7 @@ export default {
         this.callbackShare
       );
     },
-    callbackShare: res => {
+    callbackShare(res) {
       alert(res);
     }
   }
