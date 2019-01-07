@@ -54,9 +54,6 @@ export default {
     //   // }, 1000);
     // });
   },
-  beforeDestroy(){
-    navigationButtonsBridge([])
-  },
   methods: {
     go(){
       this.$router.push('/course-list')

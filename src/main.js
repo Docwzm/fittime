@@ -4,7 +4,7 @@ import FastClick from 'fastclick'
 import router from './router'
 import '@/util'
 import '@/assets/styles/reset.less'
-import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
+import { navTitleBridge, LSJavascriptBridgeInit,navigationButtonsBridge } from "@/util/jsBridge";
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
@@ -15,6 +15,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to,from,next) => {
   LSJavascriptBridgeInit(() => {
+    navigationButtonsBridge([])//清除导航栏设置
     navTitleBridge({
       title:to.meta.title,
       autoResetToDefaultConfigWhtenOpenLink:false,
