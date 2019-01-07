@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="go">
     课程详情
   </div>
 </template>
@@ -54,7 +54,13 @@ export default {
     //   // }, 1000);
     // });
   },
+  beforeDestroy(){
+    navigationButtonsBridge([])
+  },
   methods: {
+    go(){
+      this.$router.push('/course-list')
+    },
     // 调用app方法设置
     setNavigationBarButtons() {
       let buttons = [];
@@ -98,7 +104,8 @@ export default {
     },
     // 点击删除菜单 删除已添加的课程
     deleteCourse(data) {
-      alert(JSON.stringify(data));
+      this.isAdd = false;
+      this.setNavigationBarButtons();
     },
     //点击分享
     shareApp() {
