@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="handleShare">分享</button>
+        <div class="demo-btn" @click="handleShare">分享</div>
     </div>
 </template>
 
@@ -34,5 +34,13 @@ export default {
 </script>
 
 <style lang="less">
-    
+    .demo-btn{
+        width: 100px;
+        height: 50px;
+        border: 1px solid #bbb;
+        margin: 50px auto;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 5px;
+    }
 </style>
