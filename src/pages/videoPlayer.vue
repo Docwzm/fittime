@@ -14,26 +14,26 @@
 </template>
 
 <script>
+import poster from '@/assets/images/poster.png'
 export default {
   name: "videoPlayer",
   data() {
     return {
       player: null, //播放器实例
-      playFlag: false
+      playFlag: false,
+      poster
     };
   },
 
   created() {
-
     let options = {
       controls: true,
-      url:
-        "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+      url:"http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
       type: "hls",
       preload: true,
-      autoplay: false // 如为 true，则视频将会自动播放
-      // poster: this.detail.imgUrl
-      // stretching:'fitwindow'
+      autoplay: false, // 如为 true，则视频将会自动播放
+      poster: this.poster,
+      stretching:'letterbox'
     };
     this.player = new QiniuPlayer("my-video", options);
     this.watchPlayer();
@@ -45,7 +45,7 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.player.aspectRatio("16:9", () => {});
+        // this.player.aspectRatio("16:9", () => {});
         this.player.on("play", () => {
           if (!this.playFlag) {
             _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
@@ -76,5 +76,7 @@ export default {
 </script>
 
 <style lang="less">
-
+.video-wrap{
+  height:400px;
+}
 </style>
