@@ -3,6 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import courseDetail from '@/pages/courseDetail'
+import videoPlayer from '@/pages/videoPlayer';
 import courseList from '@/pages/course/list'
 import courseSpecial from '@/pages/course/special'
 import courseShare from '@/pages/course/share'
@@ -17,6 +18,10 @@ export default new Router({
       meta: {
         title: '课程详情'
       }
+    },{
+      path: '/video-player',
+      name: 'videoPlayer',
+      component: videoPlayer
     }, {
       path: '/course-list',
       name: 'courseList',

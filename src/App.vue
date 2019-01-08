@@ -13,11 +13,15 @@
 
 <script>
 export default {
-  
+  data(){
+    return {
+    }
+  }
 }
 </script>
-<style lang="less">
 
+<style lang="less">
+@import '~vux/src/styles/1px.less';
 </style>
 
 
