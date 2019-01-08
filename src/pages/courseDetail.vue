@@ -1,5 +1,5 @@
 <template>
-  <div @click="go">
+  <div>
     课程详情
   </div>
 </template>
@@ -11,7 +11,6 @@ import {
   shareUrlBridge,
   navigationBarMenuBridge
 } from "@/util/jsBridge";
-import { setTimeout } from "timers";
 
 export default {
   name: "courseDetail",
@@ -22,42 +21,8 @@ export default {
   },
   mounted() {
     this.setNavigationBarButtons();
-    // LSJavascriptBridgeInit(() => {
-    //   let menuItem1 = {
-    //     title: "xxx", // menu title
-    //     imageUrl: "xxx" // 图片Url
-    //   };
-
-    //   let menuItemArray = new Array(menuItem1, menuItem1, menuItem1);
-
-    //   let menu = {
-    //     menuId: "xxxx", //唯一Id
-    //     menuItems: menuItemArray, // 菜单列表
-    //     callbackHandlerName: "MenuCallBack" // 事件回调函数名
-    //   };
-    //   // setTimeout(() => {
-    //     try{
-    //       LSJavascriptBridge.callHandler(
-    //         "showNavigationBarMenu",
-    //         menu,
-    //         function responseCallback(responseData) {
-    //           if (responseData.code == 1) {
-    //             console.log("设置成功");
-    //           } else {
-    //             console.log(responseData.errMessage);
-    //           }
-    //         }
-    //       );
-    //     }catch(err){
-    //       alert(err.message)
-    //     }
-    //   // }, 1000);
-    // });
   },
   methods: {
-    go(){
-      this.$router.push('/course-list')
-    },
     // 调用app方法设置
     setNavigationBarButtons() {
       let buttons = [];

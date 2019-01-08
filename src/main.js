@@ -18,13 +18,7 @@ router.beforeEach((to,from,next) => {
     navigationButtonsBridge([])//清除导航栏设置
     navTitleBridge({
       title:to.meta.title,
-      autoResetToDefaultConfigWhtenOpenLink:false,
-      // barLineHidden:true,
-      // topPadding:50,
-      // backButtonType:1,
-      // tintColorType:2,
-      // color:'green',
-      // subTitle:'test'
+      autoResetToDefaultConfigWhtenOpenLink:false//经测试，安卓必须设置为false 否则失效
     })
     next()
   })
