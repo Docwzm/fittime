@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-
 import courseDetail from '@/pages/courseDetail'
 import courseList from '@/pages/course/list'
 import courseSpecial from '@/pages/course/special'
 import courseShare from '@/pages/course/share'
+import coursePayment from '@/pages/course/payment'
+import systemService from '@/pages/system/service'
 
 export default new Router({
   // mode: 'history',
-  routes: [{
-      path: '/courseDetail',
+  routes: [
+    {
+      path: '/course-detail',
       name: 'courseDetail',
       component: courseDetail,
       meta: {
@@ -33,6 +35,14 @@ export default new Router({
       }
     },
     {
+      path: '/course-payment',
+      name: 'coursePayment',
+      component: coursePayment,
+      meta: {
+        title: '课程购买'
+      }
+    },
+    {
       path: '/course-share',
       name: 'courseShare',
       component: courseShare,
@@ -40,6 +50,15 @@ export default new Router({
         title: '课程分享'
       }
     },
+    {
+      path: '/system-service',
+      name: 'systemService',
+      component: systemService,
+      meta: {
+        title: '联系客服'
+      }
+    },
+
   ]
   // scrollBehavior(to, from, savedPosition) {
   //   if (savedPosition) {
