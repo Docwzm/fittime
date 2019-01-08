@@ -3,14 +3,36 @@ import App from './App'
 import FastClick from 'fastclick'
 import router from './router'
 import '@/util'
-import '@/assets/styles/reset.less'
+import { navTitleBridge, LSJavascriptBridgeInit,navigationButtonsBridge } from "@/util/jsBridge";
+
+FastClick.attach(document.body)
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
 
-FastClick.attach(document.body)
+import  { ToastPlugin } from 'vux'
+Vue.use(ToastPlugin)
 
 Vue.config.productionTip = false
+
+router.beforeEach((to,from,next) => {
+  LSJavascriptBridgeInit(() => {
+    navigationButtonsBridge([])//清除导航栏设置
+    let title = '';
+    if(to.meta && to.meta.title){
+      title = to.meta.title
+    }
+    navTitleBridge({
+      title,
+      autoResetToDefaultConfigWhtenOpenLink:false,//经测试，安卓必须设置为false 否则失效
+      topPadding:0,
+      barLineHidden:true,
+      color:{ red: 255, green: 255, blue: 255, alpha: 0 }
+    })
+    next()
+  })
+})
+
 
 new Vue({
   router,

@@ -4,7 +4,7 @@
     recalc = function() {
       var clientWidth = docEl.clientWidth
       if (!clientWidth) return
-      var rem = clientWidth / 10
+      var rem = clientWidth / 2 / 10
       docEl.style.fontSize = rem + 'px'
     }
   if (!doc.addEventListener) return

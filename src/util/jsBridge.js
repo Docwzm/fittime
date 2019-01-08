@@ -29,6 +29,8 @@ const courseShareBridge = (params = {}, callback) => {
         console.error('调用课程分享失败:', err.message)
     }
 }
+
+
 /**
  * 标题设置
  * @param {*} params 
@@ -66,6 +68,8 @@ const navigationButtonsBridge = (buttons = [], callback) => {
         console.error('导航栏设置失败:', err.message)
     }
 }
+
+
 /**
  * 唤起APP链接分享功能 (APP v3.2以上版本支持)
  * @param {{title:String,url:String,imgUrl:String,desc:String}} param
@@ -87,10 +91,11 @@ const shareUrlBridge = (param, callback) => {
  * title:分享标题，url:分享链接,imgUrl:分享图标,desc:分享描述
  * @param {Function} callback 事件调用成功失败回调
  */
-const navigationBarMenuBridge = (menu, callback) => {
+const navigationBarMenuBridge = (menu,callback) => {
     try {
-        window.LSJavascriptBridge.registerHandler("MenuCallBack", (data, responseCallback) => {
-            if (data) {
+
+        window.LSJavascriptBridge.registerHandler("MenuCallBack", (data,responseCallback) => {
+            if(data){
                 let item = menu.menuItems[data.selectedIndex];
                 item && item.callback && item.callback(data)
             }

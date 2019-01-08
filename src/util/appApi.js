@@ -153,7 +153,7 @@ export function setNavigationBarConfig(config, successCallBack, falseCallBack) {
   } catch (e) {}
 }
 export function setAppNavTitle(title) {
-  document.title = title
+  // document.title = title
   if (!title) {
     throw new Error('The title is empty!')
   }
