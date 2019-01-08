@@ -1,7 +1,6 @@
 
 <template>
     <div class="payment-wrap">
-        <div class="background"></div>
         <div class="pay-info">
             <div class="title">购买该课程1年试用期</div>
             <div class="sub-title">1次购买，1年内随意训练</div>
@@ -29,15 +28,14 @@ export default {
 </script>
 <style lang="less">
     .payment-wrap{
-        .background{
-            height: 8.8rem;
-            background: #f5f5f5;
-        }
+        height: 100vh;
+        background: #f1f1f1;
+        overflow: hidden;
         .pay-info{
             width: 9.2rem;
             height: 10rem;
             background: #fff;
-            margin: -3.786rem auto 0;
+            margin: 3.866rem auto 0;
             box-shadow: 1px 1px 10px 1px #ddd;
             border-radius: .16rem;
             overflow: hidden;
