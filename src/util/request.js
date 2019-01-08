@@ -16,8 +16,9 @@ let removePending = (config) => {
 }
 
 const service = axios.create({
-  baseURL: staticHostApiHost() // api 的 base_url
+  baseURL: staticHostApiHost(), // api 的 base_url
   // timeout: 5000 // request timeout
+  params: {}
 })
 
 // request interceptor

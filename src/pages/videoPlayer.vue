@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getCourseDetail } from '@/api'
 import poster from '@/assets/images/poster.png'
 export default {
   name: "videoPlayer",
@@ -21,27 +22,40 @@ export default {
     return {
       player: null, //播放器实例
       playFlag: false,
-      poster
+      poster,
+      videoUrl:null
     };
   },
-
   created() {
-    let options = {
-      controls: true,
-      url:"http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
-      type: "hls",
-      preload: true,
-      autoplay: false, // 如为 true，则视频将会自动播放
-      poster: this.poster,
-      stretching:'letterbox'
-    };
-    this.player = new QiniuPlayer("my-video", options);
-    this.watchPlayer();
+    this.getCourseDetail();
+    
   },
   beforeDestroy() {
     QiniuPlayer.dispose("my-video"); //释放播放器实例
   },
   methods: {
+    getCourseDetail(){
+      getCourseDetail({
+        courseKey:'course_key_2018_11_08_001'
+      }).then(res => {
+        let data = res.data;
+        this.videoUrl = data.videoAddress;
+
+        let options = {
+          controls: true,
+          url:data.videoAddress,
+          // url:"http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          type: "hls",
+          preload: true,
+          autoplay: false, // 如为 true，则视频将会自动播放
+          poster: this.poster,
+          // stretching:'letterbox'
+        };
+        this.player = new QiniuPlayer("my-video", options);
+        this.watchPlayer();
+
+      })
+    },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {

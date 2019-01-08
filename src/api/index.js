@@ -1,12 +1,12 @@
 import request from '@/util/request'
 
 //获取公开课热度列表
-export function getCourseList() {
+export function getCourseDetail({courseKey}) {
     return request({
-        url: '',
+        url: '/opencourse_service/course/play_address',
         method: 'post',
         data:{
-            
+            courseKey,
         }
     })
 }
