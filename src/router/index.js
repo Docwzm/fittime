@@ -14,10 +14,7 @@ export default new Router({
     {
       path: '/course-detail',
       name: 'courseDetail',
-      component: courseDetail,
-      meta: {
-        title: '课程详情'
-      }
+      component: courseDetail
     },{
       path: '/video-player',
       name: 'videoPlayer',

@@ -3,7 +3,7 @@
     <div class="video-wrap">
       <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
     </div>
-    <div class="intro">
+    <div class="intro vux-1px-b">
       <p class="title">健身燃脂舞</p>
       <span>第3次训练</span>
     </div>
@@ -90,8 +90,29 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .video-wrap{
   height:400px;
+}
+.intro{
+  padding:30px 0 30px 40px;
+  .title{
+    height:45px;
+    font-size:32px;
+    color:rgba(65,65,65,1);
+    line-height:45px;
+  }
+  span{
+    display: block;
+    font-size:24px;
+    color:rgba(182,182,182,1);
+    line-height:33px;
+  }
+}
+.detail-wrap{
+  img{
+    max-width: 100%;
+    display: block;
+  }
 }
 </style>
