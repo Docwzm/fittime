@@ -42,8 +42,8 @@ export default {
 .list-wrap {
   .list-header {
     width: 100%;
-    height: 0.96rem;
-    line-height: 0.96rem;
+    height: 72px;
+    line-height: 72px;
     border-bottom: 1px solid #f0f0f0;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
@@ -55,13 +55,13 @@ export default {
       overflow-x: scroll;
       height: inherit;
       line-height: inherit;
-      padding-bottom: 0.2rem;
+      padding-bottom: 10px;
       .class-cate {
         width: 20%;
         height: inherit;
         text-align: center;
         line-height: inherit;
-        font-size: 0.3446rem;
+        font-size: 26px;
         color: #b6b6b6;
         &.current-cate {
           color: #4a90e2;
@@ -70,19 +70,19 @@ export default {
             content: "";
             position: absolute;
             display: block;
-            width: 0.53rem;
-            height: 1px;
+            width:40px;
+            height:2.5px;
             background: #4a90e2;
-            top: 0.8rem;
+            top: 60px;
             left: 50%;
-            margin-left: -0.265rem;
+            margin-left: -20px;
           }
         }
       }
     }
   }
   .list-content {
-    padding-top: 1.36rem;
+    padding-top: 102px;
   }
 }
 </style>

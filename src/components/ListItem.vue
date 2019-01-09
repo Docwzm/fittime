@@ -1,7 +1,7 @@
 <template>
   <div class="list-item" @click="handleListItemClick">
     <div class="marker">
-      <span>推荐啊</span>
+     推荐啊
     </div>
     <div class="title">三个动作直击小蛮腰</div>
     <div class="key-words">小器械 · 增肌 · 腰部 · 上班族</div>
@@ -30,52 +30,58 @@ export default {
 </script>
 <style lang="less">
 .list-item {
-  width: 9.2rem;
-  height: 3.01rem;
+  width: 690px;
+  height: 226px;
   background: #bbb;
-  margin: 0 auto 0.4rem;
-  border-radius: 0.1rem;
+  margin: 0 auto 30px;
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
+  &:last-child{
+    margin-bottom: 0
+  }
   .marker {
     position: absolute;
-    height: 0.373rem;
-    border-top-right-radius: 0.1865rem;
-    border-bottom-right-radius: 0.1865rem;
+    height: 28px;
+    line-height: 28px;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
     background: #69a8fa;
-    padding: 0 0.15rem;
+    padding: 0 12px;
+    font-size: 18px;
+    color: #fff;
     span {
-      font-size: 0.266rem;
+      font-size: 18px;
       color: #fff;
       -webkit-text-size-adjust: none;
       vertical-align: top;
     }
   }
   .title {
-    padding: 0 0.4rem;
+    padding: 0 30px;
     box-sizing: border-box;
-    font-size: 0.45rem;
+    font-size: 34px;
     color: #fff;
-    margin-top: 0.666rem;
+    margin-top: 50px;
   }
   .key-words {
-    padding: 0 0.4rem;
+    padding: 0 30px;
     box-sizing: border-box;
-    font-size: 0.266rem;
+    font-size: 20px;
     color: #fff;
-    margin-top: 0.1333rem;
+    margin-top: 10px;
   }
   .heat {
     position: absolute;
-    padding: 0 0.4rem;
-    font-size: 0.37rem;
+    padding: 0 30px;
+    font-size: 20px;
     color: #fff;
-		bottom: 0.186rem;
+		bottom: 18px;
 		img{
 			display: inline-block;
 			vertical-align: middle;
-			width: .2666rem;
-			height: .2666rem;
+			width: 20px;
+			height: 22px;
 		}
 		span{
 			vertical-align: middle

@@ -23,16 +23,16 @@ export default {
         overflow: hidden;
         .service-content{
             background: #fff;
-            padding: .8rem .4rem;
-            margin-top: .2666rem;
+            padding: 60px 30px;
+            margin-top: 20px;
             .title{
-                font-size: .4266rem;
+                font-size: 32px;
                 color: #414141
             }
             p{
-                font-size: .3733rem;
+                font-size: 28px;
                 color: #B6B6B6;
-                margin-top: .2133rem;
+                margin-top: 12px;
             }
         }
     }

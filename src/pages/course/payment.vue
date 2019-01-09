@@ -32,73 +32,73 @@ export default {
         background: #f1f1f1;
         overflow: hidden;
         .pay-info{
-            width: 9.2rem;
-            height: 10rem;
+            width: 690px;
+            height: 780px;
             background: #fff;
-            margin: 3.866rem auto 0;
+            margin: 289px auto 0;
             box-shadow: 1px 1px 10px 1px #ddd;
-            border-radius: .16rem;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
             .title{
-                font-size: .48rem;
+                font-size: 36px;
                 color: #414141;
                 text-align: center;
-                margin-top: 1.2rem
+                margin-top: 90px
             }
             .sub-title{
-                font-size: .342rem;
+                font-size: 26px;
                 color: #B6B6B6;
                 text-align: center;
             }
             .pay-title{
                 text-align: center;
                 color: #414141;
-                font-size: .342rem;
-                margin-top: .666rem;
+                font-size: 26px;
+                margin-top: 50px;
             }
             .money{
                 text-align: center;
-                font-size: .64rem;
+                font-size: 48px;
                 color: #4A90E2;
-                margin-top: .1rem;
+                margin-top: 3.75px;
             }
             .button{
-                width: 7.333rem;
-                height: 1.333rem;
-                line-height: 1.333rem;
+                width: 550px;
+                height: 100px;
+                line-height: 100px;
                 text-align: center;
                 background: linear-gradient(left,#90DEFF,#87ACFF);
-                border-radius: .6665rem;
+                border-radius: 50px;
                 color: #fff;
-                margin: 1.466rem auto 0;
-                font-size: .4266rem;
+                margin: 110px auto 0;
+                font-size: 32px;
             }
             .tips{
                 text-align: center;
-                font-size: .32rem;
+                font-size: 24px;
                 color: #B6B6B6;
-                margin-top: .48rem;
+                margin-top: 36px;
                 a{
                     color: #4A90E2
                 }
             }
             .service-icon{
-                width: 1.013rem;
-                height: 1.04rem;
+                width: 76px;
+                height: 77px;
                 position: absolute;
                 bottom: 0;
                 left: 50%;
-                margin-left: -0.5065rem;
+                margin-left: -38px;
                 box-shadow: 1px -1px 10px 1px #eee;
-                border-top-left-radius: .5065rem;
-                border-top-right-radius: .5065rem;
+                border-top-left-radius: 38px;
+                border-top-right-radius: 38px;
                 text-align: center;
-                line-height: 1.4rem;
                 img{
                     display: inline-block;
-                    width: .5333rem;
-                    height: .5333rem;
+                    margin-top: 20px;
+                    width: 36px;
+                    height: 39px;
                 }
             }
         }

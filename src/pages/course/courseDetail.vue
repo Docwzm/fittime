@@ -46,25 +46,25 @@
     <div class="repay-tip" v-if="shouldPay&&isBuy">
       <p class="title">课程已购买</p>
       <p class="endtime">有效期至2019年11月30日</p>
-      <p class="repay-btn">>>前往续费</p>
+      <router-link to="/course-payment" class="repay-btn">>>前往续费</router-link>
     </div>
 
     <div class="footer">
       <div class="buy-wrap" v-if="shouldPay&&!isBuy">
-        <p class="concat" @click="gotoService"><span>客服</span></p>
-        <div class="buy-btn">
+        <router-link to="/system-service" class="concat"><span>客服</span></router-link>
+        <router-link to="/course-payment" class="buy-btn">
           <span>购买课程</span>
           <b>(￥9.99)</b>
-        </div>
+        </router-link>
       </div>
 
       <div class="add-wrap" v-else-if="!isAdd">
         加入课程
       </div>
 
-      <div class="play-wrap" v-else="isAdd">
+      <router-link to="/video-player" class="play-wrap" v-else="isAdd">
         开始训练
-      </div>
+      </router-link>
     </div>
 
     <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
@@ -87,7 +87,7 @@ export default {
       showMenu: false, //已添加课程显示删除弹出框标识
       shouldPay:true, //是否为付费课程
       isAdd: true, //是否为已添加课程
-      isBuy:false,
+      isBuy:true,
       menus: {
         delMenu: "删除"
       }, //导航栏按钮触发弹出框
@@ -126,9 +126,6 @@ export default {
       }else{
         this.$router.push("/video-player");
       }
-    },
-    gotoService(){
-      this.$router.push('/system-service')
     },
     menuClick(key, item) {
       if (key == "delMenu") {
@@ -169,7 +166,7 @@ export default {
     },
     //点击分享
     shareApp() {
-      _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
+      // _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
       shareUrlBridge({
         title: "课程详情",
         url: location.origin + "/fittime/#/course-detail",
@@ -325,7 +322,8 @@ export default {
 }
 .repay-tip{
   padding:0 0 70px;
-  p{
+  p,.repay-btn{
+    display: block;
     line-height:36px;
     text-align: center;
   }
@@ -396,6 +394,7 @@ export default {
     }
   }
   .add-wrap,.play-wrap{
+    display: block;
     width:640px;
     height:80px;
     line-height:80px;
