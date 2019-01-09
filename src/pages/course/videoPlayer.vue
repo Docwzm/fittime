@@ -58,7 +58,11 @@ export default {
       this.player.ready(() => {
         // this.player.aspectRatio("16:9", () => {});
         // console.log(this.player.duration)
-        this.player.duration(1,player=>{
+        // this.player.duration(1,player=>{
+        //   console.log(player)
+        // })
+
+        this.player.currentTime(50,player => {
           console.log(player)
         })
 

@@ -2,7 +2,7 @@
   <div class="detail-wrap">
 
     <div class="top-img">
-      <img src="../assets/images/poster.png" />
+      <img src="../../assets/images/poster.png" />
     </div>
 
     <div class="base-info">
@@ -116,16 +116,16 @@ export default {
     gotoPlay(data){
       if(this.shouldPay){
         if(this.isBuy){
-          this.$router.push("/video-player");
+          this.$router.push("/course-list");
         }else{
           if(data.free){
-            this.$router.push("/video-player");
+            this.$router.push("/course-list");
           }else{
             this.$vux.toast.text("请购买课程后再查看内容", "middle");
           }
         }
       }else{
-        this.$router.push("/video-player");
+        this.$router.push("/course-list");
       }
     },
     menuClick(key, item) {
@@ -195,7 +195,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../assets/styles/mixin";
+@import "../../assets/styles/mixin";
 .detail-wrap{
   padding-bottom:110px;
 }

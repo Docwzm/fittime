@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 
-import courseDetail from '@/pages/courseDetail'
-import videoPlayer from '@/pages/videoPlayer';
+import courseDetail from '@/pages/course/courseDetail'
+import videoPlayer from '@/pages/course/videoPlayer';
 import courseList from '@/pages/course/list'
 import courseSpecial from '@/pages/course/special'
 import courseShare from '@/pages/course/share'
@@ -14,11 +14,17 @@ export default new Router({
     {
       path: '/course-detail',
       name: 'courseDetail',
-      component: courseDetail
+      component: courseDetail,
+      meta:{
+        fullScreen:true
+      }
     },{
       path: '/video-player',
       name: 'videoPlayer',
-      component: videoPlayer
+      component: videoPlayer,
+      meta:{
+        fullScreen:true
+      }
     }, {
       path: '/course-list',
       name: 'courseList',
