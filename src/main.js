@@ -3,6 +3,7 @@ import App from './App'
 import FastClick from 'fastclick'
 import router from './router'
 import '@/util'
+// import '@/icons'
 import { navTitleBridge, LSJavascriptBridgeInit,navigationButtonsBridge } from "@/util/jsBridge";
 
 FastClick.attach(document.body)

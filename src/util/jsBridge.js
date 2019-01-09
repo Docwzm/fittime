@@ -85,33 +85,11 @@ const shareUrlBridge = (param, callback) => {
         console.error('唤起app分享失败:', err.message)
     }
 }
-/**
- * 导航栏按钮菜单设置
- * @param {{menuId:String,menuItems:Array,callbackHandlerName:String}} menu
- * title:分享标题，url:分享链接,imgUrl:分享图标,desc:分享描述
- * @param {Function} callback 事件调用成功失败回调
- */
-const navigationBarMenuBridge = (menu,callback) => {
-    try {
 
-        window.LSJavascriptBridge.registerHandler("MenuCallBack", (data,responseCallback) => {
-            if(data){
-                let item = menu.menuItems[data.selectedIndex];
-                item && item.callback && item.callback(data)
-            }
-        });
-        window.LSJavascriptBridge.callHandler("showNavigationBarMenu", menu, (responseData) => {
-            callback && callback(responseData)
-        });
-    } catch (err) {
-        console.error('导航栏按钮菜单设置失败:', err.message)
-    }
-}
 export {
     LSJavascriptBridgeInit,
     courseShareBridge,
     navTitleBridge,
     navigationButtonsBridge,
-    shareUrlBridge,
-    navigationBarMenuBridge
+    shareUrlBridge
 }

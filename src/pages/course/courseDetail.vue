@@ -9,7 +9,7 @@
       <p class="title">马甲线塑造课程</p>
       <div class="line-wrap">
         <span class="tag">小器械 · 增肌 · 腰部</span>
-        <span class="hot-count">234253</span>
+        <span class="hot-count">2222</span>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
 
     <div class="footer">
       <div class="buy-wrap" v-if="shouldPay&&!isBuy">
-        <p class="concat"><span>客服</span></p>
+        <p class="concat" @click="gotoService"><span>客服</span></p>
         <div class="buy-btn">
           <span>购买课程</span>
           <b>(￥9.99)</b>
@@ -76,8 +76,7 @@ import { Actionsheet } from "vux";
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
-  shareUrlBridge,
-  navigationBarMenuBridge
+  shareUrlBridge
 } from "@/util/jsBridge";
 
 export default {
@@ -116,17 +115,20 @@ export default {
     gotoPlay(data){
       if(this.shouldPay){
         if(this.isBuy){
-          this.$router.push("/course-list");
+          this.$router.push("/video-player");
         }else{
           if(data.free){
-            this.$router.push("/course-list");
+            this.$router.push("/video-player");
           }else{
             this.$vux.toast.text("请购买课程后再查看内容", "middle");
           }
         }
       }else{
-        this.$router.push("/course-list");
+        this.$router.push("/video-player");
       }
+    },
+    gotoService(){
+      this.$router.push('/system-service')
     },
     menuClick(key, item) {
       if (key == "delMenu") {
@@ -158,20 +160,6 @@ export default {
     },
     // 显示菜单
     showNavigationMenu() {
-      // let menuItemArray = [
-      //   {
-      //     title: "删除", // menu title
-      //     imageUrl: "", // 图片Url
-      //     callback: this.deleteCourse
-      //   }
-      // ];
-      // let menu = {
-      //   menuId: "xxxx", //唯一Id
-      //   menuItems: menuItemArray, // 菜单列表
-      //   callbackHandlerName: "MenuCallBack" // 事件回调函数名
-      // };
-
-      // navigationBarMenuBridge(menu);
       this.showMenu = true;
     },
     // 点击删除菜单 删除已添加的课程
@@ -226,7 +214,15 @@ export default {
       line-height: 33px;
     }
     .hot-count {
+      display: block;
       float: right;
+      &::before{
+        content:'';
+        display: inline-block;
+        width:24px;
+        height:24px;
+        .bg('icons/hot');
+      }
     }
   }
 }
@@ -277,9 +273,7 @@ export default {
           float: right;
           width: 40px;
           height: 40px;
-          .bg("lock");
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
+          .bg("icons/lock");
         }
       }
     }
@@ -390,9 +384,7 @@ export default {
         width:40px;
         height:40px;
         margin:0 auto;
-        .bg('concat');
-        background-size:100% 100%;
-        background-repeat: no-repeat;
+        .bg('icons/service');
         margin-bottom:11px;
       }
       span{
