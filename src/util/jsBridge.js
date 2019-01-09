@@ -15,7 +15,6 @@ const LSJavascriptBridgeInit = callback => {
         console.error(error)
     }
 }
-
 /**
  * 课程分享
  * @param {*} params 
@@ -46,7 +45,6 @@ const navTitleBridge = (params = {}, callback) => {
         console.error('标题设置失败:', err.message)
     }
 }
-
 /**
  * 导航栏按钮设置
  * @param {*} buttons 
@@ -63,7 +61,6 @@ const navigationButtonsBridge = (buttons = [], callback) => {
                 });
             }
         }
-
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)
         })
@@ -88,7 +85,6 @@ const shareUrlBridge = (param, callback) => {
         console.error('唤起app分享失败:', err.message)
     }
 }
-
 /**
  * 导航栏按钮菜单设置
  * @param {{menuId:String,menuItems:Array,callbackHandlerName:String}} menu
@@ -104,7 +100,6 @@ const navigationBarMenuBridge = (menu,callback) => {
                 item && item.callback && item.callback(data)
             }
         });
-
         window.LSJavascriptBridge.callHandler("showNavigationBarMenu", menu, (responseData) => {
             callback && callback(responseData)
         });
@@ -112,7 +107,6 @@ const navigationBarMenuBridge = (menu,callback) => {
         console.error('导航栏按钮菜单设置失败:', err.message)
     }
 }
-
 export {
     LSJavascriptBridgeInit,
     courseShareBridge,
