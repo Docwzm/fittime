@@ -46,7 +46,7 @@ export default {
   position: relative;
   overflow: hidden;
   .share-img {
-    width:492px;
+    width: 492px;
     height: 396px;
     margin: 90px auto 0;
     img {
@@ -75,7 +75,7 @@ export default {
     line-height: 100px;
     width: 100%;
     text-align: center;
-    .btn{
+    .btn {
       display: inline-block;
       width: 320px;
       height: inherit;
@@ -83,13 +83,13 @@ export default {
       text-align: center;
       font-size: 32px;
       border-radius: 16px;
-      &.btn-finish{
-        border:1px solid #1EABE1;
-        color: #1EABE1;
+      &.btn-finish {
+        border: 1px solid #1eabe1;
+        color: #1eabe1;
         box-sizing: border-box;
       }
-      &.btn-share{
-        background: linear-gradient(left,#35C4FF,#1960FF);
+      &.btn-share {
+        background: linear-gradient(left, #35c4ff, #1960ff);
         color: #fff;
         margin-left: 30px;
       }

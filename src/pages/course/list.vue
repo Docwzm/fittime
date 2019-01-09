@@ -6,7 +6,7 @@
           v-for="item in catagory"
           :key="item.key"
           class="class-cate"
-          :class="item.selected?'current-cate':''"
+          :class="currentCate == item.key ?'current-cate':''"
           @click="handleCategoryClick(item.key)"
         >{{item.name}}</div>
       </div>
@@ -24,12 +24,13 @@ export default {
   name: "courseList",
   data() {
     return {
+      currentCate: 0,
       catagory: [
-        { key: 0, name: "减肥燃脂", selected: true },
-        { key: 1, name: "夜间助眠", selected: false },
-        { key: 2, name: "增肌塑形", selected: false },
-        { key: 3, name: "热身拉伸", selected: false },
-        { key: 4, name: "日常保健", selected: false }
+        { key: 0, name: "减肥燃脂" },
+        { key: 1, name: "夜间助眠" },
+        { key: 2, name: "增肌塑形" },
+        { key: 3, name: "热身拉伸" },
+        { key: 4, name: "日常保健" }
       ],
       list: [{ id: 0, title: "666666" }, { id: 2, title: "666666" }]
     };
@@ -47,17 +48,8 @@ export default {
      * 切换课程类别
      */
     handleCategoryClick(key) {
-      let { catagory } = this;
-      let _category = catagory.map(item => {
-        if (item.key === key) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
+      this.currentCate = key;
       this.actionGetCourseListByCate(key);
-      this.category = _category;
     },
     /**
      * 根据课程类型拉取列表
@@ -65,7 +57,6 @@ export default {
     actionGetCourseListByCate(key) {
       console.log(key);
     }
-
   }
 };
 </script>
