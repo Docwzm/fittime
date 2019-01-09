@@ -28,9 +28,9 @@ export default {
 .video-js{
   background:none;
 }
-.my-video-dimensions.vjs-fluid{
-  padding-top:0;
-}
+// .my-video-dimensions.vjs-fluid{
+//   padding-top:0;
+// }
 .vjs-poster{
   background-color:inherit;
   background-size:inherit;

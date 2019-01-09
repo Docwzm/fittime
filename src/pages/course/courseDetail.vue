@@ -218,7 +218,8 @@ export default {
         display: inline-block;
         width:24px;
         height:24px;
-        .bg('icons/hot');
+        .bg('icons/hot_gray');
+        margin-right: 6px;
       }
     }
   }

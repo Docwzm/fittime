@@ -2,8 +2,7 @@
   <div class="player-wrap">
     <div class="wrap-video">
       <div class="video-wrap">
-        <video id="my-video" class="video-js vjs-big-play-centered" playsinline="true"
-          webkit-playsinline="true"></video>
+        <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
       </div>
       <div class="mask" v-show="showMask"></div>
     </div>
@@ -64,17 +63,15 @@ export default {
       //   courseKey:'course_key_2018_11_08_001'
       // }).then(res => {
       //   let data = res.data;
-
       let options = {
         controls: true,
         // url:data.videoAddress,
-        url:
-          "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+        url:"http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
         type: "hls",
         preload: "auto",
         autoplay: false, // 如为 true，则视频将会自动播放
-        poster: this.poster
-        // stretching:'letterbox'
+        poster: this.poster,
+        stretching:'panscan'
       };
       this.player = new QiniuPlayer("my-video", options);
       this.watchPlayer();
@@ -84,23 +81,21 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(() => {
-        this.player.aspectRatio("16:9", () => {});
+        this.player.aspectRatio("375:200", () => {});
 
-        this.player.on("loadedmetadata", () => {
-          this.player.duration(this.duration);
-        });
+        // this.player.on("loadedmetadata", () => {
+        //   this.player.duration(this.duration);
+        // });
 
         // this.player.on('fullscreenchange',()=>{
         //   this.player.duration(this.duration)
         // })
         this.player.on("play", () => {
           if (!this.free) {
-            this.player.duration(2, () => {
-              // this.player.currentTime(1,);
-            });
-
+            // this.player.duration(2, () => {
+            //   // this.player.currentTime(1,);
+            // });
             // this.player.fullscreen(false);
-
             // this.showConfirm = true;
             // this.showMask = true;
             // this.player.duration(4,() => {
@@ -117,6 +112,9 @@ export default {
         });
 
         this.player.on("timeupdate", () => {
+          // this.player.duration(2, () => {
+          //     // this.player.currentTime(1,);
+          // });
           // if(this.player.currentTime()>=this.duration){
           //   this.player.fullscreen(false);
           //   // this.player.controls(false,() => {
