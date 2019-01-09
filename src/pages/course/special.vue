@@ -49,33 +49,32 @@ export default {
 <style lang="less">
     .special-wrap{
         .banner{
-            height: 3.6rem;
+            height: 270px;
             background: #f5f5f5;
         }
         .description{
-            width: 9.12rem;
+            width: 684px;
             margin: 0 auto;
-            padding: .2rem 0;
+            padding: 15px 0;
             box-sizing: border-box;
             p{
-                font-size: 0.373rem;
+                font-size: 28px;
                 color: #414141;
-                margin-bottom: .4rem;
             }
         }
         .list-content{
-            margin-top: 1.06rem;
+            margin-top: 80px;
         }
         .all-course{
-            font-size: .346rem;
+            font-size: 26px;
             text-align: center;
-            padding-bottom: .8rem;
-            padding-top: .3rem;
+            padding-bottom: 60px;
+            padding-top: 40px;
             color: #414141;
             img{
                 display: inline-block;
-                width: .346rem;
-                height: .346rem;
+                width: 30px;
+                height: 30px;
                 vertical-align: middle
             }
             span{

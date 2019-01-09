@@ -46,54 +46,52 @@ export default {
   position: relative;
   overflow: hidden;
   .share-img {
-    width: 6.56rem;
-    height: 5.28rem;
-    border: 1px dashed #ccc;
-    margin: 1.2rem auto 0;
+    width:492px;
+    height: 396px;
+    margin: 90px auto 0;
     img {
       display: block;
-      width: 5.946rem;
-      height: 4.773rem;
-      margin: 0.3rem auto;
+      width: 446px;
+      height: 358px;
+      margin: 19px auto;
     }
   }
   .share-title {
     text-align: center;
-    font-size: 0.4266rem;
+    font-size: 32px;
     color: #414141;
-    margin-top: 1.12rem;
+    margin-top: 83px;
   }
   .share-sub-title {
-    font-size: 0.3733rem;
+    font-size: 28px;
     text-align: center;
     color: #b6b6b6;
-    margin-top: 0.2133rem;
+    margin-top: 16px;
   }
   .button-wrap {
     position: absolute;
-    bottom: 0.666rem;
-    height: 1.333rem;
-    line-height: 1.333rem;
+    bottom: 50px;
+    height: 100px;
+    line-height: 100px;
     width: 100%;
     text-align: center;
     .btn{
       display: inline-block;
-      width: 4.266rem;
+      width: 320px;
       height: inherit;
       line-height: inherit;
       text-align: center;
-      font-size: .4266rem;
+      font-size: 32px;
+      border-radius: 16px;
       &.btn-finish{
         border:1px solid #1EABE1;
         color: #1EABE1;
-        border-radius: .2133rem;
         box-sizing: border-box;
       }
       &.btn-share{
         background: linear-gradient(left,#35C4FF,#1960FF);
         color: #fff;
-        border-radius: .2133rem;
-        margin-left: .4rem;
+        margin-left: 30px;
       }
     }
   }
