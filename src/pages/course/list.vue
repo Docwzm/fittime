@@ -2,15 +2,17 @@
   <div class="list-wrap">
     <div class="list-header">
       <div class="class-box">
-        <div class="class-cate">减肥燃脂</div>
-        <div class="class-cate current-cate">夜间助眠</div>
-        <div class="class-cate">增肌塑形</div>
-        <div class="class-cate">热身拉伸</div>
-        <div class="class-cate">日常保健</div>
+        <div
+          v-for="item in catagory"
+          :key="item.key"
+          class="class-cate"
+          :class="currentCate == item.key ?'current-cate':''"
+          @click="handleCategoryClick(item.key)"
+        >{{item.name}}</div>
       </div>
     </div>
     <div class="list-content">
-      <list-item v-for="item in list" :key="item.id" :data="item" @onClick="handleListItemClick"></list-item>
+      <list-item v-for="item in list" :key="item.id" :data="item"></list-item>
     </div>
   </div>
 </template>
@@ -22,19 +24,40 @@ export default {
   name: "courseList",
   data() {
     return {
-      list: [{id:0,title:"666666"},{id:2,title:"666666"}]
+      currentCate: 0,
+      catagory: [
+        { key: 0, name: "减肥燃脂" },
+        { key: 1, name: "夜间助眠" },
+        { key: 2, name: "增肌塑形" },
+        { key: 3, name: "热身拉伸" },
+        { key: 4, name: "日常保健" }
+      ],
+      list: [{ id: 0, title: "666666" }, { id: 2, title: "666666" }]
     };
   },
   mixins: [mixin],
   components: {
     "list-item": ListItem
   },
-  created() {},
+  created() {
+    let { catagory } = this;
+    this.actionGetCourseListByCate(catagory[0].key);
+  },
   methods: {
-		handleListItemClick(){
-			alert(6)
-		}
-	}
+    /**
+     * 切换课程类别
+     */
+    handleCategoryClick(key) {
+      this.currentCate = key;
+      this.actionGetCourseListByCate(key);
+    },
+    /**
+     * 根据课程类型拉取列表
+     */
+    actionGetCourseListByCate(key) {
+      console.log(key);
+    }
+  }
 };
 </script>
 
@@ -55,7 +78,7 @@ export default {
       overflow-x: scroll;
       height: inherit;
       line-height: inherit;
-      padding-bottom: 10px;
+      padding-bottom: 20px;
       .class-cate {
         width: 20%;
         height: inherit;
@@ -70,8 +93,8 @@ export default {
             content: "";
             position: absolute;
             display: block;
-            width:40px;
-            height:2.5px;
+            width: 40px;
+            height: 2.5px;
             background: #4a90e2;
             top: 60px;
             left: 50%;
