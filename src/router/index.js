@@ -14,7 +14,7 @@ export default new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/course-detail/:id',
+      path: '/course-detail',
       name: 'courseDetail',
       component: courseDetail,
       meta:{
