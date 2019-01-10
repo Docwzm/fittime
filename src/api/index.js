@@ -1,7 +1,7 @@
 import request from '@/util/request'
 
-//获取公开课热度列表
-export function getCourseDetail({courseKey}) {
+//播放完成时 将该训练视频设置为已完成训练状态
+export function setCourseDone({courseKey}) {
     return request({
         url: '/opencourse_service/course/play_address',
         method: 'post',
@@ -10,3 +10,18 @@ export function getCourseDetail({courseKey}) {
         }
     })
 }
+
+
+//获取课程详情
+export function getCourseDetail({courseId}){
+    return request({
+        url: '/opencourse_service/course/play_address',
+        method: 'post',
+        data:{
+            courseId,
+        }
+    })
+}
+
+
+

@@ -86,10 +86,27 @@ const shareUrlBridge = (param, callback) => {
     }
 }
 
+/**
+ * 获取系统网络环境
+ * @param {Function} callbackName 传给app调用的方法 实时监听网络环境变化
+ * @param {Function} resCallback 事件调用成功失败回调
+ */
+const getNetworkState = (callbackName,resCallback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
+            resCallback && resCallback(responseData)
+        })
+    } catch (err) {
+        console.error('获取系统网络环境失败:', err.message)
+    }
+}
+
+
 export {
     LSJavascriptBridgeInit,
     courseShareBridge,
     navTitleBridge,
     navigationButtonsBridge,
-    shareUrlBridge
+    shareUrlBridge,
+    getNetworkState
 }
