@@ -24,13 +24,9 @@ export default {
 @import './assets/styles/reset.less';
 @import '~vux/src/styles/1px.less';
 
-
-.video-js{
-  background:none;
-}
-.my-video-dimensions.vjs-fluid{
-  padding-top:0;
-}
+// .my-video-dimensions.vjs-fluid{
+//   padding-top:0;
+// }
 .vjs-poster{
   background-color:inherit;
   background-size:inherit;
@@ -59,11 +55,19 @@ export default {
   font-size:40px;
   margin-top:-48px;
   margin-left:-48px;
+  // display: none!important;
 }
 
-.vux-1px-b:after{
-  border-bottom:1PX solid #F0F0F0
+.vjs-mobile.vjs-paused.no-play .vjs-big-play-button, .vjs-using-native-controls.no-play .vjs-big-play-button, .vjs-using-native-controls.vjs-paused.no-play .vjs-big-play-button, .vjs-using-native-controls.no-play .vjs-poster{
+  display: none;
 }
+
+.video-js.no-play .vjs-play-control{
+  display: none;
+}
+// .vux-1px-b:after{
+//   border-bottom:1PX solid #F0F0F0
+// }
 </style>
 
 

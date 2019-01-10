@@ -1,5 +1,7 @@
 .bg(@url){
     background-image:url('../images/@{url}.png');
+    background-size:100% 100%;
+    background-repeat: no-repeat;
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
         background-image:url('../images/@{url}@2x.png')
     }
