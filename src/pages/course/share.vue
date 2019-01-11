@@ -14,7 +14,7 @@
 
 <script>
 import mixin from "@/util/mixin";
-import { courseShareBridge,popToRootControllerBridge } from "@/util/jsBridge";
+import { courseShareBridge, popToRootControllerBridge } from "@/util/jsBridge";
 
 export default {
   name: "courseDetail",
@@ -33,12 +33,12 @@ export default {
         this.callbackShare
       );
     },
-    handleFinish(){
-      popToRootControllerBridge()
+    handleFinish() {
+      popToRootControllerBridge();
     },
 
     callbackShare(res) {
-      console.log('拉起分享成功')
+      console.log("拉起分享成功");
     }
   }
 };

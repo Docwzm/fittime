@@ -36,7 +36,7 @@ export default new Router({
       }
     },
     {
-      path: '/course-special',
+      path: '/course-special/:id',
       name: 'courseSpecial',
       component: courseSpecial,
       meta: {
@@ -44,7 +44,7 @@ export default new Router({
       }
     },
     {
-      path: '/course-payment',
+      path: '/course-payment/:id',
       name: 'coursePayment',
       component: coursePayment,
       meta: {

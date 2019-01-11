@@ -101,13 +101,28 @@ const shareUrlBridge = (param, callback) => {
  * @param {Function} callbackName 传给app调用的方法 实时监听网络环境变化
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const getNetworkState = (callbackName,resCallback) => {
+const getNetworkState = (callbackName, resCallback) => {
     try {
         window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {
         console.error('获取系统网络环境失败:', err.message)
+    }
+}
+
+/**
+ * 注册回调函数
+ * @param {*} registerName 
+ * @param {*} callback 
+ */
+const registerCallbackHandler = (registerName, callback) => {
+    try {
+        LSJavascriptBridge.registerHandler(registerName, (responseData) => {
+            callback && callback(responseData)
+        });
+    } catch (e) {
+        console.error('注册回调函数失败:', err.message)
     }
 }
 
@@ -119,5 +134,6 @@ export {
     navigationButtonsBridge,
     shareUrlBridge,
     getNetworkState,
-    popToRootControllerBridge
+    popToRootControllerBridge,
+    registerCallbackHandler
 }

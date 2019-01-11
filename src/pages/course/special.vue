@@ -1,23 +1,18 @@
 <template>
   <div class="special-wrap">
-    <div class="banner"></div>
+    <div class="banner">
+      <img v-lazy="subject.coverImg"/>
+      <div class="title">{{subject.title}}</div>
+    </div>
     <div class="description">
-      <p>在家健身 時，有沒有經曆過被樓下鄰居，隔壁的室友投訴？這真是讓人尷尬呢。本期專題的課程設計靈感就來自於此。</p>
-      <p>為什麼減脂訓練動靜都這麼大？</p>
-      <p>燃脂訓練的原理是通過運動擴大熱量的消耗，訓練邊拍通常需要具備三個要素：</p>
-      <p>大幅度的身體重心移動</p>
-      <p>更多的肌肉群參與</p>
-      <p>有氧和無氧的結合</p>
-      <p>要結合這三點，最直接的方式就是加入大量的跳躍動作，動靜自然就大了。</p>
-      <p>如何安安靜靜地減脂？</p>
-      <p>即使沒有跳躍動作，通過蹲起、平移、旋轉等動作模式，以及站姿、俯臥支撐等姿勢的切換，同樣可以達到上述的三個條件，一樣有不錯的減脂效果。</p>
+      <p>{{subject.content}}</p>
     </div>
     <div class="list-content">
-      <list-item></list-item>
+      <list-item v-for="item in subject.curriculumDtos" :key="item.id" :data="item"></list-item>
     </div>
     <div class="all-course">
       <img src="@/assets/images/icons/right@2x.png">
-      <span>查看所有课程</span>
+      <span @click="handleToCourseList">查看所有课程</span>
     </div>
   </div>
 </template>
@@ -25,18 +20,35 @@
 <script>
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
+import {getSubject} from "@/api/course"
 
 export default {
   name: "courseSpecial",
   data() {
-    return {};
+    return {
+      subject:{}
+    };
   },
   mixins: [mixin],
   components: {
     "list-item": ListItem
   },
-  created() {},
-  methods: {}
+  created() {
+    let id = this.$route.params.id;
+    this.actionGetSubject(id)
+  },
+  methods: {
+    handleToCourseList(){
+      this.$router.push('/course-list')
+    },
+    actionGetSubject(id){
+      getSubject(id).then(res => {
+        if(res.code === 200){
+          this.subject = res.data
+        }
+      })
+    }
+  }
 };
 </script>
 
@@ -45,6 +57,21 @@ export default {
   .banner {
     height: 270px;
     background: #f5f5f5;
+    position: relative;
+    overflow: hidden;
+    img{
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+    }
+    .title{
+      font-size: 40px;
+      padding: 0 40px;
+      margin-top: 70px;
+      color: #fff
+    }
   }
   .description {
     width: 684px;
