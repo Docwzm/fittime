@@ -20,6 +20,7 @@
 <script>
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
+import {curriculumPage} from '@/api/course.js'
 export default {
   name: "courseList",
   data() {
@@ -32,7 +33,31 @@ export default {
         { key: 3, name: "热身拉伸" },
         { key: 4, name: "日常保健" }
       ],
-      list: [{ id: 0, title: "666666" }, { id: 2, title: "666666" }]
+      list: [
+        {
+          "id": 1,
+          "title": "Andy的课程",
+          "coverImg": "http://img3.a0bi.com/upload/ttq/20141202/1417528541822.jpg",
+          "listImg": "http://baidu.com",
+          "standbyImg": "http://baidu.com",
+          "grade": 1,
+          "classify": "减脂",
+          "price": 100,
+          "heat": 15,
+          "deadline": 60,
+          "contentImg": "http://baidu.com",
+          "calorie": 50,
+          "appliance": "测试",
+          "throng": "测试2",
+          "onlineTime": 1547114950,
+          "offlineTime": 1547114950,
+          "status": 1,
+          "deleted": 0,
+          "label": "减脂,白领",
+          "created": 1547049600000,
+          "updated": 1547114950
+        }
+      ]
     };
   },
   mixins: [mixin],
@@ -56,6 +81,9 @@ export default {
      */
     actionGetCourseListByCate(key) {
       console.log(key);
+      curriculumPage({offset:1,pageSize:20}).then(res => {
+        console.log(res)
+      })
     }
   }
 };

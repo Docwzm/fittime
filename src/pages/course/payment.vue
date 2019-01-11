@@ -8,9 +8,12 @@
       <div class="money">
         <span>￥</span>99.00
       </div>
-      <div class="button">立即支付</div>
-      <div class="tips">我已阅读并同意
-        <a href="#">服务协议</a>
+      <div class="button" @click="handlePayment">立即支付</div>
+      <div class="tips">
+        <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt="">
+        <img v-else src='@/assets/images/icons/ic_multiselect_normal@2x.png'/>
+        <span @click="handleChecked">我已阅读并同意</span>
+        <a href="/#/system-agreement">服务协议</a>
       </div>
       <div class="service-icon" @click="handleServieClick">
         <img src="@/assets/images/icons/service@2x.png">
@@ -21,19 +24,58 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      checked:false
+    };
   },
   methods: {
     handleServieClick() {
       this.$router.push("/system-service");
+    },
+
+    //阅读服务协议
+    handleChecked(){
+      this.checked = !this.checked
+    },
+    //发起支付
+    handlePayment(){
+      const {checked} = this;
+      if(checked){
+
+      }else{
+        this.$vux.toast.text("请先阅读并同意服务协议", "middle");
+      }
+    },
+
+    //通知APP拉起微信支付
+    callWxPay(appData){
+        if (typeof (lxPayDelegate) !== 'undefined') {
+        this.isPaying = true
+        const { appid, nonceStr, partnerid, paySign, prepayid, timestamp, orderId } = appData
+        let appDataPay = {
+            orderId: orderId,
+            partnerId: partnerid,
+            prepayId: prepayid,
+            nonceStr: nonceStr,
+            timeStamp: timestamp,
+            paySign: paySign,
+            callback: 'global_wxpaycallback',
+        }
+        lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay))
+        } else {
+            this.isPaying = false
+            this.showToast("该APP版本不支持微信支付哟")
+        }
     }
+
   }
 };
 </script>
 <style lang="less">
 .payment-wrap {
   height: 100vh;
-  background: #f1f1f1;
+  background:url('../../assets/images/pay_bg@2x.png')top #f1f1f1;
+  background-size: 100%;
   overflow: hidden;
   .pay-info {
     width: 690px;
@@ -83,6 +125,15 @@ export default {
       font-size: 24px;
       color: #b6b6b6;
       margin-top: 36px;
+      display: flex;
+      justify-content: center;
+      img{
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
       a {
         color: #4a90e2;
       }

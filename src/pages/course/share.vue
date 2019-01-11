@@ -6,15 +6,15 @@
     <div class="share-title">本次共训练 17 分钟</div>
     <div class="share-sub-title">恭喜你，完成训练</div>
     <div class="button-wrap">
-      <div class="btn btn-finish">完成</div>
-      <div class="btn btn-share">炫耀一下</div>
+      <div class="btn btn-finish" @click="handleFinish">完成</div>
+      <div class="btn btn-share" @click="handleShare">炫耀一下</div>
     </div>
   </div>
 </template>
 
 <script>
 import mixin from "@/util/mixin";
-import { courseShareBridge } from "@/util/jsBridge";
+import { courseShareBridge,popToRootControllerBridge } from "@/util/jsBridge";
 
 export default {
   name: "courseDetail",
@@ -33,8 +33,12 @@ export default {
         this.callbackShare
       );
     },
+    handleFinish(){
+      popToRootControllerBridge()
+    },
+
     callbackShare(res) {
-      alert(res);
+      console.log('拉起分享成功')
     }
   }
 };

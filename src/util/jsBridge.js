@@ -30,6 +30,16 @@ const courseShareBridge = (params = {}, callback) => {
     }
 }
 
+const popToRootControllerBridge = (callback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("popToRootViewController", (responseData) => {
+            callback && callback(responseData)
+        })
+    } catch (err) {
+        console.error('跳出当前webview失败:', err.message)
+    }
+}
+
 
 /**
  * 标题设置
@@ -108,5 +118,6 @@ export {
     navTitleBridge,
     navigationButtonsBridge,
     shareUrlBridge,
-    getNetworkState
+    getNetworkState,
+    popToRootControllerBridge
 }

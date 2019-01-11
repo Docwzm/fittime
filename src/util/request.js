@@ -33,7 +33,7 @@ service.interceptors.request.use(
         pending.push({ u: config.url + '&' + config.method, f: c });
       });
     }
-    config.url += `?appType=${1}&accessToken=qwert&requestId=${uuid.v1()}`
+    config.url += `?appType=${1}&requestId=${uuid.v1()}`
     return config
   },
   error => {
