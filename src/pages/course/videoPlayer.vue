@@ -44,7 +44,7 @@
 <script>
 import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog } from "vux";
-import { getCourseDetail, setCourseDone } from "@/api";
+import { getCourseUrl, setCourseDone } from "@/api/detail";
 import {
   LSJavascriptBridgeInit,
   navTitleBridge,
@@ -57,6 +57,7 @@ export default {
   name: "videoPlayer",
   data() {
     return {
+      courseKey:'',
       showConfirmTip: false,
       showNetworkTip: false, //显示网络状态提示弹框标识
       isPlayed: false, //是否已经播放过
@@ -72,6 +73,8 @@ export default {
     XDialog
   },
   created() {
+    this.courseKey = this.$route.params.id
+
     let no_network_tip = getLocal("no_network_tip");
     if (no_network_tip) {
       this.no_network = true;
@@ -89,12 +92,10 @@ export default {
         }
       };
 
-      window.webviewCancel = () => {
-        
-      }
+      window.webviewCancel = () => {};
 
       //设置返回监听
-      setBackbuttonCallBack('webviewCancel')
+      setBackbuttonCallBack("webviewCancel");
 
       let title =
         this.$route.meta && this.$route.meta.title
@@ -110,10 +111,10 @@ export default {
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
 
-      this.getCourseDetail();
+      this.getCourseUrl();
     });
 
-    this.getCourseDetail();
+    this.getCourseUrl();
   },
   beforeDestroy() {
     if (this.player) {
@@ -132,45 +133,44 @@ export default {
     cancelPlay() {
       this.showNetworkTip = false;
     },
-    getCourseDetail() {
-      // getCourseDetail({
-      //   courseKey:'course_key_2018_11_08_001'
-      // }).then(res => {
-      //   let data = res.data;
-      let options = {
-        controls: true,
-        // url:data.videoAddress,
-        url:
-          "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
-        type: "hls",
-        preload: "auto",
-        autoplay: false, // 如为 true，则视频将会自动播放
-        poster
-        // stretching:'panscan'
-      };
+    getCourseUrl() {
+      getCourseUrl({
+        courseKey: this.courseKey
+      }).then(res => {
+        let data = res.data;
+        let options = {
+          controls: true,
+          // url:data.videoAddress,
+          url:
+            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          type: "hls",
+          preload: "auto",
+          autoplay: false, // 如为 true，则视频将会自动播放
+          poster
+          // stretching:'panscan'
+        };
 
-      // getNetworkState("networkChange", status => {
-      //   let no_network_tip = getLocal('no_network_tip')
-      //   if(no_network_tip){
-      //     //如果之前已经点击不再提醒 则直接退出webview
-      //     cancelWebview()
-      //     return ;
-      //   }
-      //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-      //   if (this.networkStatus != 1) {
-      //     //非wifi状态
-      //     this.showNetworkTip = true;
+        // getNetworkState("networkChange", status => {
+        //   let no_network_tip = getLocal('no_network_tip')
+        //   if(no_network_tip){
+        //     //如果之前已经点击不再提醒 则直接退出webview
+        //     cancelWebview()
+        //     return ;
+        //   }
+        //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+        //   if (this.networkStatus != 1) {
+        //     //非wifi状态
+        //     this.showNetworkTip = true;
 
-      //   } else {
-      //     this.player = new QiniuPlayer("my-video", options);
-      //     this.watchPlayer();
-      //   }
-      // });
+        //   } else {
+        //     this.player = new QiniuPlayer("my-video", options);
+        //     this.watchPlayer();
+        //   }
+        // });
 
-      this.player = new QiniuPlayer("my-video", options);
-      this.watchPlayer();
-
-      // })
+        this.player = new QiniuPlayer("my-video", options);
+        this.watchPlayer();
+      });
     },
     //监听视频player 事件
     watchPlayer() {
@@ -187,7 +187,7 @@ export default {
         this.player.on("play", () => {
           if (!this.no_network) {
             //需要网络验证
-            if (!this.playerOnFlag&&this.networkStatus != 1) {
+            if (!this.playerOnFlag && this.networkStatus != 1) {
               this.player.pause();
               this.showNetworkTip = true;
             }

@@ -69,4 +69,20 @@ export function finishCourse({curriculumId,drillId}){
 }
 
 
+/**
+ * 获取视频地址
+ * @export
+ * @param {*} {courseKey:视频key}
+ * @returns
+ */
+export function getCourseUrl({courseKey}){
+    return request({
+        url: '/opencourse_service/course/play_address',
+        method: 'post',
+        data:{
+            courseKey
+        }
+    })
+}
+
 
