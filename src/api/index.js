@@ -11,19 +11,6 @@ export function setCourseDone({courseKey}) {
     })
 }
 
-
-export function getCourse(){
-    return request({
-        url: '/opencourse_service/fitness/curriculum_page',
-        method: 'post',
-        data:{
-            "classify":"减脂",
-            "offset":0,
-            "pageSize":10
-        }
-    })
-}
-
 //获取课程详情
 export function getCourseDetail({curriculumId}){
     return request({

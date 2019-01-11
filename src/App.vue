@@ -65,9 +65,22 @@ export default {
 .video-js.no-play .vjs-play-control{
   display: none;
 }
-// .vux-1px-b:after{
-//   border-bottom:1PX solid #F0F0F0
-// }
+.vux-1px-b:after{
+  border-bottom:1PX solid #F0F0F0
+}
+
+
+
+
+.weui-dialog{
+  width:560px!important;
+  box-sizing: border-box;
+}
+
+// 194/750 280/1080
+
+
+
 </style>
 
 

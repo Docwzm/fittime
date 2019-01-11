@@ -12,33 +12,59 @@
     <div class="detail-wrap">
       <img src="../../assets/images/poster.png">
     </div>
-    <x-dialog v-model="showNetworkTip" hide-on-blur>
+    <x-dialog class="netwrokDialog" v-model="showNetworkTip">
       <div>
-        ttile
+        <div class="title">
+          当前非Wi-Fi环境，是否继续播放
+        </div>
+        <div class="btn-wrap">
+          <span @click="play">继续播放</span>
+          <span @click="play(1)">继续播放，下次不再提醒</span>
+          <span @click="cancelPlay">取消</span>
+        </div>
+        <!-- <p class="title">不再坚持一下吗?</p>
+        <div>
+          <span>退出训练</span>
+          <span>继续训练</span>
+        </div> -->
+      </div>
+    </x-dialog>
+    <x-dialog class="confirmDialog" v-model="showConfirmTip">
+      <div>
+        <p class="title">不再坚持一下吗?</p>
+        <div class="btn-wrap">
+          <span>退出训练</span>
+          <span>继续训练</span>
+        </div>
       </div>
     </x-dialog>
   </div>
 </template>
 
 <script>
+import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog } from "vux";
 import { getCourseDetail, setCourseDone } from "@/api";
 import {
   LSJavascriptBridgeInit,
   navTitleBridge,
-  getNetworkState
+  getNetworkState,
+  cancelWebview,
+  setBackbuttonCallBack
 } from "@/util/jsBridge";
 import poster from "@/assets/images/poster.png";
 export default {
   name: "videoPlayer",
   data() {
     return {
+      showConfirmTip: false,
       showNetworkTip: false, //显示网络状态提示弹框标识
       isPlayed: false, //是否已经播放过
       player: null, //播放器实例
       playFlag: false,
       free: true, //是否为非试看
       duration: 2, //试看时长
+      no_network: false,
       networkStatus: "" //网络环境状态
     };
   },
@@ -46,20 +72,29 @@ export default {
     XDialog
   },
   created() {
+    let no_network_tip = getLocal("no_network_tip");
+    if (no_network_tip) {
+      this.no_network = true;
+    }
 
     LSJavascriptBridgeInit(() => {
-      if(!this.$route.query.name){
-        window.networkChange = status => {
-          this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-          alert(status);
-        };
-      }else{
-        alert('app暴露对象方法：'+window[this.$route.query.name])
-        window[this.$route.query.name].networkChange = status => {
-          this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-          alert(status);
-        };
+      //监听网络变化
+      window.networkChange = status => {
+        this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+        if (!this.no_network) {
+          //显示网络弹窗
+          if (this.networkStatus != 1) {
+            this.showNetworkTip = true;
+          }
+        }
+      };
+
+      window.webviewCancel = () => {
+        
       }
+
+      //设置返回监听
+      setBackbuttonCallBack('webviewCancel')
 
       let title =
         this.$route.meta && this.$route.meta.title
@@ -74,8 +109,11 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
+
       this.getCourseDetail();
     });
+
+    this.getCourseDetail();
   },
   beforeDestroy() {
     if (this.player) {
@@ -83,6 +121,17 @@ export default {
     }
   },
   methods: {
+    play(type) {
+      this.playerOnFlag = true;
+      this.showNetworkTip = false;
+      this.player.play();
+      if (type == 1) {
+        setLocal("no_network_tip", true);
+      }
+    },
+    cancelPlay() {
+      this.showNetworkTip = false;
+    },
     getCourseDetail() {
       // getCourseDetail({
       //   courseKey:'course_key_2018_11_08_001'
@@ -100,19 +149,26 @@ export default {
         // stretching:'panscan'
       };
 
-      getNetworkState("networkChange", status => {
-        this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-        alert(status);
-        if (this.networkStatus != 1) {
-          //非wifi状态
-        } else {
-          this.player = new QiniuPlayer("my-video", options);
-          this.watchPlayer();
-        }
-      });
+      // getNetworkState("networkChange", status => {
+      //   let no_network_tip = getLocal('no_network_tip')
+      //   if(no_network_tip){
+      //     //如果之前已经点击不再提醒 则直接退出webview
+      //     cancelWebview()
+      //     return ;
+      //   }
+      //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+      //   if (this.networkStatus != 1) {
+      //     //非wifi状态
+      //     this.showNetworkTip = true;
 
-      // this.player = new QiniuPlayer("my-video", options);
-      // this.watchPlayer();
+      //   } else {
+      //     this.player = new QiniuPlayer("my-video", options);
+      //     this.watchPlayer();
+      //   }
+      // });
+
+      this.player = new QiniuPlayer("my-video", options);
+      this.watchPlayer();
 
       // })
     },
@@ -129,18 +185,12 @@ export default {
         // })
 
         this.player.on("play", () => {
-          // if(!this.isPlayed){
-          // this.player.pause();
-          // this.player.play();
-          // this.isPlayed = true;//第一次点击的时候需要触发获取网络状态
-          // getNetworkState(changeStatus => {
-          //   //网络环境改变时候调用
-          //   this.networkStatus = changeStatus;
-          // },status => {
-          //   this.networkStatus = status //0-未联网 1-wifi 2-手机网络
-          // })
-          // }
-          if (!this.free) {
+          if (!this.no_network) {
+            //需要网络验证
+            if (!this.playerOnFlag&&this.networkStatus != 1) {
+              this.player.pause();
+              this.showNetworkTip = true;
+            }
           }
           // if (!this.playFlag) {
           //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
@@ -207,6 +257,45 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.netwrokDialog {
+  .title {
+    padding: 48px 64px !important;
+  }
+  .btn-wrap {
+    display: block !important;
+    span {
+      display: block !important;
+      border-top: 1px solid #b6b6b6;
+      &:first-child {
+        border-top: none;
+      }
+    }
+  }
+}
+.confirmDialog,
+.netwrokDialog {
+  .title {
+    padding: 80px 64px;
+    font-size: 36px;
+    color: rgba(65, 65, 65, 1);
+    line-height: 50px;
+  }
+  .btn-wrap {
+    border-top: 1px solid #b6b6b6;
+    display: flex;
+    span {
+      flex: 1;
+      text-align: center;
+      display: block;
+      height: 100px;
+      line-height: 100px;
+      font-size: 36px;
+      color: #1eabe1;
+      border-right: 1px solid #b6b6b6;
+      border-top: 1px solid #b6b6b6;
+    }
+  }
+}
 .video-wrap {
   height: 422px;
   position: relative;

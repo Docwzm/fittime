@@ -1,39 +1,39 @@
 <template>
-  <div class="detail-wrap">
+  <div class="detail-wrap" v-if="course">
 
     <div class="top-img">
-      <img src="../../assets/images/poster.png" />
+      <img :src="course.coverImg" />
     </div>
 
     <div class="base-info">
-      <p class="title">马甲线塑造课程</p>
+      <p class="title">{{course.title}}</p>
       <div class="line-wrap">
-        <span class="tag">小器械 · 增肌 · 腰部</span>
-        <span class="hot-count">2222</span>
+        <span class="tag">{{ course.label }}</span>
+        <span class="hot-count">{{ course.heat }}</span>
       </div>
     </div>
 
     <div class="tab-bar vux-1px-b">
       <p :class="slectedTab==1?'active':''" @click="slectedTab=1"><span>介绍</span></p>
-      <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程(3)<b>试看</b></span></p>
+      <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{ courseList.length?'('+courseList.length+')':'' }}<b>试看</b></span></p>
     </div>
 
     <div class="content">
       <!-- 介绍 -->
       <div class="intro" v-show="slectedTab==1">
-        <img src="../../assets/images/poster.png"/>
+        <img src="../../assets/images/poster.png" />
       </div>
       <!-- 课程 -->
       <div class="course-list" v-show="slectedTab==2">
         <ul>
-          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((shouldPay&&!isBuy&&!item.free)?' lock':'')"
+          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((shouldPay&&!isBuy&&!item.trySee)?' lock':'')"
             @click="gotoPlay(item)">
             <p class="mess">
-              <span class="name">{{item.name}}</span>
-              <span class="time" v-if="item.over">{{ item.time }}分钟,已完成训练</span>
-              <span class="time" v-if="!item.over">{{ item.time }}分钟</span>
+              <span class="name">{{item.title}}</span>
+              <span class="time" v-if="item.status==1">{{ item.videoTime }}分钟,已完成训练</span>
+              <span class="time" v-if="item.status!=1">{{ item.videoTime }}分钟</span>
             </p>
-            <p class="btn" v-if="shouldPay&&!isBuy&&item.free">免费试看</p>
+            <p class="btn" v-if="shouldPay&&!isBuy&&item.trySee">免费试看</p>
           </li>
         </ul>
       </div>
@@ -46,7 +46,7 @@
 
     <div class="repay-tip" v-if="shouldPay&&isBuy">
       <p class="title">课程已购买</p>
-      <p class="endtime">有效期至2019年11月30日</p>
+      <p class="endtime">有效期至{{course.deadline}}</p>
       <div @click="gotoPay" class="repay-btn">>>前往续费</div>
     </div>
 
@@ -55,7 +55,7 @@
         <div @click="gotoService" class="concat"><span>客服</span></div>
         <div @click="gotoPay" class="buy-btn">
           <span>购买课程</span>
-          <b>(￥9.99)</b>
+          <b>(￥{{course.price}})</b>
         </div>
       </div>
 
@@ -73,52 +73,48 @@
 </template>
 
 <script>
-import { Actionsheet } from "vux";//底部弹出框组件
+import { Actionsheet } from "vux"; //底部弹出框组件
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
   shareUrlBridge,
   navTitleBridge
 } from "@/util/jsBridge";
-import { getCourseDetail,getCourse } from '@/api'
+import { getCourseDetail, joinCourse, delCourse } from "@/api/detail";
+
+import {dateFormat} from '@/util/tool'
 
 export default {
   name: "courseDetail",
   data() {
     return {
-      isShare:false,//是否为分享页面
-      courseId:'',//课程ID
+      isShare: false, //是否为分享页面
+      courseId: "", //课程ID
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
       shouldPay: true, //是否为付费课程
-      isAdd: true, //是否为已添加课程
-      isBuy: true, //是否已购买了
+      isAdd: false, //是否为已添加课程
+      isBuy: false, //是否已购买了
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
-      course:null,
-      courseList: [
-        {
-          name: "训练1",
-          time: 12,
-          over: true,
-          free: true
-        },
-        {
-          name: "训练2",
-          time: 12
-        }
-      ]
+      course: null,
+      courseList: []
     };
   },
   components: {
     Actionsheet
   },
   created() {
-    this.isShare = this.$route.query.isShare?this.$route.query.isShare:false;
-    
+    this.isShare = this.$route.query.isShare
+      ? this.$route.query.isShare
+      : false;
+
     LSJavascriptBridgeInit(() => {
-      let title = this.$route.meta && this.$route.meta.title?this.$route.meta.title:'';
+      let title =
+        this.$route.meta && this.$route.meta.title
+          ? this.$route.meta.title
+          : "";
       navTitleBridge({
         title,
         autoResetToDefaultConfigWhtenOpenLink: true,
@@ -131,46 +127,56 @@ export default {
       this.setNavigationBarButtons();
     });
 
-    // this.getCourseDetail()
-    getCourse().then(res => {
-      // alert(res)
-    })
+    this.getCourseDetail();
   },
   methods: {
     //获取视频详情
-    getCourseDetail(){
+    getCourseDetail() {
       getCourseDetail({
-        curriculumId
+        curriculumId: 1
       }).then(res => {
-        this.course = res.data;
-      })
+        let data = res.data;
+        this.courseList = data.drillDtoList;
+        let label = data.label.split(",").join(" . ");
+        let deadline = dateFormat(data.deadline,'YYYY年MM月DD日')
+        this.course = {
+          id:data.id,
+          title: data.title,
+          price: data.price,
+          deadline,
+          label,
+          heat:data.heat,
+          coverImg:data.coverImg,
+          userCurriculumDto:data.userCurriculumDto
+        };
+      });
     },
-    gotoService(){
-      if(this.isShare){
-        return 
+    gotoService() {
+      if (this.isShare) {
+        return;
       }
-      this.$router.push('/system-service')
+      this.$router.push("/system-service");
     },
-    gotoPay(){
-      if(this.isShare){
-        return ;
+    gotoPay() {
+      if (this.isShare) {
+        return;
       }
-      this.$router.push('/course-payment')
+      this.$router.push("/course-payment");
     },
     //前往视频播放页面
     gotoPlay(data) {
-      if(this.isShare){
-        return ;
+      if (this.isShare) {
+        return;
       }
       if (this.shouldPay) {
         //付费视频 判断以下情况  购买  未购买：1、可试看 2、不可试看
         if (this.isBuy) {
           //已经购买了的
-          this.$router.push("/video-player");
+          this.$router.push("/video-player/"+data.videoKey);
         } else {
-          if (data.free) {
+          if (data.trySee) {
             //试看
-            this.$router.push("/video-player");
+            this.$router.push("/video-player/"+data.videoKey);
           } else {
             //不可试看
             this.$vux.toast.text("请购买课程后再查看内容", "middle");
@@ -178,19 +184,28 @@ export default {
         }
       } else {
         // 免费视频
-        this.$router.push("/video-player");
+        this.$router.push("/video-player/"+data.videoKey);
       }
     },
     //加入课程
     joinCourse() {
-      this.isAdd = true;
-      this.setNavigationBarButtons();//重置顶部导航栏
+      joinCourse({
+        curriculumId:this.course.id,
+        deadline:this.course.deadline
+      }).then(res => {
+        this.isAdd = true;
+        this.setNavigationBarButtons(); //重置顶部导航栏
+      })
     },
     //删除已加入课程
     menuClick(key, item) {
       if (key == "delMenu") {
-        this.isAdd = false;
-        this.setNavigationBarButtons();//重置顶部导航栏
+        delCourse({
+          curriculumId:this.course.id
+        }).then(res => {
+          this.isAdd = false;
+          this.setNavigationBarButtons(); //重置顶部导航栏
+        })
       }
     },
     // 调用app方法设置顶部导航栏
@@ -207,7 +222,7 @@ export default {
               "/static/images/ic_more_black@3x.png",
             buttonId: "moreBtn", // 按钮唯一Id
             callbackHandlerName: "showMenuCall", // 事件回调函数名
-            callback: this.showNavigationMenu//按钮的点击事件
+            callback: this.showNavigationMenu //按钮的点击事件
           }
         ];
       }
@@ -235,7 +250,8 @@ export default {
       shareUrlBridge({
         title: "课程详情",
         url: location.origin + "/fittime/#/course-detail?isShare=true",
-        imgUrl: "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
+        imgUrl:
+          "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
         desc: "课程详情描述"
       });
     }
