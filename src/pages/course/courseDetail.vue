@@ -80,7 +80,7 @@ import {
   shareUrlBridge,
   navTitleBridge
 } from "@/util/jsBridge";
-import { getCourseDetail } from '@/api'
+import { getCourseDetail,getCourse } from '@/api'
 
 export default {
   name: "courseDetail",
@@ -132,12 +132,15 @@ export default {
     });
 
     // this.getCourseDetail()
+    getCourse().then(res => {
+      // alert(res)
+    })
   },
   methods: {
     //获取视频详情
     getCourseDetail(){
       getCourseDetail({
-        courseId
+        curriculumId
       }).then(res => {
         this.course = res.data;
       })

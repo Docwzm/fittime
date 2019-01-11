@@ -46,12 +46,21 @@ export default {
     XDialog
   },
   created() {
-    window.networkChange = status => {
-      this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-      alert(status);
-    };
 
     LSJavascriptBridgeInit(() => {
+      if(!this.$route.query.name){
+        window.networkChange = status => {
+          this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+          alert(status);
+        };
+      }else{
+        alert('app暴露对象方法：'+window[this.$route.query.name])
+        window[this.$route.query.name].networkChange = status => {
+          this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+          alert(status);
+        };
+      }
+
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title

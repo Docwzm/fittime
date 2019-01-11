@@ -12,13 +12,25 @@ export function setCourseDone({courseKey}) {
 }
 
 
-//获取课程详情
-export function getCourseDetail({courseId}){
+export function getCourse(){
     return request({
-        url: '/opencourse_service/course/play_address',
+        url: '/opencourse_service/fitness/curriculum_page',
         method: 'post',
         data:{
-            courseId,
+            "classify":"减脂",
+            "offset":0,
+            "pageSize":10
+        }
+    })
+}
+
+//获取课程详情
+export function getCourseDetail({curriculumId}){
+    return request({
+        url: '/opencourse_service/fitness/get_curriculum_info',
+        method: 'get',
+        data:{
+            curriculumId,
         }
     })
 }

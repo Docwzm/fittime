@@ -18,6 +18,7 @@ let removePending = (config) => {
 const service = axios.create({
   baseURL: staticHostApiHost(), // api 的 base_url
   // timeout: 5000 // request timeout
+  withCredentials:true,
   params: {}
 })
 
@@ -32,7 +33,7 @@ service.interceptors.request.use(
         pending.push({ u: config.url + '&' + config.method, f: c });
       });
     }
-    config.url += `?appType=${6}&version=${getAppVersionFromUserAgent() || "3.6.5"}&systemType=${1}&requestId=${uuid.v1()}`
+    config.url += `?appType=${1}&accessToken=qwert&requestId=${uuid.v1()}`
     return config
   },
   error => {
