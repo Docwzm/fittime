@@ -44,7 +44,12 @@
 <script>
 import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog } from "vux";
-import { getCourseUrl, setCourseDone } from "@/api/detail";
+import {
+  getCourseUrl,
+  finishCourse,
+  getVideoDetail,
+  updateVideoTime
+} from "@/api/detail";
 import {
   LSJavascriptBridgeInit,
   navTitleBridge,
@@ -57,7 +62,9 @@ export default {
   name: "videoPlayer",
   data() {
     return {
-      courseKey:'',
+      courseId:'',//课程ID
+      drillId:'',//视频ID
+      videoKey: "",//视频key
       showConfirmTip: false,
       showNetworkTip: false, //显示网络状态提示弹框标识
       isPlayed: false, //是否已经播放过
@@ -73,7 +80,8 @@ export default {
     XDialog
   },
   created() {
-    this.courseKey = this.$route.params.id
+    this.videoKey = this.$route.params.key;
+    this.drillId = this.$route.query.id;
 
     let no_network_tip = getLocal("no_network_tip");
     if (no_network_tip) {
@@ -112,9 +120,11 @@ export default {
       });
 
       this.getCourseUrl();
+      this.getVideoDetail();
     });
 
     this.getCourseUrl();
+    this.getVideoDetail();
   },
   beforeDestroy() {
     if (this.player) {
@@ -133,9 +143,16 @@ export default {
     cancelPlay() {
       this.showNetworkTip = false;
     },
+    getVideoDetail(){
+      getVideoDetail({
+        drillId:this.drillId
+      }).then(res => {
+
+      })
+    },
     getCourseUrl() {
       getCourseUrl({
-        courseKey: this.courseKey
+        courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
         let options = {
@@ -246,8 +263,12 @@ export default {
           }
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.free && this.player.isEnded()) {
-            this.$router.push("/course-share");
-            // setCourseDone()//将该视频状态置为已完成训练
+            finishCourse({
+              curriculumId:this.courseId,
+              drillId:this.drillId
+            }).then(res => {
+              this.$router.push("/course-share");
+            })//完成训练
           }
         });
       });

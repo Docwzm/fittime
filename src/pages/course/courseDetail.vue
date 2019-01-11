@@ -172,11 +172,11 @@ export default {
         //付费视频 判断以下情况  购买  未购买：1、可试看 2、不可试看
         if (this.isBuy) {
           //已经购买了的
-          this.$router.push("/video-player/"+data.videoKey);
+          this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
         } else {
           if (data.trySee) {
             //试看
-            this.$router.push("/video-player/"+data.videoKey);
+            this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
           } else {
             //不可试看
             this.$vux.toast.text("请购买课程后再查看内容", "middle");
@@ -184,7 +184,7 @@ export default {
         }
       } else {
         // 免费视频
-        this.$router.push("/video-player/"+data.videoKey);
+        this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
       }
     },
     //加入课程

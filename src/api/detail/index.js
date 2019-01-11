@@ -85,4 +85,38 @@ export function getCourseUrl({courseKey}){
     })
 }
 
+/**
+ * 获取视频详情
+ * @export
+ * @param {*} {drillId:视频ID}
+ * @returns
+ */
+export function getVideoDetail({drillId}){
+    return request({
+        url: '/opencourse_service/fitness/get_drill_info',
+        method: 'get',
+        params:{
+            drillId
+        }
+    })
+}
+
+
+
+/**
+ * 更新视频时间
+ * @export
+ * @param {*} {curriculumId:课程ID}
+ * @returns
+ */
+export function updateVideoTime({curriculumId}){
+    return request({
+        url: '/opencourse_service/fitness/start_drill',
+        method: 'get',
+        params:{
+            curriculumId
+        }
+    })
+}
+
 

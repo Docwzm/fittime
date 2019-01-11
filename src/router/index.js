@@ -21,7 +21,7 @@ export default new Router({
         fullScreen:true
       }
     },{
-      path: '/video-player/:id',
+      path: '/video-player/:key',
       name: 'videoPlayer',
       component: videoPlayer,
       meta:{
