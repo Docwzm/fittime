@@ -47,25 +47,25 @@
     <div class="repay-tip" v-if="shouldPay&&isBuy">
       <p class="title">课程已购买</p>
       <p class="endtime">有效期至2019年11月30日</p>
-      <router-link to="/course-payment" class="repay-btn">>>前往续费</router-link>
+      <div @click="gotoPay" class="repay-btn">>>前往续费</div>
     </div>
 
     <div class="footer">
       <div class="buy-wrap" v-if="shouldPay&&!isBuy">
-        <router-link to="/system-service" class="concat"><span>客服</span></router-link>
-        <router-link to="/course-payment" class="buy-btn">
+        <div @click="gotoService" class="concat"><span>客服</span></div>
+        <div @click="gotoPay" class="buy-btn">
           <span>购买课程</span>
           <b>(￥9.99)</b>
-        </router-link>
+        </div>
       </div>
 
       <div class="add-wrap" v-else-if="!isAdd" @click="joinCourse">
         加入课程
       </div>
 
-      <router-link to="/video-player" class="play-wrap" v-else="isAdd">
+      <div @click="gotoPlay" class="play-wrap" v-else="isAdd">
         开始训练
-      </router-link>
+      </div>
     </div>
 
     <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
@@ -80,12 +80,13 @@ import {
   shareUrlBridge,
   navTitleBridge
 } from "@/util/jsBridge";
-import { getCourseDetail } from '@/api'
+import { getCourseDetail,getCourse } from '@/api'
 
 export default {
   name: "courseDetail",
   data() {
     return {
+      isShare:false,//是否为分享页面
       courseId:'',//课程ID
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
@@ -114,6 +115,8 @@ export default {
     Actionsheet
   },
   created() {
+    this.isShare = this.$route.query.isShare?this.$route.query.isShare:false;
+    
     LSJavascriptBridgeInit(() => {
       let title = this.$route.meta && this.$route.meta.title?this.$route.meta.title:'';
       navTitleBridge({
@@ -129,18 +132,36 @@ export default {
     });
 
     // this.getCourseDetail()
+    getCourse().then(res => {
+      // alert(res)
+    })
   },
   methods: {
     //获取视频详情
     getCourseDetail(){
       getCourseDetail({
-        courseId
+        curriculumId
       }).then(res => {
         this.course = res.data;
       })
     },
+    gotoService(){
+      if(this.isShare){
+        return 
+      }
+      this.$router.push('/system-service')
+    },
+    gotoPay(){
+      if(this.isShare){
+        return ;
+      }
+      this.$router.push('/course-payment')
+    },
     //前往视频播放页面
     gotoPlay(data) {
+      if(this.isShare){
+        return ;
+      }
       if (this.shouldPay) {
         //付费视频 判断以下情况  购买  未购买：1、可试看 2、不可试看
         if (this.isBuy) {
@@ -213,7 +234,7 @@ export default {
       // _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
       shareUrlBridge({
         title: "课程详情",
-        url: location.origin + "/fittime/#/course-detail",
+        url: location.origin + "/fittime/#/course-detail?isShare=true",
         imgUrl: "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
         desc: "课程详情描述"
       });
