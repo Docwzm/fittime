@@ -131,7 +131,7 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
-      this.setNavigationBarButtons();
+      // this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -153,11 +153,12 @@ export default {
           }
         });
 
-        let finishIdArr = [];
-        if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
-          finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
-        }
+        
         let nextPlayIndex = data.userCurriculumDto&&data.userCurriculumDto.doneNum?data.userCurriculumDto.doneNum:0;
+        // let finishIdArr = [];
+        // if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
+        //   finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
+        // }
         // this.courseList.map((item, index) => {
         //   if (finishIdArr.findIndex(id => item.id == id) >= 0) {
         //     item.over = true;
@@ -175,10 +176,10 @@ export default {
         let label = data.label.split(",").join(" . ");
         let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
-        this.isAdd =
-          data.userCurriculumDto && data.userCurriculumDto.plan == 1
-            ? true
-            : false;
+        this.isAdd = true
+          // data.userCurriculumDto && data.userCurriculumDto.plan == 1
+          //   ? true
+          //   : false;
         this.course = {
           isexpire:data.isexpire,
           type: data.type, //0-免费 1-购买
