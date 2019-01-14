@@ -133,9 +133,10 @@ export default {
         this.isPaying = true;
         const { appid, nonceStr, partnerid, paySign, prepayid, timestamp, orderId } = appData
         let appDataPay = {
-            orderId: orderId,
             partnerId: partnerid,
+            orderId: orderId,
             prepayId: prepayid,
+            signType: "Sign=WXPay",
             nonceStr: nonceStr,
             timeStamp: timestamp,
             paySign: paySign,
