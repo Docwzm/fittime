@@ -30,6 +30,10 @@ const courseShareBridge = (params = {}, callback) => {
     }
 }
 
+/**
+ * 回到根控制器，销毁webview
+ * @param {*} callback 
+ */
 const popToRootControllerBridge = (callback) => {
     try {
         window.LSJavascriptBridge.callHandler("popToRootViewController", (responseData) => {
@@ -42,7 +46,7 @@ const popToRootControllerBridge = (callback) => {
 
 
 /**
- * 标题设置
+ * 配置导航栏
  * @param {*} params 
  * @param {*} callback 
  */
@@ -52,9 +56,11 @@ const navTitleBridge = (params = {}, callback) => {
             callback && callback(responseData)
         })
     } catch (err) {
-        console.error('标题设置失败:', err.message)
+        console.error('配置导航栏失败:', err.message)
     }
 }
+
+
 /**
  * 导航栏按钮设置
  * @param {*} buttons 
@@ -66,12 +72,12 @@ const navigationButtonsBridge = (buttons = [], callback) => {
         for (let x in buttons) {
             if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
                 ButtonCallBackArr.push(buttons[x].callbackHandlerName);
+                //注册按钮的点击回调
                 window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
                     buttons[x].callback && buttons[x].callback(buttonId)
                 });
             }
         }
-        
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)
         })
@@ -149,9 +155,9 @@ const cancelWebview = (resCallback) => {
  * @param {Function} callbackName 传给app调用的方法 监听返回事件
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const setBackbuttonCallBack = (callbackName,resCallback) => {
-    try{
-        window.LSJavascriptBridge.callHandler("setBackbuttonCallBack" , callbackName,  (responseData) => {
+const setBackbuttonCallBack = (callbackName, resCallback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("setBackbuttonCallBack", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {

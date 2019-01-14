@@ -173,6 +173,7 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
+        this.poster = data.poster;
         let options = {
           controls: true,
           url:data.videoAddress,

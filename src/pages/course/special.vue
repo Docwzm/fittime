@@ -37,6 +37,7 @@ export default {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
   },
+  
   methods: {
     handleToCourseList() {
       this.$router.push("/course-list");
@@ -47,7 +48,8 @@ export default {
           this.subject = res.data;
         }
       });
-    }
+    },
+
   }
 };
 </script>
