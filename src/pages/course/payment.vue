@@ -140,15 +140,8 @@ export default {
           timestamp,
           orderId
         } = appData;
-        let appDataPay = {
-          orderId: orderId,
-          partnerId: partnerid,
-          prepayId: prepayid,
-          nonceStr: nonceStr,
-          timeStamp: timestamp,
-          paySign: paySign,
-          callback: "global_wxpaycallback"
-        };
+        let appDataPay = { ...data, callback: "global_wxpaycallback" };
+
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
@@ -168,7 +161,6 @@ export default {
       //设置导航栏按钮
       navigationButtonsBridge(buttons);
     }
-    
   }
 };
 </script>
