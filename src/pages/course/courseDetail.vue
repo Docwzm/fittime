@@ -115,7 +115,7 @@ export default {
   components: {
     Actionsheet
   },
-  mounted() {
+  created() {
     this.count = 0;
     LSJavascriptBridgeInit(() => {
       this.from = "app";
