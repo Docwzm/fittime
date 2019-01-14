@@ -36,6 +36,8 @@ export default {
   created() {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
+  },
+  mounted() {
     this.registeNavButton()
   },
   methods: {
