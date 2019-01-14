@@ -176,7 +176,7 @@ export default {
         this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
 
         let label = data.label.split(",").join(" . ");
-        let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
+        let deadline = dateFormat(data.deadline*1000, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
         this.isAdd = true;
         // data.userCurriculumDto && data.userCurriculumDto.plan == 1
