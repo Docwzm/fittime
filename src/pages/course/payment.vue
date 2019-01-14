@@ -131,25 +131,16 @@ export default {
     callWxPay(appData) {
       if (typeof lxPayDelegate !== "undefined") {
         this.isPaying = true;
-        const {
-          appid,
-          nonceStr,
-          partnerid,
-          paySign,
-          prepayid,
-          timestamp,
-          orderId
-        } = appData;
+        const { appid, nonceStr, partnerid, paySign, prepayid, timestamp, orderId } = appData
         let appDataPay = {
-          appId:appid,
-          orderId: orderId,
-          partnerId: partnerid,
-          prepayId: prepayid,
-          nonceStr: nonceStr,
-          timeStamp: timestamp,
-          paySign: paySign,
-          callback: "global_wxpaycallback"
-        };
+            orderId: orderId,
+            partnerId: partnerid,
+            prepayId: prepayid,
+            nonceStr: nonceStr,
+            timeStamp: timestamp,
+            paySign: paySign,
+            callback: 'global_wxpaycallback',
+        }
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
