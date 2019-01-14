@@ -62,15 +62,15 @@ const navTitleBridge = (params = {}, callback) => {
  */
 const navigationButtonsBridge = (buttons = [], callback) => {
     try {
-        // let ButtonCallBackArr = [];
-        // for (let x in buttons) {
-        //     if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
-        //         ButtonCallBackArr.push(buttons[x].callbackHandlerName);
-        //         window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
-        //             buttons[x].callback && buttons[x].callback(buttonId)
-        //         });
-        //     }
-        // }
+        let ButtonCallBackArr = [];
+        for (let x in buttons) {
+            if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
+                ButtonCallBackArr.push(buttons[x].callbackHandlerName);
+                window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
+                    buttons[x].callback && buttons[x].callback(buttonId)
+                });
+            }
+        }
         
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)

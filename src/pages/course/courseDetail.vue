@@ -176,12 +176,12 @@ export default {
         this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
 
         let label = data.label.split(",").join(" . ");
-        let deadline = dateFormat(data.deadline*1000, "YYYY年MM月DD日");
+        let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
-        this.isAdd = true;
-        // data.userCurriculumDto && data.userCurriculumDto.plan == 1
-        //   ? true
-        //   : false;
+        this.isAdd =
+          data.userCurriculumDto && data.userCurriculumDto.plan == 1
+            ? true
+            : false;
         this.course = {
           isexpire: data.isexpire,
           type: data.type, //0-免费 1-购买
@@ -288,7 +288,7 @@ export default {
               "/fittime/static/images/ic_more_black@3x.png",
             buttonId: "moreBtn", // 按钮唯一Id
             callbackHandlerName: "showMenuCall", // 事件回调函数名
-            // callback: this.showNavigationMenu //按钮的点击事件
+            callback: this.showNavigationMenu //按钮的点击事件
           }
         ];
       }
@@ -301,7 +301,7 @@ export default {
           "/fittime/static/images/ic_share@3x.png",
         buttonId: "shareBtn", // 按钮唯一Id
         callbackHandlerName: "shareCall", // 事件回调函数名
-        // callback: this.shareApp
+        callback: this.shareApp
       });
 
       navigationButtonsBridge(buttons);
