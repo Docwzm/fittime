@@ -21,7 +21,7 @@
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { getSubject } from "@/api/course";
-import {navigationButtonsBridge,registerCallbackHandler} from '@/util/jsBridge'
+import {LSJavascriptBridgeInit,navigationButtonsBridge,registerCallbackHandler} from '@/util/jsBridge'
 export default {
   name: "courseSpecial",
   data() {
@@ -38,9 +38,9 @@ export default {
     this.actionGetSubject(id);
   },
   mounted() {
-    setTimeout(()=>{
+    LSJavascriptBridgeInit(()=>{
       this.registeNavButton()
-    },500)
+    })
   },
   methods: {
     handleToCourseList() {
