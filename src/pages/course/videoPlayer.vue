@@ -4,8 +4,12 @@
       <video muted id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
         x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
         x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
+        <div class="poster-wrap" v-if="posterFlag">
+          <img :src="poster">
+          <span @click="play(0)"></span>
+        </div>
     </div>
-    <div class="intro vux-1px-b">
+    <div class="intro vux-1px-b" @click="play">
       <p class="title">{{ title }}</p>
       <span>第{{sortIndex}}次训练</span>
     </div>
@@ -57,6 +61,9 @@ export default {
   name: "videoPlayer",
   data() {
     return {
+      poster,
+      posterFlag:true,
+      sortIndex:'',
       curriculumId:'',//课程ID
       drillId:'',//视频ID
       videoKey: "",//视频key
@@ -95,12 +102,9 @@ export default {
           }
         }
       };
-
       window.webviewCancel = () => {};
-
       //设置返回监听
       setBackbuttonCallBack("webviewCancel");
-
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title
@@ -114,7 +118,6 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-
       this.getCourseUrl();
       this.getVideoDetail();
     });
@@ -128,11 +131,26 @@ export default {
   },
   methods: {
     play(type) {
-      this.playerOnFlag = true;
-      this.showNetworkTip = false;
-      this.player.play();
-      if (type == 1) {
-        setLocal("no_network_tip", true);
+      if(type==0){
+        this.posterFlag = false;
+        if (!this.no_network) {
+          //需要网络验证
+          if (!this.playerOnFlag && this.networkStatus != 1) {
+            // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+            // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+            // this.player.pause(); //暂停播放
+            this.showNetworkTip = true;
+          }else{
+            this.player.play();
+          }
+        }
+      }else{
+        this.playerOnFlag = true;
+        this.showNetworkTip = false;
+        this.player.play();
+        if (type == 1) {
+          setLocal("no_network_tip", true);
+        }
       }
     },
     cancelPlay() {
@@ -143,7 +161,6 @@ export default {
         drillId:this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySeeTime = 2;
         this.trySee = data.trySee;
         this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
@@ -164,7 +181,7 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          poster
+          // poster
           // stretching:'panscan'
         };
 
@@ -203,15 +220,6 @@ export default {
         // })
 
         this.player.on("play", () => {
-          if (!this.no_network) {
-            //需要网络验证
-            if (!this.playerOnFlag && this.networkStatus != 1) {
-              this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-              this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-              this.player.pause(); //暂停播放
-              this.showNetworkTip = true;
-            }
-          }
           // if (!this.playFlag) {
           //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
           // }
@@ -237,6 +245,7 @@ export default {
             Math.round(this.player.currentTime()) >= this.duration
           ) {
             this.player.currentTime(0);
+            this.$vux.toast.text("该视频只能试看5分钟", "middle");
           }
         });
 
@@ -281,6 +290,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../../assets/styles/mixin";
 .netwrokDialog {
   .title {
     padding: 48px 64px !important;
@@ -327,6 +337,29 @@ export default {
   #my-video {
     width: 100%;
     height: 100%;
+  }
+  .poster-wrap{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index:1;
+    span{
+      .bg('icons/play');
+      width:96px;
+      height:96px;
+      display: block;
+      position: absolute;
+      left:50%;
+      top:50%;
+      transform: translate(-50%,-50%);
+    }
+    img{
+      width:100%;
+      height:100%;
+      display: block;
+    }
   }
 }
 
