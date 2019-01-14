@@ -44,8 +44,8 @@ export default {
   },
   created() {
     let { classify, page } = this;
-    
-    this.actionGetClassify();
+    let tab = this.$route.query.tab;
+    this.actionGetClassify(tab);
   },
   methods: {
     //切换课程类别
@@ -71,12 +71,17 @@ export default {
     },
 
     //获取课程分类
-    actionGetClassify() {
-      const {page} = this
+    actionGetClassify(tab) {
+      const { page } = this;
       getClassify().then(res => {
         if (res.code === 200) {
+          tab ? (this.currentCate = tab) : (this.currentCate = res.data[0].id);
+          //所有
           this.classify = res.data;
-          this.actionGetCourseListByCate({ offset: page,classify:res.data[0].id });
+          this.actionGetCourseListByCate({
+            offset: page,
+            classify: tab || res.data[0].id
+          });
         }
       });
     },
