@@ -116,7 +116,6 @@ export default {
     Actionsheet
   },
   created() {
-    this.count = 0;
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
@@ -125,17 +124,14 @@ export default {
           : "";
       navTitleBridge({
         title,
-        //autoResetToDefaultConfigWhtenOpenLink: true,
+        // autoResetToDefaultConfigWhtenOpenLink: true,
         tintColorType: 1,
         backButtonType: 1,
         topPadding: 0,
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
-      this.count++;
-      if (this.count == 2) {
-        this.setNavigationBarButtons();
-      }
+      this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -202,10 +198,7 @@ export default {
           imgContent: data.imgConten.split("\n")
         };
 
-        this.count++;
-        if (this.count == 2) {
-          this.setNavigationBarButtons();
-        }
+        this.setNavigationBarButtons();
       });
     },
     //客服
@@ -292,10 +285,10 @@ export default {
               window.location.protocol +
               "//" +
               window.location.host +
-              "/static/images/ic_more_black@3x.png",
+              "/fittime/static/images/ic_more_black@3x.png",
             buttonId: "moreBtn", // 按钮唯一Id
             callbackHandlerName: "showMenuCall", // 事件回调函数名
-            callback: this.showNavigationMenu //按钮的点击事件
+            // callback: this.showNavigationMenu //按钮的点击事件
           }
         ];
       }
@@ -305,10 +298,10 @@ export default {
           window.location.protocol +
           "//" +
           window.location.host +
-          "/static/images/ic_share@3x.png",
+          "/fittime/static/images/ic_share@3x.png",
         buttonId: "shareBtn", // 按钮唯一Id
         callbackHandlerName: "shareCall", // 事件回调函数名
-        callback: this.shareApp
+        // callback: this.shareApp
       });
 
       navigationButtonsBridge(buttons);
