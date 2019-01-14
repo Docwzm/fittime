@@ -118,8 +118,8 @@ export default {
       this.getCourseUrl();
       this.getVideoDetail();
     });
-    this.getCourseUrl();
-    this.getVideoDetail();
+    // this.getCourseUrl();
+    // this.getVideoDetail();
   },
   beforeDestroy() {
     if (this.player) {
