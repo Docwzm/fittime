@@ -121,8 +121,8 @@ export default {
       this.getCourseUrl();
       this.getVideoDetail();
     });
-    // this.getCourseUrl();
-    // this.getVideoDetail();
+    this.getCourseUrl();
+    this.getVideoDetail();
   },
   beforeDestroy() {
     if (this.player) {
@@ -141,6 +141,7 @@ export default {
             // this.player.pause(); //暂停播放
             this.showNetworkTip = true;
           }else{
+            this.player.fullscreen(true)
             this.player.play();
           }
         }
@@ -160,12 +161,13 @@ export default {
       getVideoDetail({
         drillId:this.drillId
       }).then(res => {
+        // alert(JSON.stringify(res.data))
         let data = res.data;
         this.trySee = data.trySee;
         this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
         this.title = data.title;
-        this.sortIndex = data.indexes
+        this.sortIndex = data.indexes;
       })
     },
     getCourseUrl() {
@@ -176,9 +178,9 @@ export default {
         this.poster = data.poster;
         let options = {
           controls: true,
-          url:data.videoAddress,
-          // url:
-          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          // url:data.videoAddress,
+          url:
+            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -205,12 +207,13 @@ export default {
         // });
 
         this.player = new QiniuPlayer("my-video", options);
-        this.watchPlayer();
+        // this.watchPlayer();
       });
     },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
+        // this.player.fullscreen(true)
         this.player.aspectRatio("16:9", () => {});
         // this.player.on("loadedmetadata", () => {
         //   this.player.duration(this.duration);
@@ -220,34 +223,38 @@ export default {
         //   this.player.duration(this.duration)
         // })
 
-        this.player.on("play", () => {
-          // if (!this.playFlag) {
-          //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
-          // }
-          // this.playFlag = true;
-        });
+        // this.player.on("play", () => {
+        //   this.player.fullscreen(true)
+        //   // if (!this.playFlag) {
+        //   //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
+        //   // }
+        //   // this.playFlag = true;
+        // });
 
         //进度条拖动的时候
         this.player.on("seeking", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
-          if (
-            this.trySee==1 &&
-            Math.round(this.player.currentTime()) >= this.duration
-          ) {
-            this.player.currentTime(0);
-          }
+          // if(!this.player.isPaused()){
+          //   this.player.pause()
+          // // }
+          // if (
+          //   this.trySee==1 &&
+          //   Math.round(this.player.currentTime()) > this.duration
+          // ) {
+          //   this.player.currentTime(0);
+          // }
         });
 
         //进度条拖动结束时
         this.player.on("seeked", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
-          if (
-            this.trySee==1 &&
-            Math.round(this.player.currentTime()) >= this.duration
-          ) {
-            this.player.currentTime(0);
-            this.$vux.toast.text("该视频只能试看5分钟", "middle");
-          }
+          // if (
+          //   this.trySee==1 &&
+          //   Math.round(this.player.currentTime()) > this.duration
+          // ) {
+          //   this.player.currentTime(0);
+          //   this.$vux.toast.text("该视频只能试看5分钟", "middle");
+          // }
         });
 
         //正在播放
@@ -261,28 +268,29 @@ export default {
             //   this.showNetworkTip = true;
           }
           //试看视频 判断是否超过试看时长
-          if (
-            this.trySee==1 &&
-            Math.round(this.player.currentTime()) > this.duration
-          ) {
-            this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-            this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-            this.player.pause(); //暂停播放
-            this.player.currentTime(0); //设置当前播放时间为0
-            this.$vux.toast.text(
-              "试看结束,更多内容请购买课程后再观看",
-              "middle"
-            );
-          }
+          // if (
+          //   this.trySee==1 &&
+          //   Math.round(this.player.currentTime()) > this.duration
+          // ) {
+          //   // alert(this.duration)
+          //   this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+          //   this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+          //   this.player.pause(); //暂停播放
+          //   this.player.currentTime(0); //设置当前播放时间为0
+          //   this.$vux.toast.text(
+          //     "试看结束,更多内容请购买课程后再观看",
+          //     "middle"
+          //   );
+          // }
           //非试看视屏 视频观看结束后 跳转视频分享页面
-          if (this.trySee!=1 && this.player.isEnded()) {
-            finishCourse({
-              curriculumId:this.curriculumId,
-              drillId:this.drillId
-            }).then(res => {
-              this.$router.push("/course-share");
-            })//完成训练
-          }
+          // if (this.trySee!=1 && this.player.isEnded()) {
+          //   finishCourse({
+          //     curriculumId:this.curriculumId,
+          //     drillId:this.drillId
+          //   }).then(res => {
+          //     this.$router.push("/course-share");
+          //   })//完成训练
+          // }
         });
       });
     }
