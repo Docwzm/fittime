@@ -22,7 +22,7 @@
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
-import {navTitleBridge,LSJavascriptBridgeInit} from '@/util/jsBridge'
+import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
 
 export default {
   name: "courseList",
@@ -40,11 +40,11 @@ export default {
     };
   },
   mounted() {
-    LSJavascriptBridgeInit(()=>{
+    LSJavascriptBridgeInit(() => {
       navTitleBridge({
-        title:"全部课程"
-      })
-    })
+        title: "全部课程"
+      });
+    });
   },
   mixins: [mixin],
   components: {
@@ -59,7 +59,8 @@ export default {
     //切换课程类别
     handleCategoryClick(key) {
       this.currentCate = key;
-      this.actionGetCourseListByCate({offset:1,classify:parseInt(key)});
+      this.list = []
+      this.actionGetCourseListByCate({ offset: 1, classify: parseInt(key) });
     },
     //根据课程类型拉取列表
     actionGetCourseListByCate(data, cb) {
@@ -67,7 +68,7 @@ export default {
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
-            this.list = data.list;
+            this.list = this.list.concat(data.list);
             this.maxPage = data.maxPage;
             this.page += 1;
           }
@@ -116,12 +117,15 @@ export default {
     },
 
     handleTouchBottom() {
-      const { bottomLoading, page, maxPage } = this;
+      const { bottomLoading, page, maxPage, currentCate } = this;
       let self = this;
       if (!bottomLoading && page <= maxPage) {
-        this.actionGetCourseListByCate(1, () => {
-          self.bottomLoading = false;
-        });
+        this.actionGetCourseListByCate(
+          { offset: page + 1, classify: currentCate },
+          () => {
+            self.bottomLoading = false;
+          }
+        );
         this.bottomLoading = true;
       }
     }
@@ -155,6 +159,7 @@ export default {
         line-height: inherit;
         font-size: 26px;
         color: #b6b6b6;
+        overflow: hidden;
         &.current-cate {
           color: #4a90e2;
           position: relative;
