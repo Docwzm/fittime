@@ -30,7 +30,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     config.params['requestId'] = `${uuid.v1().replace(/-/g,'')}`
-    config.params['appType'] = 5
+    config.params['appType'] = 6
     return config
   },
   error => {

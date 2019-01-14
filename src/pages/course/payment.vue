@@ -59,7 +59,7 @@ export default {
           this.actionCreateOrder({
             crriculumId,
             price:orderInfo.price,
-            source:5
+            source:6
           })
         }
       } else {
