@@ -49,6 +49,7 @@ export default {
         }
       });
     },
+    
     registeNavButton(){
       let self = this;
       let button1 = {
