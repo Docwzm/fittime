@@ -22,15 +22,15 @@
     <div class="content">
       <!-- 介绍 -->
       <div class="intro" v-show="slectedTab==1">
-          <p class="title">{{course.contentTitle}}</p>
-          <p class="content" v-html="course.content"></p>
-          <img src="../../assets/images/poster.png" />
-          <div class="img-wrap">
-            <p class="img-title">{{ course.imgContent[0] }}</p>
-            <div v-for="(item,index) in course.imgContent" :key="index">
-              <p class="mess" v-if="index!=0" >{{ item }}</p>
-            </div>
+        <p class="title">{{course.contentTitle}}</p>
+        <p class="content" v-html="course.content"></p>
+        <img src="../../assets/images/poster.png" />
+        <div class="img-wrap">
+          <p class="img-title">{{ course.imgContent[0] }}</p>
+          <div v-for="(item,index) in course.imgContent" :key="index">
+            <p class="mess" v-if="index!=0">{{ item }}</p>
           </div>
+        </div>
       </div>
       <!-- 课程 -->
       <div class="course-list" v-show="slectedTab==2">
@@ -115,7 +115,8 @@ export default {
   components: {
     Actionsheet
   },
-  mounted() {
+  created() {
+    this.count = 0;
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
@@ -131,7 +132,10 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
-      // this.setNavigationBarButtons();
+      this.count++;
+      if (this.count == 2) {
+        this.setNavigationBarButtons();
+      }
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -153,8 +157,10 @@ export default {
           }
         });
 
-        
-        let nextPlayIndex = data.userCurriculumDto&&data.userCurriculumDto.doneNum?data.userCurriculumDto.doneNum:0;
+        let nextPlayIndex =
+          data.userCurriculumDto && data.userCurriculumDto.doneNum
+            ? data.userCurriculumDto.doneNum
+            : 0;
         // let finishIdArr = [];
         // if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
         //   finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
@@ -176,12 +182,12 @@ export default {
         let label = data.label.split(",").join(" . ");
         let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
-        this.isAdd = true
-          // data.userCurriculumDto && data.userCurriculumDto.plan == 1
-          //   ? true
-          //   : false;
+        this.isAdd = true;
+        // data.userCurriculumDto && data.userCurriculumDto.plan == 1
+        //   ? true
+        //   : false;
         this.course = {
-          isexpire:data.isexpire,
+          isexpire: data.isexpire,
           type: data.type, //0-免费 1-购买
           id: data.id,
           title: data.title,
@@ -190,13 +196,16 @@ export default {
           label,
           heat: data.heat,
           coverImg: data.coverImg,
-          contentTitle:data.contentTitle,
-          content:data.content.replace(/\n/g, "<br/>"),
+          contentTitle: data.contentTitle,
+          content: data.content.replace(/\n/g, "<br/>"),
           contentImg: data.contentImg,
-          imgContent:data.imgConten.split('\n')
+          imgContent: data.imgConten.split("\n")
         };
 
-        this.setNavigationBarButtons();
+        this.count++;
+        if (this.count == 2) {
+          this.setNavigationBarButtons();
+        }
       });
     },
     //客服
@@ -421,10 +430,10 @@ export default {
 }
 .content {
   .intro {
-    padding-top:132px;
+    padding-top: 132px;
     position: relative;
     .bg("icons/quotation");
-    background-size:50px 50px;
+    background-size: 50px 50px;
     background-position: center 64px;
     img {
       max-width: 100%;
@@ -436,14 +445,14 @@ export default {
       font-size: 32px;
       color: rgba(65, 65, 65, 1);
       line-height: 50px;
-      margin-bottom:30px;
+      margin-bottom: 30px;
     }
     .content {
       text-align: center;
       font-size: 24px;
       color: rgba(155, 155, 155, 1);
       line-height: 36px;
-      margin-bottom:60px;
+      margin-bottom: 60px;
     }
     .img-wrap {
       position: absolute;
@@ -453,7 +462,7 @@ export default {
       background: rgba(0, 0, 0, 0.6);
       color: rgba(255, 255, 255, 1);
       text-align: center;
-      padding-bottom:32px;
+      padding-bottom: 32px;
       .img-title {
         text-align: center;
         height: 36px;
