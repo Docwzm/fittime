@@ -42,9 +42,7 @@ export default {
   mounted() {
     LSJavascriptBridgeInit(()=>{
       navTitleBridge({
-        title:"全部课程",
-        topPadding: 70,
-        color:{ red: 255, green: 255, blue: 255, alpha: 255 }
+        title:"全部课程"
       })
     })
   },
