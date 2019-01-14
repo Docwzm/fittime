@@ -51,7 +51,7 @@ export default {
     //切换课程类别
     handleCategoryClick(key) {
       this.currentCate = key;
-      this.actionGetCourseListByCate(key);
+      this.actionGetCourseListByCate({offset:1,classify:parseInt(key)});
     },
     //根据课程类型拉取列表
     actionGetCourseListByCate(data, cb) {

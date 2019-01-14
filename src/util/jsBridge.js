@@ -62,16 +62,16 @@ const navTitleBridge = (params = {}, callback) => {
  */
 const navigationButtonsBridge = (buttons = [], callback) => {
     try {
-        // let ButtonCallBackArr = [];
-        // for (let x in buttons) {
-        //     if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
-        //         ButtonCallBackArr.push(buttons[x].callbackHandlerName);
-        //         window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
-        //             buttons[x].callback && buttons[x].callback(buttonId)
-        //         });
-        //     }
-        // }
-        
+        let ButtonCallBackArr = [];
+        for (let x in buttons) {
+            if (ButtonCallBackArr.findIndex(item => item == buttons[x].callbackHandlerName) < 0) {
+                ButtonCallBackArr.push(buttons[x].callbackHandlerName);
+                //注册按钮的点击回调
+                window.LSJavascriptBridge.registerHandler(buttons[x].callbackHandlerName, (buttonId, responseCallback) => {
+                    buttons[x].callback && buttons[x].callback(buttonId)
+                });
+            }
+        }
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)
         })
@@ -149,9 +149,9 @@ const cancelWebview = (resCallback) => {
  * @param {Function} callbackName 传给app调用的方法 监听返回事件
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const setBackbuttonCallBack = (callbackName,resCallback) => {
-    try{
-        window.LSJavascriptBridge.callHandler("setBackbuttonCallBack" , callbackName,  (responseData) => {
+const setBackbuttonCallBack = (callbackName, resCallback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("setBackbuttonCallBack", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {

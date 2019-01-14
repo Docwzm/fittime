@@ -21,7 +21,7 @@
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { getSubject } from "@/api/course";
-import {LSJavascriptBridgeInit,navigationButtonsBridge,registerCallbackHandler} from '@/util/jsBridge'
+
 export default {
   name: "courseSpecial",
   data() {
@@ -37,11 +37,7 @@ export default {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
   },
-  mounted() {
-    LSJavascriptBridgeInit(()=>{
-      this.registeNavButton()
-    })
-  },
+  
   methods: {
     handleToCourseList() {
       this.$router.push("/course-list");
@@ -54,24 +50,6 @@ export default {
       });
     },
 
-    registeNavButton(){
-      let self = this;
-      let button1 = {
-          title: '服务协议', // 按钮title
-          buttonId: 'btnOrderList', // 按钮唯一Id
-          callbackHandlerName: 'ButtonCallBack', // 事件回调函数名
-      }
-      let buttons = new Array(button1)
-      //设置导航栏按钮
-      navigationButtonsBridge(buttons,(res)=>{
-         this.$vux.toast.text(JSON.stringify(res), "middle");
-         //注册回调函数
-        registerCallbackHandler('ButtonCallBack',(buttonId)=>{
-          self.$router.push('/system-agreement')
-        })
-      })
-      
-    }
   }
 };
 </script>
