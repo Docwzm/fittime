@@ -37,8 +37,10 @@ export default {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
   },
-  updated() {
-    this.registeNavButton()
+  mounted() {
+    setTimeout(()=>{
+      this.registeNavButton()
+    },500)
   },
   methods: {
     handleToCourseList() {
