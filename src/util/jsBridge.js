@@ -30,6 +30,10 @@ const courseShareBridge = (params = {}, callback) => {
     }
 }
 
+/**
+ * 回到根控制器，销毁webview
+ * @param {*} callback 
+ */
 const popToRootControllerBridge = (callback) => {
     try {
         window.LSJavascriptBridge.callHandler("popToRootViewController", (responseData) => {
@@ -42,7 +46,7 @@ const popToRootControllerBridge = (callback) => {
 
 
 /**
- * 标题设置
+ * 配置导航栏
  * @param {*} params 
  * @param {*} callback 
  */
@@ -52,9 +56,11 @@ const navTitleBridge = (params = {}, callback) => {
             callback && callback(responseData)
         })
     } catch (err) {
-        console.error('标题设置失败:', err.message)
+        console.error('配置导航栏失败:', err.message)
     }
 }
+
+
 /**
  * 导航栏按钮设置
  * @param {*} buttons 

@@ -22,6 +22,8 @@
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
+import {navTitleBridge,LSJavascriptBridgeInit} from '@/util/jsBridge'
+
 export default {
   name: "courseList",
   data() {
@@ -37,7 +39,13 @@ export default {
       maxPage: 1
     };
   },
-  mounted() {},
+  mounted() {
+    LSJavascriptBridgeInit(()=>{
+      navTitleBridge({
+        title:"全部课程"
+      })
+    })
+  },
   mixins: [mixin],
   components: {
     "list-item": ListItem
