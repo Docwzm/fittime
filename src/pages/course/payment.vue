@@ -157,7 +157,7 @@ export default {
 <style lang="less">
 .payment-wrap {
   height: 100vh;
-  background: url("../../assets/images/pay_bg@2x.png") top #f1f1f1;
+  background: url("../../assets/images/pay_bg@2x.jpg") top #f1f1f1;
   background-size: 100%;
   overflow: hidden;
   .pay-info {
