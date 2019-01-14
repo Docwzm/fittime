@@ -132,7 +132,7 @@ export default {
       if (typeof lxPayDelegate !== "undefined") {
         this.isPaying = true;
         const {
-          appid,
+          appId,
           nonceStr,
           partnerid,
           paySign,
