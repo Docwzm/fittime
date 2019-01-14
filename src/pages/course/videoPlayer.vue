@@ -122,8 +122,8 @@ export default {
       this.getCourseUrl();
       this.getVideoDetail();
     });
-    this.getCourseUrl();
-    this.getVideoDetail();
+    // this.getCourseUrl();
+    // this.getVideoDetail();
   },
   beforeDestroy() {
     if (this.player) {
@@ -221,7 +221,6 @@ export default {
         // })
 
         this.player.on("play", () => {
-          
           // if (!this.playFlag) {
           //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
           // }
