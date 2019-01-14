@@ -4,10 +4,10 @@
       <video muted id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
         x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
         x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
-        <div class="poster-wrap" v-if="posterFlag">
+        <!-- <div class="poster-wrap" v-if="posterFlag">
           <img :src="poster">
           <span @click="play(0)"></span>
-        </div>
+        </div> -->
     </div>
     <div class="intro vux-1px-b" @click="play">
       <p class="title">{{ title }}</p>
@@ -121,8 +121,8 @@ export default {
       this.getCourseUrl();
       this.getVideoDetail();
     });
-    this.getCourseUrl();
-    this.getVideoDetail();
+    // this.getCourseUrl();
+    // this.getVideoDetail();
   },
   beforeDestroy() {
     if (this.player) {
@@ -141,7 +141,7 @@ export default {
             // this.player.pause(); //暂停播放
             this.showNetworkTip = true;
           }else{
-            this.player.fullscreen(true)
+            // this.player.fullscreen(true)
             this.player.play();
           }
         }
@@ -161,7 +161,6 @@ export default {
       getVideoDetail({
         drillId:this.drillId
       }).then(res => {
-        // alert(JSON.stringify(res.data))
         let data = res.data;
         this.trySee = data.trySee;
         this.curriculumId = data.curriculumId;
@@ -175,7 +174,7 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
-        this.poster = data.poster;
+        // this.poster = data.poster;
         let options = {
           controls: true,
           // url:data.videoAddress,
@@ -187,27 +186,8 @@ export default {
           // poster
           // stretching:'panscan'
         };
-
-        // getNetworkState("networkChange", status => {
-        //   let no_network_tip = getLocal('no_network_tip')
-        //   if(no_network_tip){
-        //     //如果之前已经点击不再提醒 则直接退出webview
-        //     cancelWebview()
-        //     return ;
-        //   }
-        //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-        //   if (this.networkStatus != 1) {
-        //     //非wifi状态
-        //     this.showNetworkTip = true;
-
-        //   } else {
-        //     this.player = new QiniuPlayer("my-video", options);
-        //     this.watchPlayer();
-        //   }
-        // });
-
         this.player = new QiniuPlayer("my-video", options);
-        // this.watchPlayer();
+        this.watchPlayer();
       });
     },
     //监听视频player 事件
@@ -223,38 +203,41 @@ export default {
         //   this.player.duration(this.duration)
         // })
 
-        // this.player.on("play", () => {
-        //   this.player.fullscreen(true)
-        //   // if (!this.playFlag) {
-        //   //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
-        //   // }
-        //   // this.playFlag = true;
-        // });
+        this.player.on("play", () => {
+          // this.player.fullscreen(true)
+          // if (!this.playFlag) {
+          //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
+          // }
+          // this.playFlag = true;
+        });
 
         //进度条拖动的时候
         this.player.on("seeking", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
           // if(!this.player.isPaused()){
           //   this.player.pause()
-          // // }
-          // if (
-          //   this.trySee==1 &&
-          //   Math.round(this.player.currentTime()) > this.duration
-          // ) {
-          //   this.player.currentTime(0);
           // }
+          if (
+            this.trySee==1 &&
+            Math.round(this.player.currentTime()) > this.duration
+          ) {
+            this.fullscreen(false);
+            this.player.currentTime(0);
+            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
+          }
         });
 
         //进度条拖动结束时
         this.player.on("seeked", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
-          // if (
-          //   this.trySee==1 &&
-          //   Math.round(this.player.currentTime()) > this.duration
-          // ) {
-          //   this.player.currentTime(0);
-          //   this.$vux.toast.text("该视频只能试看5分钟", "middle");
-          // }
+          if (
+            this.trySee==1 &&
+            Math.round(this.player.currentTime()) > this.duration
+          ) {
+            this.fullscreen(false);
+            this.player.currentTime(0);
+            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
+          }
         });
 
         //正在播放
@@ -268,29 +251,28 @@ export default {
             //   this.showNetworkTip = true;
           }
           //试看视频 判断是否超过试看时长
-          // if (
-          //   this.trySee==1 &&
-          //   Math.round(this.player.currentTime()) > this.duration
-          // ) {
-          //   // alert(this.duration)
-          //   this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-          //   this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-          //   this.player.pause(); //暂停播放
-          //   this.player.currentTime(0); //设置当前播放时间为0
-          //   this.$vux.toast.text(
-          //     "试看结束,更多内容请购买课程后再观看",
-          //     "middle"
-          //   );
-          // }
+          if (
+            this.trySee==1 &&
+            Math.round(this.player.currentTime()) > this.duration
+          ) {
+            this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+            this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+            this.player.pause(); //暂停播放
+            this.player.currentTime(0); //设置当前播放时间为0
+            this.$vux.toast.text(
+              "试看结束,更多内容请购买课程后再观看",
+              "middle"
+            );
+          }
           //非试看视屏 视频观看结束后 跳转视频分享页面
-          // if (this.trySee!=1 && this.player.isEnded()) {
-          //   finishCourse({
-          //     curriculumId:this.curriculumId,
-          //     drillId:this.drillId
-          //   }).then(res => {
-          //     this.$router.push("/course-share");
-          //   })//完成训练
-          // }
+          if (this.trySee!=1 && this.player.isEnded()) {
+            finishCourse({
+              curriculumId:this.curriculumId,
+              drillId:this.drillId
+            }).then(res => {
+              this.$router.push("/course-share");
+            })//完成训练
+          }
         });
       });
     }
