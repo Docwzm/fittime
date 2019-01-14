@@ -4,11 +4,11 @@
       <div class="class-box">
         <div
           v-for="item in classify"
-          :key="item.key"
+          :key="item.id"
           class="class-cate"
-          :class="currentCate == item.key ?'current-cate':''"
-          @click="handleCategoryClick(item.key)"
-        >{{item.name}}</div>
+          :class="currentCate == item.id ?'current-cate':''"
+          @click="handleCategoryClick(item.id)"
+        >{{item.title}}</div>
       </div>
     </div>
     <div class="list-content" @touchstart="handleTouchStart" @touchmove="handleTouchMove">
@@ -21,19 +21,13 @@
 <script>
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
-import { curriculumPage } from "@/api/course.js";
+import { curriculumPage, getClassify } from "@/api/course.js";
 export default {
   name: "courseList",
   data() {
     return {
-      currentCate: 0,
-      classify: [
-        { key: 0, name: "减肥燃脂" },
-        { key: 1, name: "夜间助眠" },
-        { key: 2, name: "增肌塑形" },
-        { key: 3, name: "热身拉伸" },
-        { key: 4, name: "日常保健" }
-      ],
+      currentCate: 1,
+      classify: [],
       list: [],
       bottomLoading: false,
       bottom: {
@@ -50,7 +44,8 @@ export default {
   },
   created() {
     let { classify, page } = this;
-    this.actionGetCourseListByCate({ offset: page });
+    let tab = this.$route.query.tab;
+    this.actionGetClassify(tab);
   },
   methods: {
     //切换课程类别
@@ -73,6 +68,22 @@ export default {
         .catch(err => {
           cb && cb(err);
         });
+    },
+
+    //获取课程分类
+    actionGetClassify(tab) {
+      const { page } = this;
+      getClassify().then(res => {
+        if (res.code === 200) {
+          tab ? (this.currentCate = tab) : (this.currentCate = res.data[0].id);
+          //所有
+          this.classify = res.data;
+          this.actionGetCourseListByCate({
+            offset: page,
+            classify: tab || res.data[0].id
+          });
+        }
+      });
     },
 
     handleTouchStart(e) {

@@ -14,6 +14,15 @@ const curriculumPage = (data) => {
 }
 
 /**
+ * 获取课程分类
+ */
+const getClassify = () => {
+	return request({
+		url:'/opencourse_service/fitness/get_classify'
+	})
+}
+
+/**
  * 课程订单信息
  * @param {*} curriculumId 
  */
@@ -64,5 +73,6 @@ export {
 	payInfo,
 	createOrder,
 	buyCourse,
-	getSubject
+	getSubject,
+	getClassify
 }

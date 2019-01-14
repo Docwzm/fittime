@@ -59,7 +59,7 @@ export default {
           this.actionCreateOrder({
             crriculumId,
             price:orderInfo.price,
-            source:5
+            source:6
           })
         }
       } else {
@@ -90,12 +90,17 @@ export default {
     //创建订单
     actionCreateOrder(data){
       this.btnState = false
+      this.$vux.loading.show({
+        text: '订单提交中'
+      })
       createOrder(data).then(res => {
         if(res.code === 200){
           this.btnState = true
+          this.$vux.loading.hide()
           this.callWxPay(res.data)
         }
       }).catch(err => {
+        this.$vux.loading.hide()
         this.btnState = true
       })
     },
@@ -126,7 +131,7 @@ export default {
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
-        this.showToast("该APP版本不支持微信支付哟");
+        this.$vux.toast.text("该APP版本不支持微信支付哟");
       }
     },
 
@@ -152,7 +157,7 @@ export default {
 <style lang="less">
 .payment-wrap {
   height: 100vh;
-  background: url("../../assets/images/pay_bg@2x.png") top #f1f1f1;
+  background: url("../../assets/images/pay_bg@2x.jpg") top #f1f1f1;
   background-size: 100%;
   overflow: hidden;
   .pay-info {
