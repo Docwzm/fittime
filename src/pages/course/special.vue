@@ -49,7 +49,7 @@ export default {
         }
       });
     },
-    
+
     registeNavButton(){
       let self = this;
       let button1 = {
@@ -59,10 +59,12 @@ export default {
       }
       let buttons = new Array(button1)
       //设置导航栏按钮
-      navigationButtonsBridge(buttons)
-      //注册回调函数
-      registerCallbackHandler('ButtonCallBack',(buttonId)=>{
-        self.$router.push('/system-agreement')
+      navigationButtonsBridge(buttons,(res)=>{
+         this.$vux.toast.text(JSON.stringify(res), "middle");
+         //注册回调函数
+        registerCallbackHandler('ButtonCallBack',(buttonId)=>{
+          self.$router.push('/system-agreement')
+        })
       })
       
     }
