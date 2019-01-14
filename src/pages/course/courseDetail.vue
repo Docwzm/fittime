@@ -22,13 +22,15 @@
     <div class="content">
       <!-- 介绍 -->
       <div class="intro" v-show="slectedTab==1">
-        <div class="info-wrap">
+          <p class="title">{{course.contentTitle}}</p>
+          <p class="content" v-html="course.content"></p>
           <img src="../../assets/images/poster.png" />
-          <div class="info">
-            <p class="title">教练 / Zebra 陈思宇</p>
-            <p class="mess">中国CBBA健美协会独立培训师 国际韦德杯比基尼小姐冠军 国际一级裁判 国家级运动营养师</p>
+          <div class="img-wrap">
+            <p class="img-title">{{ course.imgContent[0] }}</p>
+            <div v-for="(item,index) in course.imgContent" :key="index">
+              <p class="mess" v-if="index!=0" >{{ item }}</p>
+            </div>
           </div>
-        </div>
       </div>
       <!-- 课程 -->
       <div class="course-list" v-show="slectedTab==2">
@@ -54,7 +56,7 @@
     <div class="repay-tip" v-if="course.type==1&&isBuy">
       <p class="title">课程已购买</p>
       <p class="endtime">有效期至{{course.deadline}}</p>
-      <div @click="gotoPay" class="repay-btn">>>前往续费</div>
+      <div @click="gotoPay" class="repay-btn" v-if="course.isexpire==1">>>前往续费</div>
     </div>
 
     <div class="footer">
@@ -88,7 +90,6 @@ import {
   navTitleBridge
 } from "@/util/jsBridge";
 import { getCourseDetail, joinCourse, delCourse } from "@/api/detail";
-
 import { dateFormat } from "@/util/tool";
 
 export default {
@@ -101,7 +102,7 @@ export default {
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
-      courseId:'',//课程ID
+      courseId: "", //课程ID
       course: null, //课程详情数据
       haveTrySee: false, //是否有试看视频
       isAdd: false, //是否为已添加课程
@@ -142,9 +143,9 @@ export default {
         curriculumId: this.courseId
       }).then(res => {
         let data = res.data;
-        data.drillDtoList.sort((a,b)=>{
-          return a.indexes - b.indexes
-        })
+        data.drillDtoList.sort((a, b) => {
+          return a.indexes - b.indexes;
+        });
         this.courseList = data.drillDtoList;
         this.courseList.map(item => {
           if (item.trySee == 1) {
@@ -152,36 +153,46 @@ export default {
           }
         });
 
-
-        // let finishIdArr = data.userCurriculumDto.deadline.split(',');
-        // finishIdArr = [1];
-        // this.courseList.map(item => {
-        //   if(finishIdArr.findIndex(item.id)>=0){
+        let finishIdArr = [];
+        if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
+          finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
+        }
+        let nextPlayIndex = data.userCurriculumDto&&data.userCurriculumDto.doneNum?data.userCurriculumDto.doneNum:0;
+        // this.courseList.map((item, index) => {
+        //   if (finishIdArr.findIndex(id => item.id == id) >= 0) {
         //     item.over = true;
+        //     if (index + 1 > nextPlayIndex) {
+        //       nextPlayIndex = index + 1;
+        //       if (nextPlayIndex > this.courseList.length) {
+        //         nextPlayIndex = 0;
+        //       }
+        //     }
         //   }
-        // })
-
-        this.nextPlayId = "";
-        this.nextPlayKey = "";
+        // });
+        this.nextPlayId = this.courseList[nextPlayIndex].id;
+        this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
 
         let label = data.label.split(",").join(" . ");
-        // let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
-
+        let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
         this.isAdd =
           data.userCurriculumDto && data.userCurriculumDto.plan == 1
             ? true
             : false;
         this.course = {
-          type: 1, //0-免费 1-购买
+          isexpire:data.isexpire,
+          type: data.type, //0-免费 1-购买
           id: data.id,
           title: data.title,
           price: data.price,
-          deadline: data.deadline,
+          deadline,
           label,
           heat: data.heat,
-          coverImg: data.coverImg
-          // userCurriculumDto: data.userCurriculumDto
+          coverImg: data.coverImg,
+          contentTitle:data.contentTitle,
+          content:data.content.replace(/\n/g, "<br/>"),
+          contentImg: data.contentImg,
+          imgContent:data.imgConten.split('\n')
         };
 
         this.setNavigationBarButtons();
@@ -206,7 +217,7 @@ export default {
       if (this.from != "app") {
         return;
       }
-      if (data) {
+      if (data.id) {
         //点击课程tab下的视频
         if (this.course.type == 1) {
           //付费课程 判断以下情况  购买  未购买：1、可试看 2、不可试看
@@ -314,16 +325,16 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
 .detail-wrap {
-  padding:430px 0 110px;
+  padding: 430px 0 110px;
 }
 .top-img {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 430px;
-  background:#fff;
-  z-index:10;
+  background: #fff;
+  z-index: 10;
   img {
     width: 100%;
     height: 100%;
@@ -409,15 +420,31 @@ export default {
 }
 .content {
   .intro {
+    padding-top:132px;
+    position: relative;
+    .bg("icons/quotation");
+    background-size:50px 50px;
+    background-position: center 64px;
     img {
       max-width: 100%;
       height: auto;
       display: block;
     }
-    .info-wrap {
-      position: relative;
+    .title {
+      text-align: center;
+      font-size: 32px;
+      color: rgba(65, 65, 65, 1);
+      line-height: 50px;
+      margin-bottom:30px;
     }
-    .info {
+    .content {
+      text-align: center;
+      font-size: 24px;
+      color: rgba(155, 155, 155, 1);
+      line-height: 36px;
+      margin-bottom:60px;
+    }
+    .img-wrap {
       position: absolute;
       left: 0;
       bottom: 0;
@@ -425,7 +452,8 @@ export default {
       background: rgba(0, 0, 0, 0.6);
       color: rgba(255, 255, 255, 1);
       text-align: center;
-      .title {
+      padding-bottom:32px;
+      .img-title {
         text-align: center;
         height: 36px;
         font-size: 32px;
@@ -433,8 +461,7 @@ export default {
         margin: 39px 0 20px;
       }
       .mess {
-        margin: 0 auto 32px;
-        width: 330px;
+        margin: 0 auto;
         font-size: 24px;
         line-height: 36px;
         opacity: 0.6;

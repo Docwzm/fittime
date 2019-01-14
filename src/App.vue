@@ -55,7 +55,8 @@ export default {
   font-size:40px;
   margin-top:-48px;
   margin-left:-48px;
-  // display: none!important;
+  display: none!important;
+  visibility: hidden!important;
 }
 
 .vjs-mobile.vjs-paused.no-play .vjs-big-play-button, .vjs-using-native-controls.no-play .vjs-big-play-button, .vjs-using-native-controls.vjs-paused.no-play .vjs-big-play-button, .vjs-using-native-controls.no-play .vjs-poster{
