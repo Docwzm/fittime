@@ -1,7 +1,7 @@
 <template>
   <div class="special-wrap">
     <div class="banner">
-      <img v-lazy="subject.coverImg"/>
+      <img v-lazy="subject.coverImg">
       <div class="title">{{subject.title}}</div>
     </div>
     <div class="description">
@@ -20,13 +20,13 @@
 <script>
 import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
-import {getSubject} from "@/api/course"
+import { getSubject } from "@/api/course";
 
 export default {
   name: "courseSpecial",
   data() {
     return {
-      subject:{}
+      subject: {}
     };
   },
   mixins: [mixin],
@@ -35,18 +35,18 @@ export default {
   },
   created() {
     let id = this.$route.params.id;
-    this.actionGetSubject(id)
+    this.actionGetSubject(id);
   },
   methods: {
-    handleToCourseList(){
-      this.$router.push('/course-list')
+    handleToCourseList() {
+      this.$router.push("/course-list");
     },
-    actionGetSubject(id){
+    actionGetSubject(id) {
       getSubject(id).then(res => {
-        if(res.code === 200){
-          this.subject = res.data
+        if (res.code === 200) {
+          this.subject = res.data;
         }
-      })
+      });
     }
   }
 };
@@ -59,18 +59,18 @@ export default {
     background: #f5f5f5;
     position: relative;
     overflow: hidden;
-    img{
+    img {
       display: block;
       width: 100%;
       height: 100%;
       position: absolute;
-      top:0;
+      top: 0;
     }
-    .title{
+    .title {
       font-size: 40px;
       padding: 0 40px;
       margin-top: 70px;
-      color: #fff
+      color: #fff;
     }
   }
   .description {

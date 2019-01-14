@@ -90,12 +90,17 @@ export default {
     //创建订单
     actionCreateOrder(data){
       this.btnState = false
+      this.$vux.loading.show({
+        text: '订单提交中'
+      })
       createOrder(data).then(res => {
         if(res.code === 200){
           this.btnState = true
+          this.$vux.loading.hide()
           this.callWxPay(res.data)
         }
       }).catch(err => {
+        this.$vux.loading.hide()
         this.btnState = true
       })
     },
@@ -126,7 +131,7 @@ export default {
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
-        this.showToast("该APP版本不支持微信支付哟");
+        this.$vux.toast.text("该APP版本不支持微信支付哟");
       }
     },
 
