@@ -15,25 +15,32 @@
 
     <div class="tab-bar vux-1px-b">
       <p :class="slectedTab==1?'active':''" @click="slectedTab=1"><span>介绍</span></p>
-      <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{ courseList.length?'('+courseList.length+')':'' }}<b>试看</b></span></p>
+      <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
+          courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
     </div>
 
     <div class="content">
       <!-- 介绍 -->
       <div class="intro" v-show="slectedTab==1">
-        <img src="../../assets/images/poster.png" />
+        <div class="info-wrap">
+          <img src="../../assets/images/poster.png" />
+          <div class="info">
+            <p class="title">教练 / Zebra 陈思宇</p>
+            <p class="mess">中国CBBA健美协会独立培训师 国际韦德杯比基尼小姐冠军 国际一级裁判 国家级运动营养师</p>
+          </div>
+        </div>
       </div>
       <!-- 课程 -->
       <div class="course-list" v-show="slectedTab==2">
         <ul>
-          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((shouldPay&&!isBuy&&!item.trySee)?' lock':'')"
+          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&!isBuy&&!item.trySee)?' lock':'')"
             @click="gotoPlay(item)">
             <p class="mess">
               <span class="name">{{item.title}}</span>
-              <span class="time" v-if="item.status==1">{{ item.videoTime }}分钟,已完成训练</span>
-              <span class="time" v-if="item.status!=1">{{ item.videoTime }}分钟</span>
+              <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
+              <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
             </p>
-            <p class="btn" v-if="shouldPay&&!isBuy&&item.trySee">免费试看</p>
+            <p class="btn" v-if="course.type==1&&!isBuy&&item.trySee">免费试看</p>
           </li>
         </ul>
       </div>
@@ -44,14 +51,14 @@
       <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
     </div>
 
-    <div class="repay-tip" v-if="shouldPay&&isBuy">
+    <div class="repay-tip" v-if="course.type==1&&isBuy">
       <p class="title">课程已购买</p>
       <p class="endtime">有效期至{{course.deadline}}</p>
       <div @click="gotoPay" class="repay-btn">>>前往续费</div>
     </div>
 
     <div class="footer">
-      <div class="buy-wrap" v-if="shouldPay&&!isBuy">
+      <div class="buy-wrap" v-if="course.type==1&&!isBuy">
         <div @click="gotoService" class="concat"><span>客服</span></div>
         <div @click="gotoPay" class="buy-btn">
           <span>购买课程</span>
@@ -59,11 +66,11 @@
         </div>
       </div>
 
-      <div class="add-wrap" v-else-if="!isAdd" @click="joinCourse">
+      <div class="add-wrap" v-else-if="isBuy&&!isAdd" @click="joinCourse">
         加入课程
       </div>
 
-      <div @click="gotoPlay" class="play-wrap" v-else="isAdd">
+      <div @click="gotoPlay" class="play-wrap" v-else>
         开始训练
       </div>
     </div>
@@ -82,35 +89,34 @@ import {
 } from "@/util/jsBridge";
 import { getCourseDetail, joinCourse, delCourse } from "@/api/detail";
 
-import {dateFormat} from '@/util/tool'
+import { dateFormat } from "@/util/tool";
 
 export default {
   name: "courseDetail",
   data() {
     return {
-      isShare: false, //是否为分享页面
-      courseId: "", //课程ID
+      from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
-      shouldPay: true, //是否为付费课程
-      isAdd: false, //是否为已添加课程
-      isBuy: false, //是否已购买了
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
-      course: null,
-      courseList: []
+      courseId:'',//课程ID
+      course: null, //课程详情数据
+      haveTrySee: false, //是否有试看视频
+      isAdd: false, //是否为已添加课程
+      isBuy: false, //是否购买了
+      courseList: [], //课程视频列表
+      nextPlayId: "", //开始训练的视频Id
+      nextPlayKey: "" //视频key
     };
   },
   components: {
     Actionsheet
   },
-  created() {
-    this.isShare = this.$route.query.isShare
-      ? this.$route.query.isShare
-      : false;
-
+  mounted() {
     LSJavascriptBridgeInit(() => {
+      this.from = "app";
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title
@@ -122,90 +128,136 @@ export default {
         backButtonType: 1,
         topPadding: 0,
         barLineHidden: true,
-        color: { red: 255, green: 255, blue: 255, alpha: 0 }
+        color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
       this.setNavigationBarButtons();
     });
-
+    this.courseId = this.$route.params.id;
     this.getCourseDetail();
   },
   methods: {
     //获取视频详情
     getCourseDetail() {
       getCourseDetail({
-        curriculumId: 1
+        curriculumId: this.courseId
       }).then(res => {
         let data = res.data;
+        data.drillDtoList.sort((a,b)=>{
+          return a.indexes - b.indexes
+        })
         this.courseList = data.drillDtoList;
+        this.courseList.map(item => {
+          if (item.trySee == 1) {
+            this.haveTrySee = true;
+          }
+        });
+
+
+        // let finishIdArr = data.userCurriculumDto.deadline.split(',');
+        // finishIdArr = [1];
+        // this.courseList.map(item => {
+        //   if(finishIdArr.findIndex(item.id)>=0){
+        //     item.over = true;
+        //   }
+        // })
+
+        this.nextPlayId = "";
+        this.nextPlayKey = "";
+
         let label = data.label.split(",").join(" . ");
-        let deadline = dateFormat(data.deadline,'YYYY年MM月DD日')
+        // let deadline = dateFormat(data.deadline, "YYYY年MM月DD日");
+
+        this.isBuy = data.userCurriculumDto ? true : false;
+        this.isAdd =
+          data.userCurriculumDto && data.userCurriculumDto.plan == 1
+            ? true
+            : false;
         this.course = {
-          id:data.id,
+          type: 1, //0-免费 1-购买
+          id: data.id,
           title: data.title,
           price: data.price,
-          deadline,
+          deadline: data.deadline,
           label,
-          heat:data.heat,
-          coverImg:data.coverImg,
-          userCurriculumDto:data.userCurriculumDto
+          heat: data.heat,
+          coverImg: data.coverImg
+          // userCurriculumDto: data.userCurriculumDto
         };
+
+        this.setNavigationBarButtons();
       });
     },
+    //客服
     gotoService() {
-      if (this.isShare) {
+      if (this.from != "app") {
         return;
       }
       this.$router.push("/system-service");
     },
+    //支付
     gotoPay() {
-      if (this.isShare) {
+      if (this.from != "app") {
         return;
       }
-      this.$router.push("/course-payment");
+      this.$router.push("/course-payment/" + this.courseId);
     },
     //前往视频播放页面
     gotoPlay(data) {
-      if (this.isShare) {
+      if (this.from != "app") {
         return;
       }
-      if (this.shouldPay) {
-        //付费视频 判断以下情况  购买  未购买：1、可试看 2、不可试看
-        if (this.isBuy) {
-          //已经购买了的
-          this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
-        } else {
-          if (data.trySee) {
-            //试看
-            this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
+      if (data) {
+        //点击课程tab下的视频
+        if (this.course.type == 1) {
+          //付费课程 判断以下情况  购买  未购买：1、可试看 2、不可试看
+          if (this.isBuy) {
+            //已经购买了的
+            this.$router.push(
+              "/video-player/" + data.id + "?key=" + data.videoKey
+            );
           } else {
-            //不可试看
-            this.$vux.toast.text("请购买课程后再查看内容", "middle");
+            if (data.trySee) {
+              //试看
+              this.$router.push(
+                "/video-player/" + data.id + "?key=" + data.videoKey
+              );
+            } else {
+              //不可试看
+              this.$vux.toast.text("请购买课程后再查看内容", "middle");
+            }
           }
+        } else {
+          // 免费课程
+          this.$router.push(
+            "/video-player/" + data.id + "?key=" + data.videoKey
+          );
         }
       } else {
-        // 免费视频
-        this.$router.push("/video-player/"+data.videoKey+'?id='+data.id);
+        //点击开始训练
+        this.$router.push(
+          "/video-player/" + this.nextPlayId + "?key=" + this.nextPlayKey
+        );
       }
     },
     //加入课程
     joinCourse() {
       joinCourse({
-        curriculumId:this.course.id,
-        deadline:this.course.deadline
+        curriculumId: this.courseId,
+        deadline: this.course.deadline
       }).then(res => {
         this.isAdd = true;
         this.setNavigationBarButtons(); //重置顶部导航栏
-      })
+      });
     },
     //删除已加入课程
     menuClick(key, item) {
       if (key == "delMenu") {
         delCourse({
-          curriculumId:this.course.id
+          curriculumId: this.courseId
         }).then(res => {
           this.isAdd = false;
           this.setNavigationBarButtons(); //重置顶部导航栏
-        })
+        });
       }
     },
     // 调用app方法设置顶部导航栏
@@ -249,7 +301,7 @@ export default {
       // _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
       shareUrlBridge({
         title: "课程详情",
-        url: location.origin + "/fittime/#/course-detail?isShare=true",
+        url: location.origin + "/fittime/#/course-detail/" + this.courseId,
         imgUrl:
           "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
         desc: "课程详情描述"
@@ -262,10 +314,16 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
 .detail-wrap {
-  padding-bottom: 110px;
+  padding:430px 0 110px;
 }
 .top-img {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
   height: 430px;
+  background:#fff;
+  z-index:10;
   img {
     width: 100%;
     height: 100%;
@@ -354,6 +412,33 @@ export default {
     img {
       max-width: 100%;
       height: auto;
+      display: block;
+    }
+    .info-wrap {
+      position: relative;
+    }
+    .info {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 1);
+      text-align: center;
+      .title {
+        text-align: center;
+        height: 36px;
+        font-size: 32px;
+        line-height: 36px;
+        margin: 39px 0 20px;
+      }
+      .mess {
+        margin: 0 auto 32px;
+        width: 330px;
+        font-size: 24px;
+        line-height: 36px;
+        opacity: 0.6;
+      }
     }
   }
   .course-list {

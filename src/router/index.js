@@ -9,23 +9,23 @@ import courseSpecial from '@/pages/course/special'
 import courseShare from '@/pages/course/share'
 import coursePayment from '@/pages/course/payment'
 import systemService from '@/pages/system/service'
+import systemAgreement from '@/pages/system/agreement'
 
 export default new Router({
   // mode: 'history',
-  routes: [
-    {
-      path: '/course-detail',
+  routes: [{
+      path: '/course-detail/:id',
       name: 'courseDetail',
       component: courseDetail,
-      meta:{
-        fullScreen:true
+      meta: {
+        fullScreen: true
       }
     },{
-      path: '/video-player/:key',
+      path: '/video-player/:id',
       name: 'videoPlayer',
       component: videoPlayer,
-      meta:{
-        fullScreen:true
+      meta: {
+        fullScreen: true
       }
     }, {
       path: '/course-list',
@@ -36,7 +36,7 @@ export default new Router({
       }
     },
     {
-      path: '/course-special',
+      path: '/course-special/:id',
       name: 'courseSpecial',
       component: courseSpecial,
       meta: {
@@ -44,7 +44,7 @@ export default new Router({
       }
     },
     {
-      path: '/course-payment',
+      path: '/course-payment/:id',
       name: 'coursePayment',
       component: coursePayment,
       meta: {
@@ -66,8 +66,14 @@ export default new Router({
       meta: {
         title: '联系客服'
       }
+    }, {
+      path: '/system-agreement',
+      name: 'systemAgreement',
+      component: systemAgreement,
+      meta: {
+        title: '服务协议'
+      }
     },
-
   ]
   // scrollBehavior(to, from, savedPosition) {
   //   if (savedPosition) {

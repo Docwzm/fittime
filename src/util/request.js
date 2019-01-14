@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import axios from 'axios'
 import uuid from 'node-uuid'
-import { getAppVersionFromUserAgent } from './appApi'
-import { staticHostApiHost } from './env'
+import {
+  getAppVersionFromUserAgent
+} from './appApi'
+import {
+  staticHostApiHost
+} from './env'
 
 let pending = []; //声明一个数组用于存储每个ajax请求的取消函数和ajax标识
 let cancelToken = axios.CancelToken;
@@ -18,28 +22,23 @@ let removePending = (config) => {
 const service = axios.create({
   baseURL: staticHostApiHost(), // api 的 base_url
   // timeout: 5000 // request timeout
-  withCredentials:true,
+  withCredentials: true,
   params: {}
 })
 
-// request interceptor
+// request拦截器
 service.interceptors.request.use(
   config => {
-    if(!config.params.noPending) {
-      //并发请求的不加锁 例如多图上传时
-      removePending(config);//在一个ajax发送前执行一下取消操作
-      config.cancelToken = new cancelToken((c) => {
-        // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
-        pending.push({ u: config.url + '&' + config.method, f: c });
-      });
-    }
-    config.url += `?appType=${1}&accessToken=qwert&requestId=${uuid.v1()}`
+    config.params['requestId'] = `${uuid.v1().replace(/-/g,'')}`
+    config.params['appType'] = 6
+    // config.params['accessToken'] = 'qwert'
     return config
   },
   error => {
     Promise.reject(error)
   }
 )
+
 
 service.interceptors.response.use(
   response => {
@@ -51,7 +50,7 @@ service.interceptors.response.use(
       return res
     } else {
       Vue.$vux.toast.show({
-        text: JSON.stringify(response),
+        text: JSON.stringify(response.data.msg),
         type: 'text'
       });
       return Promise.reject('error')

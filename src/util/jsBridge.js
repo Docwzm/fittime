@@ -30,6 +30,16 @@ const courseShareBridge = (params = {}, callback) => {
     }
 }
 
+const popToRootControllerBridge = (callback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("popToRootViewController", (responseData) => {
+            callback && callback(responseData)
+        })
+    } catch (err) {
+        console.error('跳出当前webview失败:', err.message)
+    }
+}
+
 
 /**
  * 标题设置
@@ -61,6 +71,7 @@ const navigationButtonsBridge = (buttons = [], callback) => {
                 });
             }
         }
+        
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)
         })
@@ -91,13 +102,28 @@ const shareUrlBridge = (param, callback) => {
  * @param {Function} callbackName 传给app调用的方法 实时监听网络环境变化
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const getNetworkState = (callbackName,resCallback) => {
+const getNetworkState = (callbackName, resCallback) => {
     try {
         window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {
         console.error('获取系统网络环境失败:', err.message)
+    }
+}
+
+/**
+ * 注册回调函数
+ * @param {*} registerName 
+ * @param {*} callback 
+ */
+const registerCallbackHandler = (registerName, callback) => {
+    try {
+        LSJavascriptBridge.registerHandler(registerName, (responseData) => {
+            callback && callback(responseData)
+        });
+    } catch (e) {
+        console.error('注册回调函数失败:', err.message)
     }
 }
 
@@ -142,5 +168,7 @@ export {
     shareUrlBridge,
     getNetworkState,
     cancelWebview,
-    setBackbuttonCallBack
+    setBackbuttonCallBack,
+    popToRootControllerBridge,
+    registerCallbackHandler
 }
