@@ -31,6 +31,7 @@ service.interceptors.request.use(
   config => {
     config.params['requestId'] = `${uuid.v1().replace(/-/g,'')}`
     config.params['appType'] = 6
+    // config.params['accessToken'] = 'qwert'
     return config
   },
   error => {

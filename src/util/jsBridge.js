@@ -71,6 +71,7 @@ const navigationButtonsBridge = (buttons = [], callback) => {
                 });
             }
         }
+        
         window.LSJavascriptBridge.callHandler("setNavigationBarButtons", buttons, (responseData) => {
             callback && callback(responseData)
         })
@@ -127,6 +128,38 @@ const registerCallbackHandler = (registerName, callback) => {
 }
 
 
+/**
+ * 退出当前WebView控制器
+ * @param {Function} resCallback 事件调用成功失败回调
+ */
+const cancelWebview = (resCallback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("popViewController", callbackName, (responseData) => {
+            resCallback && resCallback(responseData)
+        })
+    } catch (err) {
+        console.error('退出当前WebView控制器失败:', err.message)
+    }
+}
+
+
+
+/**
+ * 监听webview返回事件
+ * @param {Function} callbackName 传给app调用的方法 监听返回事件
+ * @param {Function} resCallback 事件调用成功失败回调
+ */
+const setBackbuttonCallBack = (callbackName,resCallback) => {
+    try{
+        window.LSJavascriptBridge.callHandler("setBackbuttonCallBack" , callbackName,  (responseData) => {
+            resCallback && resCallback(responseData)
+        })
+    } catch (err) {
+        console.error('退出当前WebView控制器失败:', err.message)
+    }
+}
+
+
 export {
     LSJavascriptBridgeInit,
     courseShareBridge,
@@ -134,6 +167,8 @@ export {
     navigationButtonsBridge,
     shareUrlBridge,
     getNetworkState,
+    cancelWebview,
+    setBackbuttonCallBack,
     popToRootControllerBridge,
     registerCallbackHandler
 }

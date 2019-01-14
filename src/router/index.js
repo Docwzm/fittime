@@ -20,8 +20,8 @@ export default new Router({
       meta: {
         fullScreen: true
       }
-    }, {
-      path: '/video-player',
+    },{
+      path: '/video-player/:id',
       name: 'videoPlayer',
       component: videoPlayer,
       meta: {
