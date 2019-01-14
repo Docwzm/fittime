@@ -149,6 +149,7 @@ export default {
       registerCallbackHandler('ButtonCallBack',(buttonId)=>{
         self.$router.push('/system-agreement')
       })
+      
     }
 
   }
