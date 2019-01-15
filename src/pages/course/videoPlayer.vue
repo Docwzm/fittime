@@ -94,10 +94,13 @@ export default {
     LSJavascriptBridgeInit(() => {
       //监听网络变化
       window.networkChange = status => {
+        alert(JSON.stringify(status)+'.....')
         this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
         if (!this.no_network) {
           //显示网络弹窗
           if (this.networkStatus != 1) {
+            this.player.fullscreen(false);
+            this.player.pause();
             this.showNetworkTip = true;
           }
         }
@@ -140,6 +143,9 @@ export default {
   methods: {
     cancelWebview() {
       // cancelWebview()
+      setBackbuttonCallBack('',() => {
+        
+      })
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -231,6 +237,7 @@ export default {
             });
             
             getNetworkState("networkChange", status => {
+              alert(JSON.stringify(status))
               this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
               if (!this.no_network) {
                 //显示网络弹窗
