@@ -185,6 +185,7 @@ export default {
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
+        this.videoCount = data.videoCount ? data.videoCount:0;
       })
     },
     getCourseUrl() {
