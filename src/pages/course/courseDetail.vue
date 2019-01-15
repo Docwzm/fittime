@@ -96,6 +96,7 @@ export default {
   name: "courseDetail",
   data() {
     return {
+      count:0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
@@ -136,6 +137,10 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
+      this.count+=1;
+      if(this.count==2){
+        this.setNavigationBarButtons();
+      }
       // this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
@@ -199,8 +204,10 @@ export default {
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
         };
-
+this.count+=1;
+      if(this.count==2){
         this.setNavigationBarButtons();
+      }
       });
     },
     //客服
@@ -310,6 +317,7 @@ export default {
     },
     // 显示底部结束课程弹出框
     showNavigationMenu() {
+      alert('showNavigationMenu')
       this.showMenu = true;
     },
     //唤起app分享弹框
