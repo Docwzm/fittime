@@ -74,14 +74,13 @@ export default {
           });
         }
       } else {
-        this.$vux.toast.text("请先阅读并同意服务协议", "middle");
+        this.$vux.toast.text("请先阅读并同意服务协议");
       }
     },
 
     //支付成功的回调
     wxpaycallback() {
       if (code == 0) {
-        this.$vux.toast.text("支付成功");
         this.actionBuyCourse(id);
       } else {
         this.$vux.toast.text("支付失败");
@@ -145,7 +144,7 @@ export default {
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
-        this.$vux.toast.text("该APP版本不支持微信支付哟");
+        this.$vux.toast.text("当前APP不支持微信支付");
       }
     },
 
