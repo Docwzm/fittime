@@ -60,7 +60,7 @@ export default {
     handleCategoryClick(key) {
       this.currentCate = key;
       this.list = []
-      this.actionGetCourseListByCate({ offset: 1, classify: parseInt(key) });
+      this.actionGetCourseListByCate({ pageNum: 1, classify: parseInt(key) });
     },
     //根据课程类型拉取列表
     actionGetCourseListByCate(data, cb) {
@@ -88,7 +88,7 @@ export default {
           //所有
           this.classify = res.data;
           this.actionGetCourseListByCate({
-            offset: page,
+            pageNum: page,
             classify: tab || res.data[0].id
           });
         }
@@ -121,7 +121,7 @@ export default {
       let self = this;
       if (!bottomLoading && page <= maxPage) {
         this.actionGetCourseListByCate(
-          { offset: page, classify: currentCate },
+          { pageNum: page, classify: currentCate },
           () => {
             self.bottomLoading = false;
           }

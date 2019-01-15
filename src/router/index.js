@@ -52,7 +52,7 @@ export default new Router({
       }
     },
     {
-      path: '/course-share',
+      path: '/course-share/:count/:time',
       name: 'courseShare',
       component: courseShare,
       meta: {
