@@ -158,7 +158,6 @@ const cancelWebview = (resCallback) => {
 const setBackbuttonCallBack = (callbackName, resCallback) => {
     try {
         window.LSJavascriptBridge.callHandler("setBackbuttonCallBack", callbackName, (responseData) => {
-            alert(responseData)
             resCallback && resCallback(responseData)
         })
     } catch (err) {
