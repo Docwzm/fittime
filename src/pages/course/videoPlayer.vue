@@ -32,8 +32,8 @@
       <div>
         <p class="title">不再坚持一下吗?</p>
         <div class="btn-wrap">
-          <span>退出训练</span>
-          <span>继续训练</span>
+          <span @click="cancelWebview">退出训练</span>
+          <span @click="goOnPlay">继续训练</span>
         </div>
       </div>
     </x-dialog>
@@ -102,7 +102,11 @@ export default {
           }
         }
       };
-      window.webviewCancel = () => {};
+      window.webviewCancel = () => {
+        this.showConfirmTip = true;
+        this.player.fullscreen(false);
+        this.player.pause();
+      };
       //设置返回监听
       setBackbuttonCallBack("webviewCancel");
       let title =
@@ -130,6 +134,13 @@ export default {
     }
   },
   methods: {
+    cancelWebview(){
+      cancelWebview()
+    },
+    goOnPlay(){
+      this.showConfirmTip = false;
+      this.player.play();
+    },
     play(type) {
       if(type==0){
         this.posterFlag = false;
