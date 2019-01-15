@@ -4,10 +4,10 @@
       <video muted id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
         x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
         x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
-        <div class="poster-wrap" v-if="posterFlag">
+        <!-- <div class="poster-wrap" v-if="posterFlag">
           <img :src="poster">
           <span @click="play(0)"></span>
-        </div>
+        </div> -->
     </div>
     <div class="intro vux-1px-b" @click="play">
       <p class="title">{{ title }}</p>
@@ -141,6 +141,7 @@ export default {
             // this.player.pause(); //暂停播放
             this.showNetworkTip = true;
           }else{
+            // this.player.fullscreen(true)
             this.player.play();
           }
         }
@@ -161,11 +162,11 @@ export default {
         drillId:this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;
+        this.trySee = 0;
         this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
         this.title = data.title;
-        this.sortIndex = data.indexes
+        this.sortIndex = data.indexes;
       })
     },
     getCourseUrl() {
@@ -173,6 +174,7 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
+        // this.poster = data.poster;
         let options = {
           controls: true,
           url:data.videoAddress,
@@ -181,28 +183,9 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          // poster
+          poster:data.coverImg
           // stretching:'panscan'
         };
-
-        // getNetworkState("networkChange", status => {
-        //   let no_network_tip = getLocal('no_network_tip')
-        //   if(no_network_tip){
-        //     //如果之前已经点击不再提醒 则直接退出webview
-        //     cancelWebview()
-        //     return ;
-        //   }
-        //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-        //   if (this.networkStatus != 1) {
-        //     //非wifi状态
-        //     this.showNetworkTip = true;
-
-        //   } else {
-        //     this.player = new QiniuPlayer("my-video", options);
-        //     this.watchPlayer();
-        //   }
-        // });
-
         this.player = new QiniuPlayer("my-video", options);
         this.watchPlayer();
       });
@@ -210,6 +193,7 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
+        // this.player.fullscreen(true)
         this.player.aspectRatio("16:9", () => {});
         // this.player.on("loadedmetadata", () => {
         //   this.player.duration(this.duration);
@@ -220,6 +204,7 @@ export default {
         // })
 
         this.player.on("play", () => {
+          // this.player.fullscreen(true)
           // if (!this.playFlag) {
           //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
           // }
@@ -229,11 +214,16 @@ export default {
         //进度条拖动的时候
         this.player.on("seeking", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
+          // if(!this.player.isPaused()){
+          //   this.player.pause()
+          // }
           if (
             this.trySee==1 &&
-            Math.round(this.player.currentTime()) >= this.duration
+            Math.round(this.player.currentTime()) > this.duration
           ) {
+            this.fullscreen(false);
             this.player.currentTime(0);
+            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
         });
 
@@ -242,10 +232,11 @@ export default {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
           if (
             this.trySee==1 &&
-            Math.round(this.player.currentTime()) >= this.duration
+            Math.round(this.player.currentTime()) > this.duration
           ) {
+            this.fullscreen(false);
             this.player.currentTime(0);
-            this.$vux.toast.text("该视频只能试看5分钟", "middle");
+            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
         });
 
