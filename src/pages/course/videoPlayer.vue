@@ -162,7 +162,7 @@ export default {
         drillId:this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = 0;
+        this.trySee = data.trySee;
         this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
         this.title = data.title;

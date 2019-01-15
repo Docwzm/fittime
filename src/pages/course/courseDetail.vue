@@ -153,10 +153,7 @@ export default {
           }
         });
 
-        let nextPlayIndex =
-          data.userCurriculumDto && data.userCurriculumDto.doneNum
-            ? data.userCurriculumDto.doneNum
-            : 0;
+        let nextPlayIndex = data.userCurriculumDto && data.userCurriculumDto.doneNum ? (data.userCurriculumDto.doneNum>=data.drillDtoList.length?0:data.userCurriculumDto.doneNum):0;
         let finishIdArr = [];
         if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
           finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
