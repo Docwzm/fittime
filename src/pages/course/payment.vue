@@ -27,7 +27,8 @@ import { payInfo, createOrder, buyCourse } from "@/api/course";
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
-  registerCallbackHandler
+  registerCallbackHandler,
+  navTitleBridge
 } from "@/util/jsBridge";
 export default {
   data() {
@@ -47,7 +48,16 @@ export default {
 
   mounted() {
     LSJavascriptBridgeInit(() => {
-      this.registeNavButton();
+      navTitleBridge({
+        title: "购买介绍",
+        autoResetToDefaultConfigWhtenOpenLink: true,
+        tintColorType: 2,
+        backButtonType: 1,
+        topPadding: 64,
+        barLineHidden: false,
+        color: { red: 255, green: 255, blue: 255, alpha: 255 }
+      });
+      this.registeNavButton()
     });
   },
 
@@ -79,9 +89,13 @@ export default {
     },
 
     //支付成功的回调
-    wxpaycallback() {
+    wxpaycallback(id) {
       if (code == 0) {
         this.actionBuyCourse(id);
+        this.$vux.toast.text("支付成功");
+        setTimeout(()=>{
+          this.$router.push("/course-detail/"+id);
+        },1000)
       } else {
         this.$vux.toast.text("支付失败");
         return;
