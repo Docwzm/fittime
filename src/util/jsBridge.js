@@ -111,6 +111,7 @@ const shareUrlBridge = (param, callback) => {
 const getNetworkState = (callbackName,registerCall,resCallback) => {
     try {
         window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
+            alert('....ddd')
             registerCall && registerCall(responseData)
         });
         window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
@@ -161,6 +162,7 @@ const cancelWebview = (resCallback) => {
 const setBackbuttonCallBack = (callbackName,registerCall, resCallback) => {
     try {
         window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
+            alert('fafa')
             registerCall && registerCall(responseData)
         });
         window.LSJavascriptBridge.callHandler("setBackbuttonCallBack", callbackName, (responseData) => {
