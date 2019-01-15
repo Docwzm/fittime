@@ -98,6 +98,8 @@ export default {
         if (!this.no_network) {
           //显示网络弹窗
           if (this.networkStatus != 1) {
+            this.player.fullscreen(false);
+            this.player.pause();
             this.showNetworkTip = true;
           }
         }
