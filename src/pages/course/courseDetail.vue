@@ -55,7 +55,7 @@
 
     <div class="repay-tip" v-if="course.type==1&&isBuy">
       <p class="title">课程已购买</p>
-      <p class="endtime">有效期至{{course.deadline}}</p>
+      <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
       <div @click="gotoPay" class="repay-btn" v-if="course.isexpire==1">>>前往续费</div>
     </div>
 
@@ -115,6 +115,11 @@ export default {
   components: {
     Actionsheet
   },
+  filters:{
+    dateFilter:value=>{
+      return dateFormat(value * 1000, "YYYY年MM月DD日");
+    }
+  },
   created() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
@@ -173,7 +178,7 @@ export default {
         this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
 
         let label = data.label.split(",").join(" . ");
-        let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
+        // let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
         this.isBuy = data.userCurriculumDto ? true : false;
         this.isAdd =
           data.userCurriculumDto && data.userCurriculumDto.plan == 1
@@ -185,7 +190,7 @@ export default {
           id: data.id,
           title: data.title,
           price: data.price,
-          deadline,
+          deadline:data.deadline,
           label,
           heat: data.heat,
           coverImg: data.coverImg,
