@@ -136,7 +136,7 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 1 }
       });
-      this.setNavigationBarButtons();
+      // this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
