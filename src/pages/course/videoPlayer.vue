@@ -103,9 +103,13 @@ export default {
         }
       };
       window.webviewCancel = () => {
-        this.showConfirmTip = true;
-        this.player.fullscreen(false);
-        this.player.pause();
+        if(this.playFlag){
+          this.showConfirmTip = true;
+          this.player.fullscreen(false);
+          this.player.pause();
+        }else{
+          this.$router.back(-1)
+        }
       };
       //设置返回监听
       setBackbuttonCallBack("webviewCancel");
@@ -135,7 +139,9 @@ export default {
   },
   methods: {
     cancelWebview(){
-      cancelWebview()
+      // cancelWebview()
+      this.$router.back(-1);
+      // this.showConfirmTip = false;
     },
     goOnPlay(){
       this.showConfirmTip = false;
