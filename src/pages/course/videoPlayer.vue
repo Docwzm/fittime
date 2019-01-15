@@ -288,7 +288,7 @@ export default {
               curriculumId:this.curriculumId,
               drillId:this.drillId
             }).then(res => {
-              this.$router.push("/course-share?videoTime="+this.videoTime+'&count=1');
+              this.$router.push("/course-share/"+this.videoCount+"/"+this.videoTime);
             })//完成训练
           }
         });
