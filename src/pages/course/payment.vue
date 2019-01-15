@@ -14,7 +14,7 @@
         <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt>
         <img v-else src="@/assets/images/icons/ic_multiselect_normal@2x.png">
         <span @click="handleChecked">我已阅读并同意</span>
-        <a href="/#/system-agreement">服务协议</a>
+        <a href="javasvript:void(0)" @click="handleServieClick">服务协议</a>
       </div>
       <div class="service-icon" @click="handleServieClick">
         <img src="@/assets/images/icons/service@2x.png">
@@ -43,7 +43,7 @@ export default {
     let id = this.$route.params.id;
     this.crriculumId = id;
     this.actionPayInfo(id);
-    window.global_wxpaycallback = this.wxpaycallback.bind(this, id);
+    window.global_wxpaycallback = this.wxpaycallback.bind(this);
   },
 
   mounted() {
@@ -89,12 +89,12 @@ export default {
     },
 
     //支付成功的回调
-    wxpaycallback(id) {
+    wxpaycallback(orderId,code) {
       if (code == 0) {
-        this.actionBuyCourse(id);
+        this.actionBuyCourse(orderId);
         this.$vux.toast.text("支付成功");
         setTimeout(()=>{
-          this.$router.push("/course-detail/"+id);
+          this.$router.push("/course-detail/"+orderId);
         },1000)
       } else {
         this.$vux.toast.text("支付失败");
