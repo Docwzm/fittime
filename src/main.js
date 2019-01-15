@@ -8,9 +8,10 @@ FastClick.attach(document.body)
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
 
-import  { ToastPlugin,LoadingPlugin } from 'vux'
+import  { ToastPlugin,LoadingPlugin,Actionsheet } from 'vux'
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
+Vue.component('actionsheet', Actionsheet)
 
 Vue.config.productionTip = false
 

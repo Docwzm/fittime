@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { Actionsheet } from "vux"; //底部弹出框组件
+// import { Actionsheet } from "vux"; //底部弹出框组件
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
@@ -113,15 +113,15 @@ export default {
       nextPlayKey: "" //视频key
     };
   },
-  components: {
-    Actionsheet
-  },
+  // components: {
+  //   Actionsheet
+  // },
   filters:{
     dateFilter:value=>{
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  created() {
+  mounted() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
@@ -137,11 +137,11 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-      this.count+=1;
-      if(this.count==2){
-        this.setNavigationBarButtons();
-      }
-      // this.setNavigationBarButtons();
+      // this.count+=1;
+      // if(this.count==2){
+      //   this.setNavigationBarButtons();
+      // }
+      this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -204,10 +204,10 @@ export default {
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
         };
-this.count+=1;
-      if(this.count==2){
+// this.count+=1;
+//       if(this.count==2){
         this.setNavigationBarButtons();
-      }
+      // }
       });
     },
     //客服
