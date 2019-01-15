@@ -309,7 +309,7 @@ export default {
               drillId: this.drillId
             }).then(res => {
               this.$router.push(
-                "/course-share/" + this.videoCount + "/" + this.videoTime + "/" + this.curriculumName
+                "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
             }); //完成训练
           }
