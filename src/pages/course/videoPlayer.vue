@@ -91,51 +91,11 @@ export default {
       this.no_network = true;
     }
 
-    window.networkChange = status => {
-      alert('....')
-      this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-      if (!this.no_network) {
-        //显示网络弹窗
-        if (this.networkStatus != 1) {
-          this.player.fullscreen(false);
-          this.player.pause();
-          this.showNetworkTip = true;
-        }
-      }
-    };
-    window.webviewCancel = () => {
-      alert('...mm')
-      if (this.playFlag) {
-        this.showConfirmTip = true;
-        this.player.fullscreen(false);
-        this.player.pause();
-      } else {
-        this.$router.back(-1);
-      }
-    };
-
     LSJavascriptBridgeInit(() => {
       //监听网络变化
       // window.networkChange = status => {
-      //   this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-      //   if (!this.no_network) {
-      //     //显示网络弹窗
-      //     if (this.networkStatus != 1) {
-      //       this.player.fullscreen(false);
-      //       this.player.pause();
-      //       this.showNetworkTip = true;
-      //     }
-      //   }
       // };
-      // window.webviewCancel = () => {
-      //   if (this.playFlag) {
-      //     this.showConfirmTip = true;
-      //     this.player.fullscreen(false);
-      //     this.player.pause();
-      //   } else {
-      //     this.$router.back(-1);
-      //   }
-      // };
+      // window.webviewCancel = this.webviewCancel()
 
       let title =
         this.$route.meta && this.$route.meta.title
@@ -162,6 +122,26 @@ export default {
     }
   },
   methods: {
+    webviewCancel(){
+        if (this.playFlag) {
+          this.showConfirmTip = true;
+          this.player.fullscreen(false);
+          this.player.pause();
+        } else {
+          this.$router.back(-1);
+        }
+    },
+    networkChange(status){
+      this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+      if (!this.no_network) {
+        //显示网络弹窗
+        if (this.networkStatus != 1) {
+          this.player.fullscreen(false);
+          this.player.pause();
+          this.showNetworkTip = true;
+        }
+      }
+    },
     cancelWebview() {
       // cancelWebview()
       setBackbuttonCallBack("", () => {});
@@ -241,7 +221,7 @@ export default {
         // this.player.fullscreen(true)
         this.player.aspectRatio("16:9", () => {});
         this.player.on("loadedmetadata", () => {
-          getNetworkState("networkChange", status => {
+          getNetworkState("networkChange",this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             if (!this.no_network) {
               //显示网络弹窗
@@ -265,7 +245,7 @@ export default {
               curriculumId: this.curriculumId
             });
             //设置返回监听
-            setBackbuttonCallBack("webviewCancel");
+            setBackbuttonCallBack("webviewCancel",this.webviewCancel);
           }
           // this.player.fullscreen(true)
           // if (!this.playFlag) {

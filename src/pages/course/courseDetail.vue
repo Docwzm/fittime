@@ -317,7 +317,6 @@ export default {
     },
     // 显示底部结束课程弹出框
     showNavigationMenu() {
-      alert('showNavigationMenu')
       this.showMenu = true;
     },
     //唤起app分享弹框
