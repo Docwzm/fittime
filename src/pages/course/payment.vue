@@ -134,9 +134,10 @@ export default {
     actionBuyCourse(id) {
       buyCourse(id).then(res => {
         if (res.code === 200) {
+          this.$vux.toast.text(JSON.stringify(res));
           this.$vux.toast.text("购买成功");
           setTimeout(()=>{
-            this.$router.push("/course-detail/"+id);
+            this.$router.push("/course-detail/"+res.data.curriculumId);
           },1000)
         }
       });
