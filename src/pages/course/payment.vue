@@ -14,7 +14,7 @@
         <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt>
         <img v-else src="@/assets/images/icons/ic_multiselect_normal@2x.png">
         <span @click="handleChecked">我已阅读并同意</span>
-        <a href="javasvript:void(0)" @click="handleServieClick">服务协议</a>
+        <a href="javasvript:void(0)" @click="handleAgreementClick">服务协议</a>
       </div>
       <div class="service-icon" @click="handleServieClick">
         <img src="@/assets/images/icons/service@2x.png">
@@ -50,10 +50,9 @@ export default {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
         title: "购买介绍",
-        autoResetToDefaultConfigWhtenOpenLink: true,
+        autoTopPadding: true,
         tintColorType: 2,
         backButtonType: 1,
-        topPadding: 64,
         barLineHidden: false,
         color: { red: 255, green: 255, blue: 255, alpha: 255 }
       });
@@ -65,6 +64,10 @@ export default {
     //服务协议
     handleServieClick() {
       this.$router.push("/system-service");
+    },
+
+    handleAgreementClick(){
+      this.$router.push("/system-agreement");
     },
 
     //阅读服务协议
