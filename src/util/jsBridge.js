@@ -140,7 +140,7 @@ const registerCallbackHandler = (registerName, callback) => {
  */
 const cancelWebview = (resCallback) => {
     try {
-        window.LSJavascriptBridge.callHandler("popViewController", callbackName, (responseData) => {
+        window.LSJavascriptBridge.callHandler("popViewController","",(responseData) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {

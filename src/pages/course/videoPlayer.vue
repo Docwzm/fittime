@@ -178,6 +178,7 @@ export default {
         this.duration = data.trySeeTime;
         this.title = data.title;
         this.sortIndex = data.indexes;
+        this.videoTime = data.videoTime;
       })
     },
     getCourseUrl() {
@@ -215,6 +216,12 @@ export default {
         // })
 
         this.player.on("play", () => {
+          if(!this.playFlag){
+            this.playFlag = true;
+            updateVideoTime({
+              curriculumId:this.curriculumId
+            })
+          }
           // this.player.fullscreen(true)
           // if (!this.playFlag) {
           //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
@@ -281,7 +288,7 @@ export default {
               curriculumId:this.curriculumId,
               drillId:this.drillId
             }).then(res => {
-              this.$router.push("/course-share");
+              this.$router.push("/course-share?videoTime="+this.videoTime+'&count=1');
             })//完成训练
           }
         });
@@ -328,7 +335,6 @@ export default {
       font-size: 36px;
       color: #1eabe1;
       border-right: 1px solid #b6b6b6;
-      border-top: 1px solid #b6b6b6;
     }
   }
 }
