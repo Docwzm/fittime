@@ -42,7 +42,8 @@ export default {
   mounted() {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
-        title: "全部课程"
+        title: "全部课程",
+        
       });
     });
   },
