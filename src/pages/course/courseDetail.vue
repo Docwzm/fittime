@@ -130,12 +130,12 @@ export default {
           : "";
       navTitleBridge({
         title,
-        //autoResetToDefaultConfigWhtenOpenLink: true,
+        autoResetToDefaultConfigWhtenOpenLink: true,
         tintColorType: 1,
         backButtonType: 1,
         topPadding: 0,
         barLineHidden: true,
-        color: { red: 255, green: 255, blue: 255, alpha: 1 }
+        color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
       this.count+=1;
       if(this.count==2){
