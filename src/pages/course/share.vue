@@ -3,7 +3,7 @@
     <div class="share-img">
       <img src="@/assets/images/result@2x.png" alt>
     </div>
-    <div class="share-title">本次共训练 17 分钟</div>
+    <div class="share-title">本次共训练 {{time}} 分钟</div>
     <div class="share-sub-title">恭喜你，完成训练</div>
     <div class="button-wrap">
       <div class="btn btn-finish" @click="handleFinish">完成</div>
@@ -22,16 +22,14 @@ export default {
     return {};
   },
   mixins: [mixin],
-  created() {},
+  created() {
+    this.count = this.$route.params.count;
+    this.time = this.$route.params.time;
+  },
   methods: {
     handleShare() {
-      courseShareBridge(
-        {
-          count: 45,
-          time: 18
-        },
-        this.callbackShare
-      );
+      const { count, time } = this;
+      courseShareBridge({count,time},this.callbackShare);
     },
     handleFinish() {
       popToRootControllerBridge();
