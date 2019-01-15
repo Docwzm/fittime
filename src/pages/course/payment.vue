@@ -95,10 +95,6 @@ export default {
     wxpaycallback(orderId,code) {
       if (code == 0) {
         this.actionBuyCourse(orderId);
-        this.$vux.toast.text("支付成功");
-        setTimeout(()=>{
-          this.$router.push("/course-detail/"+orderId);
-        },1000)
       } else {
         this.$vux.toast.text("支付失败");
         return;
@@ -139,6 +135,9 @@ export default {
       buyCourse(id).then(res => {
         if (res.code === 200) {
           this.$vux.toast.text("购买成功");
+          setTimeout(()=>{
+            this.$router.push("/course-detail/"+id);
+          },1000)
         }
       });
     },
