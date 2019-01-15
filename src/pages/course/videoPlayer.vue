@@ -143,6 +143,9 @@ export default {
   methods: {
     cancelWebview() {
       // cancelWebview()
+      setBackbuttonCallBack('',() => {
+        
+      })
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
