@@ -64,7 +64,7 @@ export default {
     },
     //根据课程类型拉取列表
     actionGetCourseListByCate(data, cb) {
-      curriculumPage({ ...data, pageSize: 20 })
+      curriculumPage({ ...data, pageSize: 10 })
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
@@ -121,7 +121,7 @@ export default {
       let self = this;
       if (!bottomLoading && page <= maxPage) {
         this.actionGetCourseListByCate(
-          { offset: page + 1, classify: currentCate },
+          { offset: page, classify: currentCate },
           () => {
             self.bottomLoading = false;
           }
