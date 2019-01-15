@@ -113,8 +113,7 @@ export default {
           this.$router.back(-1);
         }
       };
-      //设置返回监听
-      setBackbuttonCallBack("webviewCancel");
+
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title
@@ -142,9 +141,7 @@ export default {
   methods: {
     cancelWebview() {
       // cancelWebview()
-      setBackbuttonCallBack('',() => {
-        
-      })
+      setBackbuttonCallBack("", () => {});
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -191,7 +188,7 @@ export default {
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
-        this.curriculumName = data.curriculumName
+        this.curriculumName = data.curriculumName;
       });
     },
     getCourseUrl() {
@@ -234,7 +231,7 @@ export default {
             updateVideoTime({
               curriculumId: this.curriculumId
             });
-            
+
             getNetworkState("networkChange", status => {
               this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
               if (!this.no_network) {
@@ -246,6 +243,8 @@ export default {
                 }
               }
             });
+            //设置返回监听
+            setBackbuttonCallBack("webviewCancel");
           }
           // this.player.fullscreen(true)
           // if (!this.playFlag) {
