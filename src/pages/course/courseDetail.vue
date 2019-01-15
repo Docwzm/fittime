@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { Actionsheet } from "vux"; //底部弹出框组件
+// import { Actionsheet } from "vux"; //底部弹出框组件
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
@@ -113,9 +113,9 @@ export default {
       nextPlayKey: "" //视频key
     };
   },
-  components: {
-    Actionsheet
-  },
+  // components: {
+  //   Actionsheet
+  // },
   filters:{
     dateFilter:value=>{
       return dateFormat(value * 1000, "YYYY年MM月DD日");
