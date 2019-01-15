@@ -94,7 +94,7 @@ export default {
     LSJavascriptBridgeInit(() => {
       //监听网络变化
       window.networkChange = status => {
-        alert(status+'.....')
+        alert(JSON.stringify(status)+'.....')
         this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
         if (!this.no_network) {
           //显示网络弹窗
@@ -237,7 +237,7 @@ export default {
             });
             
             getNetworkState("networkChange", status => {
-              alert(status)
+              alert(JSON.stringify(status))
               this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
               if (!this.no_network) {
                 //显示网络弹窗
