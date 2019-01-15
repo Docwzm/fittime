@@ -137,11 +137,11 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-      this.count+=1;
-      if(this.count==2){
-        this.setNavigationBarButtons();
-      }
-      // this.setNavigationBarButtons();
+      // this.count+=1;
+      // if(this.count==2){
+      //   this.setNavigationBarButtons();
+      // }
+      this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -204,10 +204,10 @@ export default {
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
         };
-this.count+=1;
-      if(this.count==2){
+// this.count+=1;
+//       if(this.count==2){
         this.setNavigationBarButtons();
-      }
+      // }
       });
     },
     //客服
