@@ -14,7 +14,7 @@
         <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt>
         <img v-else src="@/assets/images/icons/ic_multiselect_normal@2x.png">
         <span @click="handleChecked">我已阅读并同意</span>
-        <a href="/#/system-agreement">服务协议</a>
+        <a href="javasvript:void(0)" @click="handleServieClick">服务协议</a>
       </div>
       <div class="service-icon" @click="handleServieClick">
         <img src="@/assets/images/icons/service@2x.png">

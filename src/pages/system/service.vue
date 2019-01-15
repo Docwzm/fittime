@@ -10,7 +10,22 @@
 </template>
 
 <script>
-export default {};
+import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
+
+export default {
+  mounted() {
+    LSJavascriptBridgeInit(() => {
+      navTitleBridge({
+        title: "联系客服",
+        autoTopPadding: true,
+        tintColorType: 2,
+        backButtonType: 1,
+        barLineHidden: false,
+        color: { red: 255, green: 255, blue: 255, alpha: 255 }
+      });
+    });
+  },
+};
 </script>
 
 <style lang="less">
