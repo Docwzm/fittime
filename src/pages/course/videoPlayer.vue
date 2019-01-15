@@ -162,7 +162,7 @@ export default {
         drillId:this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;
+        this.trySee = 0;
         this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
         this.title = data.title;
@@ -177,13 +177,13 @@ export default {
         // this.poster = data.poster;
         let options = {
           controls: true,
-          // url:data.videoAddress,
-          url:
-            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          url:data.videoAddress,
+          // url:
+          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          // poster
+          poster:data.coverImg
           // stretching:'panscan'
         };
         this.player = new QiniuPlayer("my-video", options);

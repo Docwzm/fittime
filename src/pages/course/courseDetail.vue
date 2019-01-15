@@ -157,21 +157,21 @@ export default {
           data.userCurriculumDto && data.userCurriculumDto.doneNum
             ? data.userCurriculumDto.doneNum
             : 0;
-        // let finishIdArr = [];
-        // if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
-        //   finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
-        // }
-        // this.courseList.map((item, index) => {
-        //   if (finishIdArr.findIndex(id => item.id == id) >= 0) {
-        //     item.over = true;
-        //     if (index + 1 > nextPlayIndex) {
-        //       nextPlayIndex = index + 1;
-        //       if (nextPlayIndex > this.courseList.length) {
-        //         nextPlayIndex = 0;
-        //       }
-        //     }
-        //   }
-        // });
+        let finishIdArr = [];
+        if(data.userCurriculumDto&&data.userCurriculumDto.accomplishDrill){
+          finishIdArr = data.userCurriculumDto.accomplishDrill.split(',')
+        }
+        this.courseList.map((item, index) => {
+          if (finishIdArr.findIndex(id => item.id == id) >= 0) {
+            item.over = true;
+            // if (index + 1 > nextPlayIndex) {
+            //   nextPlayIndex = index + 1;
+            //   if (nextPlayIndex > this.courseList.length) {
+            //     nextPlayIndex = 0;
+            //   }
+            // }
+          }
+        });
         this.nextPlayId = this.courseList[nextPlayIndex].id;
         this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
 
