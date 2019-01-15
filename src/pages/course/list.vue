@@ -43,10 +43,9 @@ export default {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
         title: "全部课程",
-        autoResetToDefaultConfigWhtenOpenLink: true,
+        autoTopPadding: true,
         tintColorType: 2,
         backButtonType: 1,
-        topPadding: 64,
         barLineHidden: false,
         color: { red: 255, green: 255, blue: 255, alpha: 255 }
       });
