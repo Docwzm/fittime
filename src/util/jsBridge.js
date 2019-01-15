@@ -108,8 +108,11 @@ const shareUrlBridge = (param, callback) => {
  * @param {Function} callbackName 传给app调用的方法 实时监听网络环境变化
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const getNetworkState = (callbackName, resCallback) => {
+const getNetworkState = (callbackName,registerCall,resCallback) => {
     try {
+        window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
+            registerCall && registerCall(responseData)
+        });
         window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
@@ -155,8 +158,11 @@ const cancelWebview = (resCallback) => {
  * @param {Function} callbackName 传给app调用的方法 监听返回事件
  * @param {Function} resCallback 事件调用成功失败回调
  */
-const setBackbuttonCallBack = (callbackName, resCallback) => {
+const setBackbuttonCallBack = (callbackName,registerCall, resCallback) => {
     try {
+        window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
+            registerCall && registerCall(responseData)
+        });
         window.LSJavascriptBridge.callHandler("setBackbuttonCallBack", callbackName, (responseData) => {
             resCallback && resCallback(responseData)
         })
