@@ -121,7 +121,7 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  created() {
+  mounted() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
