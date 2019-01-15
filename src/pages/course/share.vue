@@ -23,8 +23,8 @@ export default {
   },
   mixins: [mixin],
   created() {
-    this.time = this.$route.params.time;
-    this.className = this.$route.params.className;
+    this.time = this.$route.params.time || '';
+    this.className = this.$route.params.className || '';
   },
   methods: {
     handleShare() {
