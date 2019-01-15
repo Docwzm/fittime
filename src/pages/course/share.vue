@@ -23,13 +23,13 @@ export default {
   },
   mixins: [mixin],
   created() {
-    this.count = this.$route.params.count;
     this.time = this.$route.params.time;
+    this.className = this.$route.params.className;
   },
   methods: {
     handleShare() {
-      const { count, time } = this;
-      courseShareBridge({count,time},this.callbackShare);
+      const {time,className} = this;
+      courseShareBridge({time,className},this.callbackShare);
     },
     handleFinish() {
       popToRootControllerBridge();

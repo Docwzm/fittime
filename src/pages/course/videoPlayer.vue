@@ -188,6 +188,7 @@ export default {
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
+        this.curriculumName = data.curriculumName
       });
     },
     getCourseUrl() {
@@ -310,7 +311,7 @@ export default {
               drillId: this.drillId
             }).then(res => {
               this.$router.push(
-                "/course-share/" + this.videoCount + "/" + this.videoTime
+                "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
             }); //完成训练
           }
