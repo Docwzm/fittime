@@ -133,8 +133,6 @@ export default {
     //购买完成，加入到我的功课
     actionBuyCourse(id) {
       buyCourse(id).then(res => {
-        this.$vux.toast.text(res)
-        this.$vux.toast.text(id)
         if (res.code === 200) {
           this.$vux.toast.text("购买成功");
           setTimeout(()=>{
