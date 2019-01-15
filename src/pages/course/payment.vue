@@ -43,7 +43,7 @@ export default {
     let id = this.$route.params.id;
     this.crriculumId = id;
     this.actionPayInfo(id);
-    window.global_wxpaycallback = this.wxpaycallback.bind(this, id);
+    window.global_wxpaycallback = this.wxpaycallback.bind(this);
   },
 
   mounted() {
@@ -89,12 +89,12 @@ export default {
     },
 
     //支付成功的回调
-    wxpaycallback(id) {
+    wxpaycallback(orderId,code) {
       if (code == 0) {
-        this.actionBuyCourse(id);
+        this.actionBuyCourse(orderId);
         this.$vux.toast.text("支付成功");
         setTimeout(()=>{
-          this.$router.push("/course-detail/"+id);
+          this.$router.push("/course-detail/"+orderId);
         },1000)
       } else {
         this.$vux.toast.text("支付失败");
