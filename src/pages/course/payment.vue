@@ -74,14 +74,13 @@ export default {
           });
         }
       } else {
-        this.$vux.toast.text("请先阅读并同意服务协议", "middle");
+        this.$vux.toast.text("请先阅读并同意服务协议");
       }
     },
 
     //支付成功的回调
     wxpaycallback() {
       if (code == 0) {
-        this.$vux.toast.text("支付成功");
         this.actionBuyCourse(id);
       } else {
         this.$vux.toast.text("支付失败");
@@ -131,28 +130,21 @@ export default {
     callWxPay(appData) {
       if (typeof lxPayDelegate !== "undefined") {
         this.isPaying = true;
-        const {
-          appId,
-          nonceStr,
-          partnerid,
-          paySign,
-          prepayid,
-          timestamp,
-          orderId
-        } = appData;
+        const { appid, nonceStr, partnerid, paySign, prepayid, timestamp, orderId } = appData
         let appDataPay = {
-          orderId: orderId,
-          partnerId: partnerid,
-          prepayId: prepayid,
-          nonceStr: nonceStr,
-          timeStamp: timestamp,
-          paySign: paySign,
-          callback: "global_wxpaycallback"
-        };
+            partnerId: partnerid,
+            orderId: orderId,
+            prepayId: prepayid,
+            signType: "Sign=WXPay",
+            nonceStr: nonceStr,
+            timeStamp: timestamp,
+            paySign: paySign,
+            callback: 'global_wxpaycallback',
+        }
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
-        this.$vux.toast.text("该APP版本不支持微信支付哟");
+        this.$vux.toast.text("当前APP不支持微信支付");
       }
     },
 
