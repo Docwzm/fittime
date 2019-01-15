@@ -1,5 +1,9 @@
 <template>
-  <div>服务协议</div>
+  <div class="service-wrap">
+    <div class="service-content">
+      <p>服务协议</p>
+    </div>
+  </div>
 </template>
 <script>
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
@@ -19,3 +23,26 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+.service-wrap {
+  width: 100%;
+  min-height: 100vh;
+  background: #f1f2f7;
+  overflow: hidden;
+  .service-content {
+    background: #fff;
+    padding: 60px 30px;
+    margin-top: 20px;
+    .title {
+      font-size: 32px;
+      color: #414141;
+    }
+    p {
+      font-size: 28px;
+      color: #b6b6b6;
+      margin-top: 12px;
+    }
+  }
+}
+</style>
