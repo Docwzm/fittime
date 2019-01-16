@@ -3,18 +3,15 @@ import App from './App'
 import router from './router'
 import '@/util'
 
-import  { ToastPlugin,LoadingPlugin,Actionsheet } from 'vux'
+import  { ToastPlugin,LoadingPlugin } from 'vux'
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
-Vue.component('actionsheet', Actionsheet)
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
-
-
 
 Vue.config.productionTip = false
 
