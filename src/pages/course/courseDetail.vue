@@ -67,12 +67,12 @@
         </div>
       </div>
 
-      <div class="add-wrap" v-else-if="isBuy&&!isAdd" @click="joinCourse">
-        加入课程
+      <div class="add-wrap" v-else-if="isBuy&&!isAdd">
+        <button @click="joinCourse">加入课程</button>
       </div>
 
-      <div @click="gotoPlay" class="play-wrap" v-else>
-        开始训练
+      <div class="play-wrap" v-else>
+        <button @click="gotoPlay">开始训练</button>
       </div>
     </div>
 
@@ -125,7 +125,8 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  mounted() {
+  activated() {
+    this.count = 0;
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
@@ -356,16 +357,17 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
 .detail-wrap {
-  padding: 430px 0 110px;
+  // padding: 430px 0 110px;
+  padding-bottom:110px;
 }
 .top-img {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
   height: 430px;
-  background: #fff;
-  z-index: 10;
+  // background: #fff;
+  // z-index: 10;
   img {
     width: 100%;
     height: 100%;
@@ -594,8 +596,10 @@ export default {
   border-top: 2px solid #d9d9d9;
   // height:110px;
   background: #fff;
-  padding: 15px 0;
+  overflow: hidden;
+  // 
   .buy-wrap {
+    padding: 15px 0;
     padding-left: 50px;
     display: flex;
     .buy-btn {
@@ -642,20 +646,24 @@ export default {
   }
   .add-wrap,
   .play-wrap {
-    display: block;
-    width: 640px;
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    background: linear-gradient(
-      316deg,
-      rgba(36, 121, 255, 1) 0%,
-      rgba(46, 175, 255, 1) 100%
-    );
-    border-radius: 100px;
-    margin: 0 auto;
-    font-size: 32px;
-    color: rgba(255, 255, 255, 1);
+    padding: 15px 0;
+    button{
+      border:none;
+      display: block;
+      width: 640px;
+      height: 80px;
+      line-height: 80px;
+      text-align: center;
+      background: linear-gradient(
+        316deg,
+        rgba(36, 121, 255, 1) 0%,
+        rgba(46, 175, 255, 1) 100%
+      );
+      border-radius: 100px;
+      margin: 0 auto;
+      font-size: 32px;
+      color: rgba(255, 255, 255, 1);
+    }
   }
 }
 

@@ -18,16 +18,12 @@ export default new Router({
     name: 'courseDetail',
     component: courseDetail,
     meta: {
-      fullScreen: true,
       keepAlive: true
     }
   }, {
     path: '/video-player/:id',
     name: 'videoPlayer',
-    component: videoPlayer,
-    meta: {
-      fullScreen: true
-    }
+    component: videoPlayer
   }, {
     path: '/course-list',
     name: 'courseList',
@@ -78,14 +74,14 @@ export default new Router({
     }
   },
   ],
-  // scrollBehavior(to, from, savedPosition) {
-  //   if (savedPosition) {
-  //     return savedPosition
-  //   } else {
-  //     if (from.meta.keepAlive) {
-  //       from.meta.savedPosition = document.documentElement.scrollTop;
-  //     }
-  //     return { x: 0, y: to.meta.savedPosition || 0 }
-  //   }
-  // }
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      if (from.meta.keepAlive) {
+        from.meta.savedPosition = document.documentElement.scrollTop;
+      }
+      return { x: 0, y: to.meta.savedPosition || 0 }
+    }
+  }
 })

@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
 import { courseShareBridge, popToRootControllerBridge } from "@/util/jsBridge";
 
 export default {
@@ -21,7 +20,6 @@ export default {
   data() {
     return {};
   },
-  mixins: [mixin],
   created() {
     console.log(this.$route)
     this.time = this.$route.params.time || '';

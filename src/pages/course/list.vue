@@ -14,11 +14,10 @@
 </template>
 
 <script>
-// import mixin from "@/util/mixin";
+import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
-import { setTimeout } from "timers";
 
 export default {
   name: "courseList",
@@ -35,61 +34,6 @@ export default {
       maxPage: 1
     };
   },
-  activated() {
-    // this.$nextTick(() => {
-    //   let el = document.documentElement || document.body;
-    //   el.scrollTop = 1000;
-    // });
-    // setTimeout(() => {
-    // },0)
-    document.body.scrollTop = this._d.domTopList['list'];
-    LSJavascriptBridgeInit(() => {
-      navTitleBridge({
-        title: "全部课程",
-        autoResetToDefaultConfigWhtenOpenLink: true,
-        autoTopPadding: true,
-        // topPadding: 0,
-        tintColorType: 2,
-        backButtonType: 1,
-        barLineHidden: false,
-        color: { red: 255, green: 255, blue: 255, alpha: 255 }
-      });
-    });
-  },
-  deactivated() {
-    let el = document.body || document.documentElement;
-    this._d.domTopList['list'] = el.scrollTop;
-  },
-  // mounted() {
-  //   LSJavascriptBridgeInit(() => {
-  //     navTitleBridge({
-  //       title: "全部课程",
-  //       autoResetToDefaultConfigWhtenOpenLink: true,
-  //       autoTopPadding: true,
-  //       // topPadding: 0,
-  //       tintColorType: 2,
-  //       backButtonType: 1,
-  //       barLineHidden: false,
-  //       color: { red: 255, green: 255, blue: 255, alpha: 255 }
-  //     });
-  //   });
-  // },
-  // watch: {
-  //   $route: () => {
-  //     LSJavascriptBridgeInit(() => {
-  //       navTitleBridge({
-  //         title: "全部课程",
-  //         autoResetToDefaultConfigWhtenOpenLink: true,
-  //         autoTopPadding: true,
-  //         // topPadding: 0,
-  //         tintColorType: 2,
-  //         backButtonType: 1,
-  //         barLineHidden: false,
-  //         color: { red: 255, green: 255, blue: 255, alpha: 255 }
-  //       });
-  //     });
-  //   }
-  // },
   // mixins: [mixin],
   components: {
     "list-item": ListItem
@@ -98,6 +42,20 @@ export default {
     let { classify, page } = this;
     let tab = this.$route.query.tab;
     this.actionGetClassify(tab);
+  },
+  activated() {
+    LSJavascriptBridgeInit(() => {
+      navTitleBridge({
+        title: "全部课程",
+        autoResetToDefaultConfigWhtenOpenLink: true,
+        autoTopPadding: true,
+        topPadding: 0,
+        tintColorType: 2,
+        backButtonType: 1,
+        barLineHidden: false,
+        color: { red: 255, green: 255, blue: 255, alpha: 255 }
+      });
+    });
   },
   methods: {
     //切换课程类别
@@ -122,7 +80,6 @@ export default {
           cb && cb(err);
         });
     },
-
     //获取课程分类
     actionGetClassify(tab) {
       const { page } = this;
@@ -138,11 +95,9 @@ export default {
         }
       });
     },
-
     handleTouchStart(e) {
       this.startY = e.targetTouches[0].pageY;
     },
-
     handleTouchMove(e) {
       //判断方向
       if (e.targetTouches[0].pageY < this.startY) {
@@ -159,7 +114,6 @@ export default {
         }
       }
     },
-
     handleTouchBottom() {
       const { bottomLoading, page, maxPage, currentCate } = this;
       let self = this;

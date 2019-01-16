@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { getSubject } from "@/api/course";
 
@@ -29,7 +28,6 @@ export default {
       subject: {}
     };
   },
-  mixins: [mixin],
   components: {
     "list-item": ListItem
   },
