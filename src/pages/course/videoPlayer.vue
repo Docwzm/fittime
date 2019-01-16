@@ -1,7 +1,9 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
+      <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
+        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
+        x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -123,7 +125,7 @@ export default {
     // this.getVideoDetail();
   },
   beforeDestroy() {
-    setBackbuttonCallBack("", () => {});//页面销毁时删除返回键监听
+    setBackbuttonCallBack("", () => {}); //页面销毁时删除返回键监听
     if (this.player) {
       this.player.dispose(); //页面卸载前 释放播放器实例
     }
@@ -151,7 +153,7 @@ export default {
     },
     cancelWebview() {
       // cancelWebview()
-      
+
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -189,8 +191,8 @@ export default {
           //   // this.player.fullscreen(true)
           //   this.player.play();
           // }
-        }else{
-          this.player.play()
+        } else {
+          this.player.play();
         }
       } else {
         this.playerOnFlag = true;
@@ -217,7 +219,7 @@ export default {
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
         this.curriculumName = data.curriculumName;
-        // this.poster = data.coverImg
+        this.poster = data.coverImg
       });
     },
     getCourseUrl() {
