@@ -9,7 +9,7 @@
         <span @click="play(0)"></span>
       </div>
     </div>
-    <div class="intro vux-1px-b" @click="play">
+    <div class="intro vux-1px-b" @click="test">
       <p class="title">{{ title }}</p>
       <span>第{{sortIndex}}次训练</span>
     </div>
@@ -131,6 +131,11 @@ export default {
     }
   },
   methods: {
+    test(){
+      getNetworkState("networkChange", this.networkChange, status => {
+        alert(status)
+      })
+    },
     webviewCancel() {
       if (this.playFlag) {
         this.showConfirmTip = true;

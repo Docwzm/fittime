@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
@@ -34,7 +33,6 @@ export default {
       maxPage: 1
     };
   },
-  // mixins: [mixin],
   components: {
     "list-item": ListItem
   },
@@ -70,7 +68,9 @@ export default {
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
-            this.list = this.list.concat(data.list);
+            let arr = [...data.list,...data.list,...data.list,...data.list]
+            this.list = arr;
+
             this.maxPage = data.maxPage;
             this.page += 1;
           }
