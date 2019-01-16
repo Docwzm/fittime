@@ -200,7 +200,10 @@ export default {
 
         let label = data.label.split(",").join(" . ");
         // let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
-        this.isBuy = data.userCurriculumDto ? true : false;
+        this.isBuy =
+          data.userCurriculumDto && data.userCurriculumDto.type == 1
+            ? true
+            : false;
         this.isAdd =
           data.userCurriculumDto && data.userCurriculumDto.plan == 1
             ? true

@@ -42,7 +42,7 @@ export default {
     // });
     // setTimeout(() => {
     // },0)
-    // document.body.scrollTop = this._d.domTopList['list'];
+    document.body.scrollTop = this._d.domTopList['list'];
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
         title: "全部课程",
@@ -56,10 +56,10 @@ export default {
       });
     });
   },
-  // deactivated() {
-  //   let el = document.body || document.documentElement;
-  //   this._d.domTopList['list'] = el.scrollTop;
-  // },
+  deactivated() {
+    let el = document.body || document.documentElement;
+    this._d.domTopList['list'] = el.scrollTop;
+  },
   // mounted() {
   //   LSJavascriptBridgeInit(() => {
   //     navTitleBridge({
