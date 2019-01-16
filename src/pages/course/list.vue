@@ -45,7 +45,7 @@ export default {
         title: "全部课程",
         autoResetToDefaultConfigWhtenOpenLink: true,
         autoTopPadding: true,
-        topPadding: 0,
+        // topPadding: 0,
         tintColorType: 2,
         backButtonType: 1,
         barLineHidden: false,
