@@ -76,8 +76,9 @@
         开始训练
       </div>
     </div>
-
+    
     <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
+
   </div>
 </template>
 
@@ -99,7 +100,7 @@ export default {
       count:0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
-      showMenu: false, //已添加课程显示删除弹出框标识
+      showMenu: true, //已添加课程显示删除弹出框标识
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
@@ -113,15 +114,12 @@ export default {
       nextPlayKey: "" //视频key
     };
   },
-  // components: {
-  //   Actionsheet
-  // },
   filters:{
     dateFilter:value=>{
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  mounted() {
+  created() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =
@@ -137,11 +135,11 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-      // this.count+=1;
-      // if(this.count==2){
-      //   this.setNavigationBarButtons();
-      // }
-      this.setNavigationBarButtons();
+      this.count+=1;
+      if(this.count==2){
+        this.setNavigationBarButtons();
+      }
+      // this.setNavigationBarButtons();
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -204,10 +202,10 @@ export default {
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
         };
-// this.count+=1;
-//       if(this.count==2){
+this.count+=1;
+      if(this.count==2){
         this.setNavigationBarButtons();
-      // }
+      }
       });
     },
     //客服
@@ -318,6 +316,7 @@ export default {
     // 显示底部结束课程弹出框
     showNavigationMenu() {
       this.showMenu = true;
+      alert(this.showMenu)
     },
     //唤起app分享弹框
     shareApp() {
