@@ -25,6 +25,7 @@ export default {
   created() {
     this.time = this.$route.params.time || '';
     this.className = this.$route.params.className || '';
+    console.log(this.$route)
   },
   methods: {
     handleShare() {
