@@ -123,6 +123,7 @@ export default {
     // this.getVideoDetail();
   },
   beforeDestroy() {
+    setBackbuttonCallBack("", () => {});//页面销毁时删除返回键监听
     if (this.player) {
       this.player.dispose(); //页面卸载前 释放播放器实例
     }
@@ -150,7 +151,7 @@ export default {
     },
     cancelWebview() {
       // cancelWebview()
-      setBackbuttonCallBack("", () => {});
+      
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -336,7 +337,6 @@ export default {
               curriculumId: this.curriculumId,
               drillId: this.drillId
             }).then(res => {
-              setBackbuttonCallBack("", () => {});
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
