@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
+// import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
@@ -45,7 +45,7 @@ export default {
         title: "全部课程",
         autoResetToDefaultConfigWhtenOpenLink: true,
         autoTopPadding: true,
-        topPadding: 0,
+        // topPadding: 0,
         tintColorType: 2,
         backButtonType: 1,
         barLineHidden: false,
@@ -53,7 +53,7 @@ export default {
       });
     });
   },
-  mixins: [mixin],
+  // mixins: [mixin],
   components: {
     "list-item": ListItem
   },

@@ -1,13 +1,11 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video muted id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
-        x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
-      <!-- <div class="poster-wrap" v-if="posterFlag">
-          <img :src="poster">
-          <span @click="play(0)"></span>
-        </div> -->
+      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
+      <div class="poster-wrap" v-if="posterFlag">
+        <img :src="poster">
+        <span @click="play(0)"></span>
+      </div>
     </div>
     <div class="intro vux-1px-b" @click="play">
       <p class="title">{{ title }}</p>
@@ -62,7 +60,7 @@ export default {
   data() {
     return {
       poster,
-      posterFlag: true,
+      posterFlag: false,
       sortIndex: "",
       curriculumId: "", //课程ID
       drillId: "", //视频ID
@@ -82,7 +80,7 @@ export default {
   components: {
     XDialog
   },
-  created() {
+  mounted() {
     this.videoKey = this.$route.query.key;
     this.drillId = this.$route.params.id;
 
@@ -90,13 +88,14 @@ export default {
     if (no_network_tip) {
       this.no_network = true;
     }
+    // document.addEventListener("fullscreenchange", function() {
+    //   alert("..");
+    // });
+    // document.addEventListener("webkitfullscreenchange", function() {
+    //   alert("..");
+    // });
 
     LSJavascriptBridgeInit(() => {
-      //监听网络变化
-      // window.networkChange = status => {
-      // };
-      // window.webviewCancel = this.webviewCancel()
-
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title
@@ -122,16 +121,25 @@ export default {
     }
   },
   methods: {
-    webviewCancel(){
-        if (this.playFlag) {
-          this.showConfirmTip = true;
-          this.player.fullscreen(false);
-          this.player.pause();
-        } else {
-          this.$router.back(-1);
-        }
+    checkFull() {
+      var isFull =
+        document.fullscreenEnabled ||
+        window.fullScreen ||
+        document.webkitIsFullScreen ||
+        document.msFullscreenEnabled;
+      if (isFull === undefined) isFull = false;
+      return isFull;
     },
-    networkChange(status){
+    webviewCancel() {
+      if (this.playFlag) {
+        this.showConfirmTip = true;
+        this.player.fullscreen(false);
+        this.player.pause();
+      } else {
+        this.$router.back(-1);
+      }
+    },
+    networkChange(status) {
       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
       if (!this.no_network) {
         //显示网络弹窗
@@ -157,15 +165,31 @@ export default {
         this.posterFlag = false;
         if (!this.no_network) {
           //需要网络验证
-          if (!this.playerOnFlag && this.networkStatus != 1) {
-            // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-            // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-            // this.player.pause(); //暂停播放
-            this.showNetworkTip = true;
-          } else {
-            // this.player.fullscreen(true)
-            this.player.play();
-          }
+          // alert(this.player.state())
+          // this.player.play()
+          getNetworkState("networkChange", this.networkChange, status => {
+            this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+            //显示网络弹窗
+            if (this.networkStatus != 1) {
+              // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+              // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+              // this.player.pause(); //暂停播放
+              this.showNetworkTip = true;
+            } else {
+              // this.player.fullscreen(true)
+              // alert(this.player.state())
+              this.player.play();
+            }
+          });
+          // if (!this.playerOnFlag && this.networkStatus != 1) {
+          //   // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+          //   // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+          //   // this.player.pause(); //暂停播放
+
+          // } else {
+          //   // this.player.fullscreen(true)
+          //   this.player.play();
+          // }
         }
       } else {
         this.playerOnFlag = true;
@@ -192,6 +216,7 @@ export default {
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
         this.curriculumName = data.curriculumName;
+        // this.poster = data.coverImg
       });
     },
     getCourseUrl() {
@@ -208,7 +233,8 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          poster: data.coverImg
+          nativeControlsForTouch: false
+          // poster: data.coverImg
           // stretching:'panscan'
         };
         this.player = new QiniuPlayer("my-video", options);
@@ -220,19 +246,16 @@ export default {
       this.player.ready(player => {
         // this.player.fullscreen(true)
         this.player.aspectRatio("16:9", () => {});
+        // this.player.on("loadeddata",() => {
+        //   this.player.play();
+        // })
         this.player.on("loadedmetadata", () => {
-          getNetworkState("networkChange",this.networkChange, status => {
-            this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-            if (!this.no_network) {
-              //显示网络弹窗
-              if (this.networkStatus != 1) {
-                this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-                this.player.pause();
-                this.showNetworkTip = true;
-              }
-            }
-          });
+          // this.player.play();
+          this.posterFlag = true;
         });
+        // this.player.on('fullscreenchange',() => {
+        //   alert('fullscreenchange')
+        // })
 
         // this.player.on('fullscreenchange',()=>{
         //   this.player.duration(this.duration)
@@ -245,7 +268,7 @@ export default {
               curriculumId: this.curriculumId
             });
             //设置返回监听
-            setBackbuttonCallBack("webviewCancel",this.webviewCancel);
+            setBackbuttonCallBack("webviewCancel", this.webviewCancel);
           }
           // this.player.fullscreen(true)
           // if (!this.playFlag) {
@@ -264,7 +287,7 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.fullscreen(false);
+            // this.fullscreen(false);
             this.player.currentTime(0);
             // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
@@ -277,7 +300,7 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.fullscreen(false);
+            // this.fullscreen(false);
             this.player.currentTime(0);
             // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
@@ -313,6 +336,7 @@ export default {
               curriculumId: this.curriculumId,
               drillId: this.drillId
             }).then(res => {
+              setBackbuttonCallBack("", () => {});
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
@@ -379,7 +403,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 99;
     span {
       .bg("icons/play");
       width: 96px;
