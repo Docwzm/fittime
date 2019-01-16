@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import mixin from "@/util/mixin";
+// import mixin from "@/util/mixin";
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
@@ -53,7 +53,7 @@ export default {
       });
     });
   },
-  mixins: [mixin],
+  // mixins: [mixin],
   components: {
     "list-item": ListItem
   },
