@@ -18,7 +18,8 @@ export default new Router({
       name: 'courseDetail',
       component: courseDetail,
       meta: {
-        fullScreen: true
+        fullScreen: true,
+        keepAlive:true
       }
     },{
       path: '/video-player/:id',
@@ -32,7 +33,8 @@ export default new Router({
       name: 'courseList',
       component: courseList,
       meta: {
-        title: '课程列表'
+        title: '课程列表',
+        keepAlive:true
       }
     },
     {
@@ -40,7 +42,8 @@ export default new Router({
       name: 'courseSpecial',
       component: courseSpecial,
       meta: {
-        title: '课程专题'
+        title: '课程专题',
+        keepAlive:true
       }
     },
     {
