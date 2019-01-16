@@ -645,4 +645,10 @@ export default {
     color: rgba(255, 255, 255, 1);
   }
 }
+
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .footer{
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
 </style>
