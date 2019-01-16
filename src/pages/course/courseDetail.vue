@@ -5,7 +5,7 @@
     </div>
 
     <div class="base-info">
-      <p class="title">{{course.title}}</p>
+      <p class="title" @click="test">{{course.title}}</p>
       <div class="line-wrap">
         <span class="tag">{{ course.label }}</span>
         <span class="hot-count">{{ course.heat }}</span>
@@ -151,12 +151,18 @@ export default {
     this.getCourseDetail();
   },
   methods: {
+    test() {
+      getCourseDetail({
+        curriculumId: this.courseId
+      }).then(res => {
+        alert(JSON.stringify(res));
+      });
+    },
     //获取视频详情
     getCourseDetail() {
       getCourseDetail({
         curriculumId: this.courseId
       }).then(res => {
-        alert(JSON.stringify(res))
         let data = res.data;
         data.drillDtoList.sort((a, b) => {
           return a.indexes - b.indexes;
@@ -651,7 +657,7 @@ export default {
 }
 
 @supports (bottom: env(safe-area-inset-bottom)) {
-  .footer{
+  .footer {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
