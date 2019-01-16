@@ -23,6 +23,7 @@ export default {
   },
   mixins: [mixin],
   created() {
+    console.log(this.$route)
     this.time = this.$route.params.time || '';
     this.className = this.$route.params.className || '';
   },

@@ -99,7 +99,7 @@ export default {
       count: 0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
-      showMenu: false, //已添加课程显示删除弹出框标识
+      showMenu: true, //已添加课程显示删除弹出框标识
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
@@ -121,7 +121,7 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  created() {
+  mounted() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
       let title =

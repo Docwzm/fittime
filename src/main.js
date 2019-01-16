@@ -7,8 +7,8 @@ import  { ToastPlugin,LoadingPlugin } from 'vux'
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 
-import FastClick from 'fastclick'
-FastClick.attach(document.body)
+// import FastClick from 'fastclick'
+// FastClick.attach(document.body)
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad)
