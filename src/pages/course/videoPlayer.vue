@@ -188,6 +188,8 @@ export default {
           //   // this.player.fullscreen(true)
           //   this.player.play();
           // }
+        }else{
+          this.player.play()
         }
       } else {
         this.playerOnFlag = true;
