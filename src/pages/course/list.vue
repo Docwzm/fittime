@@ -67,7 +67,7 @@ export default {
     handleCategoryClick(key) {
       this.currentCate = key;
       this.list = []
-      this.actionGetCourseListByCate({ pageNum: 1, classify: parseInt(key) });
+      this.actionGetCourseListByCate({ pageNum: 1, classifyId: parseInt(key) });
     },
     //根据课程类型拉取列表
     actionGetCourseListByCate(data, cb) {
@@ -96,7 +96,7 @@ export default {
           this.classify = res.data;
           this.actionGetCourseListByCate({
             pageNum: page,
-            classify: tab || res.data[0].id
+            classifyId: tab || res.data[0].id
           });
         }
       });
@@ -128,7 +128,7 @@ export default {
       let self = this;
       if (!bottomLoading && page <= maxPage) {
         this.actionGetCourseListByCate(
-          { pageNum: page, classify: currentCate },
+          { pageNum: page, classifyId: currentCate },
           () => {
             self.bottomLoading = false;
           }
