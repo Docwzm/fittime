@@ -75,7 +75,7 @@
         开始训练
       </div>
     </div>
-    
+
     <div v-transfer-dom>
       <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
     </div>
@@ -90,7 +90,7 @@ import {
   shareUrlBridge,
   navTitleBridge
 } from "@/util/jsBridge";
-import { getCourseDetail, joinCourse, delCourse } from "@/api/detail";
+import { getCourseDetail, joinCourse, delCourse } from "@/api/detail.js";
 import { dateFormat } from "@/util/tool";
 
 export default {

@@ -52,7 +52,7 @@ import {
   finishCourse,
   getVideoDetail,
   updateVideoTime
-} from "@/api/detail";
+} from "@/api/detail.js";
 import {
   LSJavascriptBridgeInit,
   navTitleBridge,
