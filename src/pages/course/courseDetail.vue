@@ -77,12 +77,14 @@
         </div>
       </div>
     </div>
-    <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
+    <div v-transfer-dom>
+      <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
+    </div>
   </div>
 </template>
 
 <script>
-import { Actionsheet } from "vux"; //底部弹出框组件
+import { Actionsheet,TransferDom } from "vux"; //底部弹出框组件
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
@@ -99,7 +101,7 @@ export default {
       count: 0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
-      showMenu: true, //已添加课程显示删除弹出框标识
+      showMenu: false, //已添加课程显示删除弹出框标识
       menus: {
         delMenu: "结束课程"
       }, //导航栏按钮触发底层弹出框
@@ -115,6 +117,9 @@ export default {
   },
   components:{
     Actionsheet
+  },
+  directives: {
+    TransferDom
   },
   filters: {
     dateFilter: value => {
