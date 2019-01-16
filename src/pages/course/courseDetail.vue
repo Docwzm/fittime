@@ -156,6 +156,7 @@ export default {
       getCourseDetail({
         curriculumId: this.courseId
       }).then(res => {
+        alert(JSON.stringify(res))
         let data = res.data;
         data.drillDtoList.sort((a, b) => {
           return a.indexes - b.indexes;

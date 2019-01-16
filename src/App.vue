@@ -21,6 +21,9 @@ export default {
 </script>
 
 <style lang="less">
+.app{
+  overflow: hidden;
+}
 @import './assets/styles/reset.less';
 @import '~vux/src/styles/1px.less';
 

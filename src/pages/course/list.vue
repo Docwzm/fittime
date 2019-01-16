@@ -1,14 +1,9 @@
 <template>
-  <div class="list-wrap">
+  <div class="list-wrap" ref="list">
     <div class="list-header">
       <div class="class-box">
-        <div
-          v-for="item in classify"
-          :key="item.id"
-          class="class-cate"
-          :class="currentCate == item.id ?'current-cate':''"
-          @click="handleCategoryClick(item.id)"
-        >{{item.title}}</div>
+        <div v-for="item in classify" :key="item.id" class="class-cate" :class="currentCate == item.id ?'current-cate':''"
+          @click="handleCategoryClick(item.id)">{{item.title}}</div>
       </div>
     </div>
     <div class="list-content" @touchstart="handleTouchStart" @touchmove="handleTouchMove">
@@ -23,6 +18,7 @@
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
+import { setTimeout } from "timers";
 
 export default {
   name: "courseList",
@@ -39,7 +35,14 @@ export default {
       maxPage: 1
     };
   },
-  mounted() {
+  activated() {
+    // this.$nextTick(() => {
+    //   let el = document.documentElement || document.body;
+    //   el.scrollTop = 1000;
+    // });
+    // setTimeout(() => {
+    // },0)
+    // document.body.scrollTop = this._d.domTopList['list'];
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
         title: "全部课程",
@@ -53,6 +56,40 @@ export default {
       });
     });
   },
+  // deactivated() {
+  //   let el = document.body || document.documentElement;
+  //   this._d.domTopList['list'] = el.scrollTop;
+  // },
+  // mounted() {
+  //   LSJavascriptBridgeInit(() => {
+  //     navTitleBridge({
+  //       title: "全部课程",
+  //       autoResetToDefaultConfigWhtenOpenLink: true,
+  //       autoTopPadding: true,
+  //       // topPadding: 0,
+  //       tintColorType: 2,
+  //       backButtonType: 1,
+  //       barLineHidden: false,
+  //       color: { red: 255, green: 255, blue: 255, alpha: 255 }
+  //     });
+  //   });
+  // },
+  // watch: {
+  //   $route: () => {
+  //     LSJavascriptBridgeInit(() => {
+  //       navTitleBridge({
+  //         title: "全部课程",
+  //         autoResetToDefaultConfigWhtenOpenLink: true,
+  //         autoTopPadding: true,
+  //         // topPadding: 0,
+  //         tintColorType: 2,
+  //         backButtonType: 1,
+  //         barLineHidden: false,
+  //         color: { red: 255, green: 255, blue: 255, alpha: 255 }
+  //       });
+  //     });
+  //   }
+  // },
   // mixins: [mixin],
   components: {
     "list-item": ListItem
@@ -66,7 +103,7 @@ export default {
     //切换课程类别
     handleCategoryClick(key) {
       this.currentCate = key;
-      this.list = []
+      this.list = [];
       this.actionGetCourseListByCate({ pageNum: 1, classify: parseInt(key) });
     },
     //根据课程类型拉取列表
