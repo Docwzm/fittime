@@ -84,18 +84,4 @@ export default new Router({
       return { x: 0, y: to.meta.savedPosition || 0 }
     }
   }
-  // scrollBehavior (to, from, savedPosition) {
-  //   // 从第二页返回首页时savedPosition为undefined
-  //   if (savedPosition || typeof savedPosition === 'undefined') {
-  //     // 只处理设置了路由元信息的组件
-  //     from.meta.isKeepAlive = typeof from.meta.isKeepAlive === 'undefined' ? undefined : false
-  //     to.meta.isKeepAlive = typeof to.meta.isKeepAlive === 'undefined' ? undefined : true
-  //     if (savedPosition) {
-  //       return savedPosition
-  //     }
-  //   } else {
-  //     from.meta.isKeepAlive = typeof from.meta.isKeepAlive === 'undefined' ? undefined : true
-  //     to.meta.isKeepAlive = typeof to.meta.isKeepAlive === 'undefined' ? undefined : false
-  //   }
-  // }
 })

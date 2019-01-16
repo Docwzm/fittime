@@ -1,6 +1,6 @@
 <template>
   <div class="detail-wrap" v-if="course">
-    <div class="top-img">
+    <div class="top-img" ref="topImg">
       <img :src="course.coverImg" />
     </div>
 
@@ -97,6 +97,7 @@ export default {
   name: "courseDetail",
   data() {
     return {
+      scrollLimit: 0,
       count: 0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
@@ -125,28 +126,27 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
+  created() {
+    window.onscroll = () => {
+      let el = document.body || document.documentElement;
+      if (el.scrollTop >= this.scrollLimit) {
+        if(!this.scrollFlag){
+          this.scrollFlag = true;
+          this.setNavigationBar({ red: 21, green: 33, blue: 211, alpha: 0 })
+        }
+      }else{
+        if(this.scrollFlag){
+          this.scrollFlag = false;
+          this.setNavigationBar({ red: 255, green: 255, blue: 255, alpha: 0 })
+        }
+      }
+    };
+  },
+  mounted() {},
   activated() {
-    this.count = 0;
     LSJavascriptBridgeInit(() => {
       this.from = "app";
-      let title =
-        this.$route.meta && this.$route.meta.title
-          ? this.$route.meta.title
-          : "";
-      navTitleBridge({
-        title,
-        autoResetToDefaultConfigWhtenOpenLink: true,
-        tintColorType: 1,
-        backButtonType: 1,
-        topPadding: 0,
-        barLineHidden: true,
-        color: { red: 255, green: 255, blue: 255, alpha: 0 }
-      });
-      this.count += 1;
-      if (this.count == 2) {
-        this.setNavigationBarButtons();
-      }
-      // this.setNavigationBarButtons();
+      this.setNavigationBar({ red: 255, green: 255, blue: 255, alpha: 0 })
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -158,6 +158,22 @@ export default {
       }).then(res => {
         alert(JSON.stringify(res));
       });
+    },
+    setNavigationBar(color){
+      let title =
+        this.$route.meta && this.$route.meta.title
+          ? this.$route.meta.title
+          : "";
+      navTitleBridge({
+        title,
+        autoResetToDefaultConfigWhtenOpenLink: true,
+        tintColorType: 1,
+        backButtonType: 1,
+        topPadding: 0,
+        barLineHidden: true,
+        color
+      });
+      this.setNavigationBarButtons();
     },
     //获取视频详情
     getCourseDetail() {
@@ -224,10 +240,11 @@ export default {
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
         };
-        this.count += 1;
-        if (this.count == 2) {
-          this.setNavigationBarButtons();
-        }
+        this.setNavigationBarButtons();
+
+        this.$nextTick(() => {
+          this.scrollLimit = this.$refs.topImg.getBoundingClientRect().height;
+        });
       });
     },
     //客服
@@ -358,7 +375,7 @@ export default {
 @import "../../assets/styles/mixin";
 .detail-wrap {
   // padding: 430px 0 110px;
-  padding-bottom:110px;
+  padding-bottom: 110px;
 }
 .top-img {
   // position: fixed;
@@ -597,7 +614,9 @@ export default {
   // height:110px;
   background: #fff;
   overflow: hidden;
-  // 
+  //
+
+
   .buy-wrap {
     padding: 15px 0;
     padding-left: 50px;
@@ -647,8 +666,8 @@ export default {
   .add-wrap,
   .play-wrap {
     padding: 15px 0;
-    button{
-      border:none;
+    button {
+      border: none;
       display: block;
       width: 640px;
       height: 80px;

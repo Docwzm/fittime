@@ -20,6 +20,7 @@
 <script>
 import ListItem from "@/components/ListItem";
 import { getSubject } from "@/api/course";
+import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
 
 export default {
   name: "courseSpecial",
@@ -35,7 +36,20 @@ export default {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
   },
-  
+  activated() {
+    LSJavascriptBridgeInit(() => {
+      navTitleBridge({
+        title: "课程专题",
+        autoResetToDefaultConfigWhtenOpenLink: true,
+        autoTopPadding: true,
+        topPadding: 0,
+        tintColorType: 2,
+        backButtonType: 1,
+        barLineHidden: false,
+        color: { red: 255, green: 255, blue: 255, alpha: 255 }
+      });
+    });
+  },
   methods: {
     handleToCourseList() {
       this.$router.push("/course-list");
