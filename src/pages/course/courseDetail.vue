@@ -97,6 +97,7 @@ export default {
   name: "courseDetail",
   data() {
     return {
+      scrollFlag:false,
       scrollLimit: 0,
       count: 0,
       from: "app", //页面来源 app、分享页面
