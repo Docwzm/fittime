@@ -1,7 +1,9 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"></video>
+      <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
+        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
+        x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -14,39 +16,43 @@
     <div class="detail-wrap">
       <!-- <img src="../../assets/images/poster.png"> -->
     </div>
-    <x-dialog class="netwrokDialog" v-model="showNetworkTip">
-      <div>
-        <div class="title">
-          当前非Wi-Fi环境，是否继续播放
+    <div v-transfer-dom>
+      <x-dialog class="netwrokDialog" v-model="showNetworkTip">
+        <div>
+          <div class="title">
+            当前非Wi-Fi环境，是否继续播放
+          </div>
+          <div class="btn-wrap">
+            <span @click="play">继续播放</span>
+            <span @click="play(1)">继续播放，下次不再提醒</span>
+            <span @click="cancelPlay">取消</span>
+          </div>
         </div>
-        <div class="btn-wrap">
-          <span @click="play">继续播放</span>
-          <span @click="play(1)">继续播放，下次不再提醒</span>
-          <span @click="cancelPlay">取消</span>
+      </x-dialog>
+    </div>
+    <div v-transfer-dom>
+      <x-dialog class="confirmDialog" v-model="showConfirmTip">
+        <div>
+          <p class="title">不再坚持一下吗?</p>
+          <div class="btn-wrap">
+            <span @click="cancelWebview">退出训练</span>
+            <span @click="goOnPlay">继续训练</span>
+          </div>
         </div>
-      </div>
-    </x-dialog>
-    <x-dialog class="confirmDialog" v-model="showConfirmTip">
-      <div>
-        <p class="title">不再坚持一下吗?</p>
-        <div class="btn-wrap">
-          <span @click="cancelWebview">退出训练</span>
-          <span @click="goOnPlay">继续训练</span>
-        </div>
-      </div>
-    </x-dialog>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { setLocal, getLocal } from "@/util/localStorage";
-import { XDialog } from "vux";
+import { XDialog, TransferDom } from "vux";
 import {
   getCourseUrl,
   finishCourse,
   getVideoDetail,
   updateVideoTime
-} from "@/api/detail";
+} from "@/api/detail.js";
 import {
   LSJavascriptBridgeInit,
   navTitleBridge,
@@ -79,6 +85,9 @@ export default {
   },
   components: {
     XDialog
+  },
+  directives: {
+    TransferDom
   },
   mounted() {
     this.videoKey = this.$route.query.key;
@@ -116,20 +125,12 @@ export default {
     // this.getVideoDetail();
   },
   beforeDestroy() {
+    setBackbuttonCallBack("", () => {}); //页面销毁时删除返回键监听
     if (this.player) {
       this.player.dispose(); //页面卸载前 释放播放器实例
     }
   },
   methods: {
-    checkFull() {
-      var isFull =
-        document.fullscreenEnabled ||
-        window.fullScreen ||
-        document.webkitIsFullScreen ||
-        document.msFullscreenEnabled;
-      if (isFull === undefined) isFull = false;
-      return isFull;
-    },
     webviewCancel() {
       if (this.playFlag) {
         this.showConfirmTip = true;
@@ -152,7 +153,7 @@ export default {
     },
     cancelWebview() {
       // cancelWebview()
-      setBackbuttonCallBack("", () => {});
+
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -190,6 +191,8 @@ export default {
           //   // this.player.fullscreen(true)
           //   this.player.play();
           // }
+        } else {
+          this.player.play();
         }
       } else {
         this.playerOnFlag = true;
@@ -216,7 +219,7 @@ export default {
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
         this.curriculumName = data.curriculumName;
-        // this.poster = data.coverImg
+        this.poster = data.coverImg
       });
     },
     getCourseUrl() {
@@ -336,7 +339,6 @@ export default {
               curriculumId: this.curriculumId,
               drillId: this.drillId
             }).then(res => {
-              setBackbuttonCallBack("", () => {});
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );

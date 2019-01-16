@@ -14,73 +14,78 @@ import systemAgreement from '@/pages/system/agreement'
 export default new Router({
   // mode: 'history',
   routes: [{
-      path: '/course-detail/:id',
-      name: 'courseDetail',
-      component: courseDetail,
-      meta: {
-        fullScreen: true
-      }
-    },{
-      path: '/video-player/:id',
-      name: 'videoPlayer',
-      component: videoPlayer,
-      meta: {
-        fullScreen: true
-      }
-    }, {
-      path: '/course-list',
-      name: 'courseList',
-      component: courseList,
-      meta: {
-        title: '课程列表'
-      }
-    },
-    {
-      path: '/course-special/:id',
-      name: 'courseSpecial',
-      component: courseSpecial,
-      meta: {
-        title: '课程专题'
-      }
-    },
-    {
-      path: '/course-payment/:id',
-      name: 'coursePayment',
-      component: coursePayment,
-      meta: {
-        title: '课程购买'
-      }
-    },
-    {
-      path: '/course-share/:time/:className',
-      name: 'courseShare',
-      component: courseShare,
-      meta: {
-        title: '课程分享'
-      }
-    },
-    {
-      path: '/system-service',
-      name: 'systemService',
-      component: systemService,
-      meta: {
-        title: '联系客服'
-      }
-    }, {
-      path: '/system-agreement',
-      name: 'systemAgreement',
-      component: systemAgreement,
-      meta: {
-        title: '服务协议'
-      }
-    },
-  ]
+    path: '/course-detail/:id',
+    name: 'courseDetail',
+    component: courseDetail,
+    meta: {
+      fullScreen: true,
+      keepAlive: true
+    }
+  }, {
+    path: '/video-player/:id',
+    name: 'videoPlayer',
+    component: videoPlayer,
+    meta: {
+      fullScreen: true
+    }
+  }, {
+    path: '/course-list',
+    name: 'courseList',
+    component: courseList,
+    meta: {
+      title: '课程列表',
+      keepAlive: true
+    }
+  },
+  {
+    path: '/course-special/:id',
+    name: 'courseSpecial',
+    component: courseSpecial,
+    meta: {
+      title: '课程专题',
+      keepAlive: true
+    }
+  },
+  {
+    path: '/course-payment/:id',
+    name: 'coursePayment',
+    component: coursePayment,
+    meta: {
+      title: '课程购买'
+    }
+  },
+  {
+    path: '/course-share/:time/:className',
+    name: 'courseShare',
+    component: courseShare,
+    meta: {
+      title: '课程分享'
+    }
+  },
+  {
+    path: '/system-service',
+    name: 'systemService',
+    component: systemService,
+    meta: {
+      title: '联系客服'
+    }
+  }, {
+    path: '/system-agreement',
+    name: 'systemAgreement',
+    component: systemAgreement,
+    meta: {
+      title: '服务协议'
+    }
+  },
+  ],
   // scrollBehavior(to, from, savedPosition) {
   //   if (savedPosition) {
   //     return savedPosition
-  //   }
-  //   else {
-  //     return { x: 0, y: 1 }
+  //   } else {
+  //     if (from.meta.keepAlive) {
+  //       from.meta.savedPosition = document.documentElement.scrollTop;
+  //     }
+  //     return { x: 0, y: to.meta.savedPosition || 0 }
   //   }
   // }
 })
