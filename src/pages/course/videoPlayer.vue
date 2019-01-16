@@ -14,33 +14,37 @@
     <div class="detail-wrap">
       <!-- <img src="../../assets/images/poster.png"> -->
     </div>
-    <x-dialog class="netwrokDialog" v-model="showNetworkTip">
-      <div>
-        <div class="title">
-          当前非Wi-Fi环境，是否继续播放
+    <div v-transfer-dom>
+      <x-dialog class="netwrokDialog" v-model="showNetworkTip">
+        <div>
+          <div class="title">
+            当前非Wi-Fi环境，是否继续播放
+          </div>
+          <div class="btn-wrap">
+            <span @click="play">继续播放</span>
+            <span @click="play(1)">继续播放，下次不再提醒</span>
+            <span @click="cancelPlay">取消</span>
+          </div>
         </div>
-        <div class="btn-wrap">
-          <span @click="play">继续播放</span>
-          <span @click="play(1)">继续播放，下次不再提醒</span>
-          <span @click="cancelPlay">取消</span>
+      </x-dialog>
+    </div>
+    <div v-transfer-dom>
+      <x-dialog class="confirmDialog" v-model="showConfirmTip">
+        <div>
+          <p class="title">不再坚持一下吗?</p>
+          <div class="btn-wrap">
+            <span @click="cancelWebview">退出训练</span>
+            <span @click="goOnPlay">继续训练</span>
+          </div>
         </div>
-      </div>
-    </x-dialog>
-    <x-dialog class="confirmDialog" v-model="showConfirmTip">
-      <div>
-        <p class="title">不再坚持一下吗?</p>
-        <div class="btn-wrap">
-          <span @click="cancelWebview">退出训练</span>
-          <span @click="goOnPlay">继续训练</span>
-        </div>
-      </div>
-    </x-dialog>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { setLocal, getLocal } from "@/util/localStorage";
-import { XDialog } from "vux";
+import { XDialog, TransferDom } from "vux";
 import {
   getCourseUrl,
   finishCourse,
@@ -79,6 +83,9 @@ export default {
   },
   components: {
     XDialog
+  },
+  directives: {
+    TransferDom
   },
   mounted() {
     this.videoKey = this.$route.query.key;
@@ -121,15 +128,6 @@ export default {
     }
   },
   methods: {
-    checkFull() {
-      var isFull =
-        document.fullscreenEnabled ||
-        window.fullScreen ||
-        document.webkitIsFullScreen ||
-        document.msFullscreenEnabled;
-      if (isFull === undefined) isFull = false;
-      return isFull;
-    },
     webviewCancel() {
       if (this.playFlag) {
         this.showConfirmTip = true;

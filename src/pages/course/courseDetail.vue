@@ -1,82 +1,81 @@
 <template>
-  <div class="detail-wrap">
-    <div v-if="course">
-      <div class="top-img">
-        <img :src="course.coverImg" />
-      </div>
+  <div class="detail-wrap" v-if="course">
+    <div class="top-img">
+      <img :src="course.coverImg" />
+    </div>
 
-      <div class="base-info">
-        <p class="title">{{course.title}}</p>
-        <div class="line-wrap">
-          <span class="tag">{{ course.label }}</span>
-          <span class="hot-count">{{ course.heat }}</span>
-        </div>
-      </div>
-
-      <div class="tab-bar vux-1px-b">
-        <p :class="slectedTab==1?'active':''" @click="slectedTab=1"><span>介绍</span></p>
-        <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
-            courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
-      </div>
-
-      <div class="content">
-        <!-- 介绍 -->
-        <div class="intro" v-show="slectedTab==1">
-          <p class="title">{{course.contentTitle}}</p>
-          <p class="content" v-html="course.content"></p>
-          <img src="../../assets/images/poster.png" />
-          <div class="img-wrap">
-            <p class="img-title">{{ course.imgContent[0] }}</p>
-            <div v-for="(item,index) in course.imgContent" :key="index">
-              <p class="mess" v-if="index!=0">{{ item }}</p>
-            </div>
-          </div>
-        </div>
-        <!-- 课程 -->
-        <div class="course-list" v-show="slectedTab==2">
-          <ul>
-            <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&!isBuy&&!item.trySee)?' lock':'')"
-              @click="gotoPlay(item)">
-              <p class="mess">
-                <span class="name">{{item.title}}</span>
-                <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
-                <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
-              </p>
-              <p class="btn" v-if="course.type==1&&!isBuy&&item.trySee">免费试看</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="buy-tip">
-        <p>购买须知</p>
-        <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
-      </div>
-
-      <div class="repay-tip" v-if="course.type==1&&isBuy">
-        <p class="title">课程已购买</p>
-        <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
-        <div @click="gotoPay" class="repay-btn" v-if="course.isexpire==1">>>前往续费</div>
-      </div>
-
-      <div class="footer">
-        <div class="buy-wrap" v-if="course.type==1&&!isBuy">
-          <div @click="gotoService" class="concat"><span>客服</span></div>
-          <div @click="gotoPay" class="buy-btn">
-            <span>购买课程</span>
-            <b>(￥{{course.price}})</b>
-          </div>
-        </div>
-
-        <div class="add-wrap" v-else-if="isBuy&&!isAdd" @click="joinCourse">
-          加入课程
-        </div>
-
-        <div @click="gotoPlay" class="play-wrap" v-else>
-          开始训练
-        </div>
+    <div class="base-info">
+      <p class="title">{{course.title}}</p>
+      <div class="line-wrap">
+        <span class="tag">{{ course.label }}</span>
+        <span class="hot-count">{{ course.heat }}</span>
       </div>
     </div>
+
+    <div class="tab-bar vux-1px-b">
+      <p :class="slectedTab==1?'active':''" @click="slectedTab=1"><span>介绍</span></p>
+      <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
+          courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
+    </div>
+
+    <div class="content">
+      <!-- 介绍 -->
+      <div class="intro" v-show="slectedTab==1">
+        <p class="title">{{course.contentTitle}}</p>
+        <p class="content" v-html="course.content"></p>
+        <img src="../../assets/images/poster.png" />
+        <div class="img-wrap">
+          <p class="img-title">{{ course.imgContent[0] }}</p>
+          <div v-for="(item,index) in course.imgContent" :key="index">
+            <p class="mess" v-if="index!=0">{{ item }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- 课程 -->
+      <div class="course-list" v-show="slectedTab==2">
+        <ul>
+          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&!isBuy&&!item.trySee)?' lock':'')"
+            @click="gotoPlay(item)">
+            <p class="mess">
+              <span class="name">{{item.title}}</span>
+              <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
+              <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
+            </p>
+            <p class="btn" v-if="course.type==1&&!isBuy&&item.trySee">免费试看</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="buy-tip">
+      <p>购买须知</p>
+      <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
+    </div>
+
+    <div class="repay-tip" v-if="course.type==1&&isBuy">
+      <p class="title">课程已购买</p>
+      <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
+      <div @click="gotoPay" class="repay-btn" v-if="course.isexpire==1">>>前往续费</div>
+    </div>
+
+    <div class="footer">
+      <div class="buy-wrap" v-if="course.type==1&&!isBuy">
+        <div @click="gotoService" class="concat"><span>客服</span></div>
+        <div @click="gotoPay" class="buy-btn">
+          <span>购买课程</span>
+          <b>(￥{{course.price}})</b>
+        </div>
+      </div>
+
+      <div class="add-wrap" v-else-if="isBuy&&!isAdd" @click="joinCourse">
+        加入课程
+      </div>
+
+      <div @click="gotoPlay" class="play-wrap" v-else>
+        开始训练
+      </div>
+    </div>
+    
     <div v-transfer-dom>
       <actionsheet v-model="showMenu" :menus="menus" @on-click-menu="menuClick" show-cancel></actionsheet>
     </div>
@@ -84,7 +83,7 @@
 </template>
 
 <script>
-import { Actionsheet,TransferDom } from "vux"; //底部弹出框组件
+import { Actionsheet, TransferDom } from "vux"; //底部弹出框组件
 import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
@@ -115,7 +114,7 @@ export default {
       nextPlayKey: "" //视频key
     };
   },
-  components:{
+  components: {
     Actionsheet
   },
   directives: {
@@ -328,7 +327,6 @@ export default {
     // 显示底部结束课程弹出框
     showNavigationMenu() {
       this.showMenu = true;
-      alert(this.showMenu);
     },
     //唤起app分享弹框
     shareApp() {
