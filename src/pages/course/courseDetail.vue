@@ -67,11 +67,11 @@
         </div>
       </div>
 
-      <div class="add-wrap" v-else-if="!isAdd">
+      <div class="add-wrap" v-if="!isAdd">
         <button @click="joinCourse">加入课程</button>
       </div>
 
-      <div class="play-wrap" v-else>
+      <div class="play-wrap" v-if="isAdd">
         <button @click="gotoPlay">开始训练</button>
       </div>
     </div>
