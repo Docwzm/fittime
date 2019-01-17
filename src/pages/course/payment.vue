@@ -11,9 +11,11 @@
       </div>
       <div class="button" @click="handlePayment">立即支付</div>
       <div class="tips">
-        <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt>
-        <img v-else src="@/assets/images/icons/ic_multiselect_normal@2x.png">
-        <span @click="handleChecked">我已阅读并同意</span>
+        <div @click="handleChecked">
+          <img v-if="checked" src="@/assets/images/icons/ic_multiselect_normal_ck@2x.png" alt>
+          <img v-else src="@/assets/images/icons/ic_multiselect_normal@2x.png">
+          <span>我已阅读并同意</span>
+        </div>
         <a href="javasvript:void(0)" @click="handleAgreementClick">服务协议</a>
       </div>
       <div class="service-icon" @click="handleServieClick">
@@ -56,7 +58,7 @@ export default {
         barLineHidden: false,
         color: { red: 255, green: 255, blue: 255, alpha: 255 }
       });
-      this.registeNavButton()
+      this.registeNavButton();
     });
   },
 
@@ -66,7 +68,7 @@ export default {
       this.$router.push("/system-service");
     },
 
-    handleAgreementClick(){
+    handleAgreementClick() {
       this.$router.push("/system-agreement");
     },
 
@@ -92,7 +94,7 @@ export default {
     },
 
     //支付成功的回调
-    wxpaycallback(orderId,code) {
+    wxpaycallback(orderId, code) {
       if (code == 0) {
         this.actionBuyCourse(orderId);
       } else {
@@ -135,9 +137,9 @@ export default {
       buyCourse(id).then(res => {
         if (res.code === 200) {
           this.$vux.toast.text("购买成功");
-          setTimeout(()=>{
-            this.$router.push("/course-detail/"+res.data.curriculumId);
-          },1000)
+          setTimeout(() => {
+            this.$router.push("/course-detail/" + res.data.curriculumId);
+          }, 1000);
         }
       });
     },
@@ -146,17 +148,25 @@ export default {
     callWxPay(appData) {
       if (typeof lxPayDelegate !== "undefined") {
         this.isPaying = true;
-        const { appid, nonceStr, partnerid, paySign, prepayid, timestamp, orderId } = appData
+        const {
+          appid,
+          nonceStr,
+          partnerid,
+          paySign,
+          prepayid,
+          timestamp,
+          orderId
+        } = appData;
         let appDataPay = {
-            partnerId: partnerid,
-            orderId: orderId,
-            prepayId: prepayid,
-            signType: "Sign=WXPay",
-            nonceStr: nonceStr,
-            timeStamp: timestamp,
-            paySign: paySign,
-            callback: 'global_wxpaycallback',
-        }
+          partnerId: partnerid,
+          orderId: orderId,
+          prepayId: prepayid,
+          signType: "Sign=WXPay",
+          nonceStr: nonceStr,
+          timeStamp: timestamp,
+          paySign: paySign,
+          callback: "global_wxpaycallback"
+        };
         lxPayDelegate.sendWxPayRequest(JSON.stringify(appDataPay));
       } else {
         this.isPaying = false;
@@ -176,7 +186,6 @@ export default {
       //设置导航栏按钮
       navigationButtonsBridge(buttons);
     }
-    
   }
 };
 </script>

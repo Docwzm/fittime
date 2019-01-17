@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="add-wrap" v-else-if="isBuy&&!isAdd">
+      <div class="add-wrap" v-else-if="!isAdd">
         <button @click="joinCourse">加入课程</button>
       </div>
 
