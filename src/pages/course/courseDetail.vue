@@ -175,9 +175,10 @@ export default {
         }
       };
 
+      let self = this;
+
       LSJavascriptBridgeInit(() => {
-        this.noAuth = false;
-        alert(JSON.stringify(this._data));
+        self.noAuth = false;
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
@@ -617,7 +618,7 @@ export default {
   }
 }
 .buy-tip {
-  margin: 60px 40px 70px;
+  margin: 60px 40px 0;
   p {
     text-align: center;
     font-size: 28px;
@@ -633,7 +634,7 @@ export default {
   }
 }
 .repay-tip {
-  padding: 0 0 70px;
+  padding: 70px 0;
   p,
   .repay-btn {
     display: block;

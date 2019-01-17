@@ -1,5 +1,5 @@
 import request from '@/util/request'
-
+import Vue from 'vue';
 /**
  * 获取课程详情
  * @export
@@ -7,17 +7,18 @@ import request from '@/util/request'
  * @returns
  */
 export function getCourseDetail({noAuth,curriculumId}){
-    let name = 'get_curriculum_info'
-    if(noAuth){
-        name = 'get_auth_curriculum_info'
-    }
-    return request({
-        url: '/opencourse_service/fitness/'+name,
-        method: 'get',
-        params:{
-            curriculumId,
-        }
-    })
+    // let name = 'get_curriculum_info'
+    // if(noAuth){
+    //     name = 'get_auth_curriculum_info'
+    // }
+    // return request({
+    //     url: '/opencourse_service/fitness/'+name,
+    //     method: 'get',
+    //     params:{
+    //         curriculumId,
+    //     }
+    // })
+    Vue.http.get('/opencourse_service/fitness/get_curriculum_info?curriculumId='+curriculumId)
 }
 
 
