@@ -77,6 +77,47 @@ export default {
 }
 
 
+::-webkit-media-controls{
+    visibility: hidden!important;
+    display:none !important;
+    z-index:-100000!important;
+}
+
+video::-webkit-media-controls{
+  visibility: hidden!important;
+    display:none !important;
+    z-index:-100000!important;
+}
+
+video::-webkit-media-controls-enclosure{
+    display:none !important;
+    visibility: hidden!important;
+    z-index:-100000!important;
+}
+
+.custom-video-controls{
+    z-index:217483647!important;
+}
+
+ video::-webkit-media-controls,
+    video::-moz-media-controls,
+    video::-webkit-media-controls-enclosure{
+    display:none !important;
+    visibility: hidden!important;
+    -webkit-appearance: none!important;
+    z-index:-100000!important;
+}
+
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-panel-container,
+video::-webkit-media-controls-start-playback-button {
+    display:none !important;
+    visibility: hidden!important;
+    -webkit-appearance: none!important;
+    z-index:-100000!important;
+}
+
+
 
 
 .weui-dialog{

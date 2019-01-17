@@ -21,7 +21,7 @@ export default new Router({
       keepAlive: true
     }
   }, {
-    path: '/video-player/:id',
+    path: '/video-player/:courseId/:drillId',
     name: 'videoPlayer',
     component: videoPlayer
   }, {

@@ -124,29 +124,42 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  deactivated(){
+  deactivated() {
     window.onscroll = null;
   },
   activated() {
-    window.onscroll = () => {
-      let el = document.body || document.documentElement;
-      if (el.scrollTop <= 240) {
-        this.setNavigationBar({
-          red: 38,
-          green: 38,
-          blue: 38,
-          alpha: el.scrollTop
-        });
-      }
-    };
-    LSJavascriptBridgeInit(() => {
-      this.from = "app";
-      this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
-    });
-    this.courseId = this.$route.params.id;
-    this.getCourseDetail();
+    this.init();
+  },
+  beforeRouteEnter(to, from, next) {
+    //页面缓存时 重新进入重置状态
+    if (from.name == "courseList") {
+      next(vm => {
+        vm.slectedTab = 1;
+      });
+    } else {
+      next();
+    }
   },
   methods: {
+    init() {
+      window.onscroll = () => {
+        let el = document.body || document.documentElement;
+        if (el.scrollTop <= 240) {
+          this.setNavigationBar({
+            red: 38,
+            green: 38,
+            blue: 38,
+            alpha: el.scrollTop
+          });
+        }
+      };
+      LSJavascriptBridgeInit(() => {
+        this.from = "app";
+        this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
+      });
+      this.courseId = this.$route.params.id;
+      this.getCourseDetail();
+    },
     test() {
       getCourseDetail({
         curriculumId: this.courseId
@@ -264,13 +277,13 @@ export default {
           if (this.isBuy) {
             //已经购买了的
             this.$router.push(
-              "/video-player/" + data.id + "?key=" + data.videoKey
+              "/video-player/" + this.courseId + '/' + data.id + "?key=" + data.videoKey
             );
           } else {
             if (data.trySee) {
               //试看
               this.$router.push(
-                "/video-player/" + data.id + "?key=" + data.videoKey
+                "/video-player/" + this.courseId + '/' + data.id + "?key=" + data.videoKey
               );
             } else {
               //不可试看
@@ -280,13 +293,13 @@ export default {
         } else {
           // 免费课程
           this.$router.push(
-            "/video-player/" + data.id + "?key=" + data.videoKey
+            "/video-player/" + this.courseId + '/'  + data.id + "?key=" + data.videoKey
           );
         }
       } else {
         //点击开始训练
         this.$router.push(
-          "/video-player/" + this.nextPlayId + "?key=" + this.nextPlayKey
+          "/video-player/" + this.courseId + '/'  + this.nextPlayId + "?key=" + this.nextPlayKey
         );
       }
     },
@@ -298,6 +311,7 @@ export default {
       }).then(res => {
         this.isAdd = true;
         this.setNavigationBarButtons(); //重置顶部导航栏
+        this.$forceUpdate(); //防止缓存不刷新
       });
     },
     //删除已加入课程
@@ -308,6 +322,7 @@ export default {
         }).then(res => {
           this.isAdd = false;
           this.setNavigationBarButtons(); //重置顶部导航栏
+          this.$forceUpdate(); //防止缓存不刷新
         });
       }
     },

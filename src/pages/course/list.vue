@@ -68,7 +68,8 @@ export default {
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
-            this.list = this.list.concat(data.list);
+            let arr = [...data.list,...data.list,...data.list]
+            this.list = arr;
 
             this.maxPage = data.maxPage;
             this.page += 1;

@@ -1,17 +1,17 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
+      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
         x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
-        x5-video-player-fullscreen="false" x5-video-orientation="landscape"></video>
+        x5-video-player-fullscreen="false" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
       </div>
     </div>
-    <div class="intro vux-1px-b" @click="test">
-      <p class="title">{{ title }}</p>
-      <span>第{{sortIndex}}次训练</span>
+    <div class="intro vux-1px-b">
+      <p class="title" @click="test1">{{ title }}</p>
+      <span @click="test2">第{{sortIndex}}次训练</span>
     </div>
     <div class="detail-wrap">
       <!-- <img src="../../assets/images/poster.png"> -->
@@ -60,14 +60,11 @@ import {
   cancelWebview,
   setBackbuttonCallBack
 } from "@/util/jsBridge";
-import poster from "@/assets/images/poster.png";
-import { Promise, resolve, reject } from "q";
-import { rejects } from "assert";
 export default {
   name: "videoPlayer",
   data() {
     return {
-      poster,
+      poster: "",
       loadFlag: 0,
       posterFlag: false,
       sortIndex: "",
@@ -94,7 +91,8 @@ export default {
   },
   mounted() {
     this.videoKey = this.$route.query.key;
-    this.drillId = this.$route.params.id;
+    this.curriculumId = this.$route.params.courseId;
+    this.drillId = this.$route.params.drillId;
 
     let no_network_tip = getLocal("no_network_tip");
     if (no_network_tip) {
@@ -135,9 +133,16 @@ export default {
     }
   },
   methods: {
-    test() {
+    test1() {
       getNetworkState("networkChange", this.networkChange, status => {
         alert(status);
+      });
+    },
+    test2() {
+      getVideoDetail({
+        drillId: this.drillId
+      }).then(res => {
+        alert(JSON.stringify(res))
       });
     },
     webviewCancel() {
@@ -175,7 +180,6 @@ export default {
         if (!this.no_network) {
           //需要网络验证
           // alert(this.player.state())
-          // this.player.play()
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
@@ -220,7 +224,6 @@ export default {
       }).then(res => {
         let data = res.data;
         this.trySee = data.trySee;
-        this.curriculumId = data.curriculumId;
         this.duration = data.trySeeTime;
         this.title = data.title;
         this.sortIndex = data.indexes;
@@ -240,10 +243,10 @@ export default {
       }).then(res => {
         let data = res.data;
         let options = {
-          controls: true,
-          url: data.videoAddress,
-          // url:
-          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          controls: false,
+          // url: data.videoAddress,
+          url:
+            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -251,8 +254,11 @@ export default {
           // poster: '',
           // stretching:'panscan'
         };
-        this.player = new QiniuPlayer("my-video", options);
-        this.watchPlayer();
+        this.loadFlag += 1;
+        if (this.loadFlag == 2) {
+          this.player = new QiniuPlayer("my-video", options);
+          this.watchPlayer();
+        }
       });
     },
     //监听视频player 事件
@@ -265,15 +271,20 @@ export default {
         // })
         this.player.on("loadedmetadata", () => {
           // this.player.play();
-          // this.posterFlag = true;
-          this.loadFlag += 1;
-          if (this.loadFlag == 2) {
-            this.posterFlag = true;
-          }
+          this.posterFlag = true;
         });
+
         // this.player.on('fullscreenchange',() => {
-        //   alert('fullscreenchange')
+        //   // alert(this.$refs.myVideo)
+        //   if(this.player.isFullscreen()){
+
+        //   }else{
+        //     this.player.dispose();
+        //   }
+          
         // })
+
+        // this.player.controls = false;
 
         // this.player.on('fullscreenchange',()=>{
         //   this.player.duration(this.duration)
@@ -368,6 +379,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
+
 .netwrokDialog {
   .title {
     padding: 48px 64px !important;
