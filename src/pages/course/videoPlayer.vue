@@ -61,11 +61,14 @@ import {
   setBackbuttonCallBack
 } from "@/util/jsBridge";
 import poster from "@/assets/images/poster.png";
+import { Promise, resolve, reject } from "q";
+import { rejects } from "assert";
 export default {
   name: "videoPlayer",
   data() {
     return {
       poster,
+      loadFlag: 0,
       posterFlag: false,
       sortIndex: "",
       curriculumId: "", //课程ID
@@ -118,6 +121,7 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
+
       this.getCourseUrl();
       this.getVideoDetail();
     });
@@ -131,10 +135,10 @@ export default {
     }
   },
   methods: {
-    test(){
+    test() {
       getNetworkState("networkChange", this.networkChange, status => {
-        alert(status)
-      })
+        alert(status);
+      });
     },
     webviewCancel() {
       if (this.playFlag) {
@@ -158,7 +162,6 @@ export default {
     },
     cancelWebview() {
       // cancelWebview()
-
       this.$router.back(-1);
       // this.showConfirmTip = false;
     },
@@ -224,7 +227,11 @@ export default {
         this.videoTime = data.videoTime;
         this.videoCount = data.videoCount ? data.videoCount : 0;
         this.curriculumName = data.curriculumName;
-        this.poster = data.coverImg
+        this.poster = data.coverImg;
+        this.loadFlag += 1;
+        if (this.loadFlag == 2) {
+          this.posterFlag = true;
+        }
       });
     },
     getCourseUrl() {
@@ -235,9 +242,9 @@ export default {
         // this.poster = data.poster;
         let options = {
           controls: true,
-          url: data.videoAddress,
-          // url:
-          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          // url: data.videoAddress,
+          url:
+            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -259,7 +266,11 @@ export default {
         // })
         this.player.on("loadedmetadata", () => {
           // this.player.play();
-          this.posterFlag = true;
+          // this.posterFlag = true;
+          this.loadFlag += 1;
+          if (this.loadFlag == 2) {
+            this.posterFlag = true;
+          }
         });
         // this.player.on('fullscreenchange',() => {
         //   alert('fullscreenchange')

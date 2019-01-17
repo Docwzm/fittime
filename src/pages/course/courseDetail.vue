@@ -97,9 +97,6 @@ export default {
   name: "courseDetail",
   data() {
     return {
-      scrollFlag:false,
-      scrollLimit: 0,
-      count: 0,
       from: "app", //页面来源 app、分享页面
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
@@ -127,27 +124,24 @@ export default {
       return dateFormat(value * 1000, "YYYY年MM月DD日");
     }
   },
-  created() {
+  deactivated(){
+    window.onscroll = null;
+  },
+  activated() {
     window.onscroll = () => {
       let el = document.body || document.documentElement;
-      if (el.scrollTop >= this.scrollLimit) {
-        if(!this.scrollFlag){
-          this.scrollFlag = true;
-          this.setNavigationBar({ red: 21, green: 33, blue: 211, alpha: 0 })
-        }
-      }else{
-        if(this.scrollFlag){
-          this.scrollFlag = false;
-          this.setNavigationBar({ red: 255, green: 255, blue: 255, alpha: 0 })
-        }
+      if (el.scrollTop <= 240) {
+        this.setNavigationBar({
+          red: 38,
+          green: 38,
+          blue: 38,
+          alpha: el.scrollTop
+        });
       }
     };
-  },
-  mounted() {},
-  activated() {
     LSJavascriptBridgeInit(() => {
       this.from = "app";
-      this.setNavigationBar({ red: 255, green: 255, blue: 255, alpha: 0 })
+      this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
     });
     this.courseId = this.$route.params.id;
     this.getCourseDetail();
@@ -160,7 +154,7 @@ export default {
         alert(JSON.stringify(res));
       });
     },
-    setNavigationBar(color){
+    setNavigationBar(color) {
       let title =
         this.$route.meta && this.$route.meta.title
           ? this.$route.meta.title
@@ -242,10 +236,6 @@ export default {
           imgContent: data.imgConten.split("\n")
         };
         this.setNavigationBarButtons();
-
-        this.$nextTick(() => {
-          this.scrollLimit = this.$refs.topImg.getBoundingClientRect().height;
-        });
       });
     },
     //客服
