@@ -130,9 +130,6 @@ export default {
     window.onscroll = null;
   },
   created() {
-    this.courseId = this.$route.params.id;
-    this.from = this.$route.query.from;
-    this.getCourseDetail();
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
         if (item.id == id) {
@@ -142,7 +139,7 @@ export default {
     });
 
     busEvent.$on("payDone", id => {
-      if(id == this.courseId){
+      if (id == this.courseId) {
         this.isBuy = true;
         this.slectedTab = 2;
       }
@@ -158,9 +155,11 @@ export default {
   },
   activated() {
     this.init();
-    if (this.$route.meta.flush) {
-      this.getCourseDetail();
-    }
+    // if (this.$route.meta.flush) {
+    this.courseId = this.$route.params.id;
+    this.from = this.$route.query.from;
+    this.getCourseDetail();
+    // }
   },
   methods: {
     init() {
@@ -178,12 +177,12 @@ export default {
 
       LSJavascriptBridgeInit(() => {
         this.noAuth = false;
-        alert(JSON.stringify(this._data))
+        alert(JSON.stringify(this._data));
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
     test() {
-      alert(JSON.stringify(this._data))
+      alert(JSON.stringify(this._data));
       getCourseDetail({
         curriculumId: this.courseId
       }).then(res => {
