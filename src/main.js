@@ -26,17 +26,6 @@ Vue.config.productionTip = false
 //   next();
 // })
 
-router.beforeEach((to, from, next)=> {
-  //页面缓存时 重新进入重置状态
-  if (from.name == "courseList" && to.name == "courseDetail") {
-    to.meta.flush = true;
-    next();
-  } else {
-    to.meta.flush = false;
-    next();
-  }
-})
-
 new Vue({
   router,
   render: h => h(App)

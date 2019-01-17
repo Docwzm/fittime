@@ -133,7 +133,6 @@ export default {
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from;
     this.getCourseDetail();
-
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
         if (item.id == id) {
@@ -144,13 +143,13 @@ export default {
 
     busEvent.$on("payDone", id => {
       if(id == this.courseId){
-        this.isBuy = true
+        this.isBuy = true;
         this.slectedTab = 2;
       }
     });
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name == "courseList") {
+    if (from.name == "courseList" || from.name == "courseSpecial") {
       to.meta.flush = true;
     } else {
       to.meta.flush = false;
@@ -183,6 +182,7 @@ export default {
       });
     },
     test() {
+      alert(JSON.stringify(this._data))
       getCourseDetail({
         curriculumId: this.courseId
       }).then(res => {
