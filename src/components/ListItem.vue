@@ -2,7 +2,8 @@
   <div class="list-item" @click="handleListItemClick">
     <img class="item-bg" v-lazy="data.coverImg" alt>
     <div class="item-content">
-      <div class="marker">推荐啊</div>
+      <div class="marker" v-if="data.type == 0">免费</div>
+      <!-- <div class="marker" v-else></div> -->
       <div class="title">{{data.title}}</div>
       <div class="key-words">{{data.label}}</div>
       <div class="heat">
@@ -54,13 +55,15 @@ export default {
     .marker {
       position: absolute;
       height: 28px;
-      line-height: 28px;
       border-top-right-radius: 100px;
       border-bottom-right-radius: 100px;
       background: #69a8fa;
       padding: 0 12px;
       font-size: 18px;
       color: #fff;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
       span {
         font-size: 18px;
         color: #fff;
