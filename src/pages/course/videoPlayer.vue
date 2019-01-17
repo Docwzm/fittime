@@ -2,8 +2,8 @@
   <div class="player-wrap">
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type=""
-        x5-video-player-fullscreen="false" x5-video-orientation="landscape" style="object-fit:fill"></video>
+        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5"
+        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import busEvent from '@/util/busEvent';
 import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog, TransferDom } from "vux";
 import {
@@ -244,9 +245,9 @@ export default {
         let data = res.data;
         let options = {
           controls: false,
-          // url: data.videoAddress,
-          url:
-            "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+          url: data.videoAddress,
+          // url:
+          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -274,15 +275,15 @@ export default {
           this.posterFlag = true;
         });
 
-        // this.player.on('fullscreenchange',() => {
-        //   // alert(this.$refs.myVideo)
-        //   if(this.player.isFullscreen()){
+        this.player.on('fullscreenchange',() => {
+          // alert(this.$refs.myVideo)
+          if(this.player.isFullscreen()){
 
-        //   }else{
-        //     this.player.dispose();
-        //   }
+          }else{
+            this.player.controls(false);
+          }
           
-        // })
+        })
 
         // this.player.controls = false;
 
@@ -365,6 +366,7 @@ export default {
               curriculumId: this.curriculumId,
               drillId: this.drillId
             }).then(res => {
+              busEvent.$emit("playDone",this.drillId);
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );

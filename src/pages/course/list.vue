@@ -47,7 +47,6 @@ export default {
         title: "全部课程",
         autoResetToDefaultConfigWhtenOpenLink: true,
         autoTopPadding: true,
-        topPadding: 0,
         tintColorType: 2,
         backButtonType: 1,
         barLineHidden: false,
@@ -68,8 +67,8 @@ export default {
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
-            let arr = [...data.list,...data.list,...data.list]
-            this.list = arr;
+            // let arr = [...data.list,...data.list,...data.list]
+            this.list = this.list.concat(data.list);
 
             this.maxPage = data.maxPage;
             this.page += 1;
