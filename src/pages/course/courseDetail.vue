@@ -178,6 +178,7 @@ export default {
 
       LSJavascriptBridgeInit(() => {
         this.noAuth = false;
+        alert(JSON.stringify(this._data))
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
