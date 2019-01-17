@@ -239,7 +239,6 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
-        // this.poster = data.poster;
         let options = {
           controls: true,
           url: data.videoAddress,
@@ -249,7 +248,7 @@ export default {
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
           nativeControlsForTouch: false
-          // poster: data.coverImg
+          // poster: '',
           // stretching:'panscan'
         };
         this.player = new QiniuPlayer("my-video", options);
