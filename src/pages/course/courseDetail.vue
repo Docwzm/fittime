@@ -142,12 +142,12 @@ export default {
       });
     });
 
-    // busEvent.$on("payDone", id => {
-    //   if(id == this.courseId){
-    //     this.isBuy = true
-    //     this.slectedTab = 2;
-    //   }
-    // });
+    busEvent.$on("payDone", id => {
+      if(id == this.courseId){
+        this.isBuy = true
+        this.slectedTab = 2;
+      }
+    });
   },
   beforeRouteEnter(to, from, next) {
     if (from.name == "courseList") {
