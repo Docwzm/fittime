@@ -161,9 +161,7 @@ export default {
       }
     },
     cancelWebview() {
-      // cancelWebview()
       this.$router.back(-1);
-      // this.showConfirmTip = false;
     },
     goOnPlay() {
       this.showConfirmTip = false;
@@ -172,34 +170,17 @@ export default {
     play(type) {
       if (type == 0) {
         this.posterFlag = false;
-        
         if (!this.no_network) {
           //需要网络验证
-          // alert(this.player.state())
-          // this.player.play();
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
             if (this.networkStatus != 1) {
-              // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-              // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-              // this.player.pause(); //暂停播放
               this.showNetworkTip = true;
             } else {
-              // this.player.fullscreen(true)
-              // alert(this.player.state())
               this.player.play();
             }
           });
-          // if (!this.playerOnFlag && this.networkStatus != 1) {
-          //   // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-          //   // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-          //   // this.player.pause(); //暂停播放
-
-          // } else {
-          //   // this.player.fullscreen(true)
-          //   this.player.play();
-          // }
         } else {
           this.player.play();
         }
@@ -220,8 +201,8 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee =1;
-        this.duration = 2;
+        this.trySee = data.trySee;
+        this.duration = data.trySeeTime;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
@@ -239,20 +220,15 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
-
         this.player = videojs("my-video", {
           controls: true,
           aspectRatio: "16:9",
           sources: [
             {
-              src:
-                "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+              src:data.videoAddress,
               type: "application/x-mpegURL"
             }
           ],
-          // url: data.videoAddress,
-          // url:
-          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -262,17 +238,9 @@ export default {
             nativeTextTracks: false,
             nativeAudioTracks: false
           },
-          // children: ["controlBar"],
           controlBar: {
             volumePanel: false
           }
-  //         children: {
-  //   controlBar: {
-  //     volumePanel: false
-  //   }
-  // }
-          // poster: '',
-          // stretching:'panscan'
         });
         this.watchPlayer();
       });
@@ -280,32 +248,19 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
-        // this.player.fullscreen(true)
-        // this.player.aspectRatio("16:9", () => {});
-        // this.player.on("loadeddata",() => {
-        //   this.player.play();
-        // })
+       
         this.player.on("loadedmetadata", () => {
-          // this.player.play();
           this.loadFlag += 1;
           if (this.loadFlag == 2) {
             this.posterFlag = true;
           }
         });
 
-        this.player.on("fullscreenchange", () => {
-          // alert(this.$refs.myVideo)
-          if (this.player.isFullscreen()) {
-          } else {
-            // this.player.controls(false);
-          }
-        });
-
-        // this.player.controls = false;
-
-        // this.player.on('fullscreenchange',()=>{
-        //   this.player.duration(this.duration)
-        // })
+        // this.player.on("fullscreenchange", () => {
+        //   if (this.player.isFullscreen()) {
+        //   } else {
+        //   }
+        // });
 
         this.player.on("play", () => {
           if (!this.playFlag) {
@@ -316,26 +271,16 @@ export default {
             //设置返回监听
             setBackbuttonCallBack("webviewCancel", this.webviewCancel);
           }
-          // this.player.fullscreen(true)
-          // if (!this.playFlag) {
-          //   _czc.push(["_trackEvent", "class_fitime_play", "点击", this.id]);
-          // }
-          // this.playFlag = true;
         });
 
         //进度条拖动的时候
         this.player.on("seeking", () => {
           //试看视频 判断是否超过试看时长 是：改变当前播放时间为0
-          // if(!this.player.isPaused()){
-          //   this.player.pause()
-          // }
           if (
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            // this.fullscreen(false);
             this.player.currentTime(0);
-            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
         });
 
@@ -346,15 +291,14 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            // this.fullscreen(false);
             this.player.currentTime(0);
-            // this.$vux.toast.text("该视频只能试看"+this.duration+"分钟", "middle");
           }
         });
 
-        this.player.on("end", () => {
+        this.player.on("ended", () => {
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.trySee != 1) {
+             //完成训练
             finishCourse({
               curriculumId: this.curriculumId,
               drillId: this.drillId
@@ -363,29 +307,18 @@ export default {
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
-            }); //完成训练
+            });
           }
         });
 
         //正在播放
         this.player.on("timeupdate", () => {
-          if (this.networkStatus != 1) {
-            //   //非wifi状态
-            //   this.player.controls(false);//隐藏控制条 （ios退出全屏时会显示另一个控制条）
-            //   this.player.fullscreen(false);//退出全屏 （全屏播放时，toast看不到）
-            //   this.player.pause();//暂停播放
-            //   // this.$vux.toast.text("wifi", "middle");
-            //   this.showNetworkTip = true;
-          }
           //试看视频 判断是否超过试看时长
           if (
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
             // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-            // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-            // document.getElementsByClassName("vjs-control-bar")[0].click();
-            // document.getElementsByClassName("vjs-button")[0].click();
             this.player.exitFullscreen();
             this.player.pause(); //暂停播放
             // this.player.currentTime(0); //设置当前播放时间为0
@@ -401,9 +334,16 @@ export default {
 };
 </script>
 
+<style lang="less">
+@import "../../assets/styles/mixin";
+  .video-js .vjs-big-play-button{
+    .bg("icons/play");
+    width: 96px;
+    height: 96px;
+  }
+</style>
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
-
 .netwrokDialog {
   .title {
     padding: 48px 64px !important;
