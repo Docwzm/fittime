@@ -137,6 +137,8 @@ export default {
   created() {
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
+    // this.noAuth = this.$route.query.from == "share" ? true : false;
+    this.getCourseDetail();
 
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
@@ -163,7 +165,7 @@ export default {
   },
   activated() {
     this.init();
-    if (this.$route.meta.flush || this.from == 'share') {
+    if (this.$route.meta.flush) {
       this.getCourseDetail();
     }
   },
