@@ -2,9 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import uuid from 'node-uuid'
 import {
-  getAppVersionFromUserAgent
-} from './appApi'
-import {
   staticHostApiHost
 } from './env'
 
