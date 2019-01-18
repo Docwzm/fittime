@@ -69,7 +69,6 @@ export default {
             const { data } = res;
             // let arr = [...data.list,...data.list,...data.list]
             this.list = this.list.concat(data.list);
-
             this.maxPage = data.maxPage;
             this.page += 1;
           }
