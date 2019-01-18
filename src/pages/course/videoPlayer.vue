@@ -1,8 +1,9 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered" x5-video-player-type="h5"
-        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
+      <video ref="myVideo" id="my-video" width="100%" height="100%" :class="'video-js vjs-big-play-centered'+(isPause?' vjs-paused':'')"
+        x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="landscape"
+        style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -171,25 +172,22 @@ export default {
         this.posterFlag = false;
         if (!this.no_network) {
           //需要网络验证
-          this.player.play();
+          // this.player.play();
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
-              // this.player.enterFullScreen();
               this.player.play();
             }
           });
         } else {
-          // this.player.enterFullScreen();
           this.player.play();
         }
       } else {
         this.playerOnFlag = true;
         this.showNetworkTip = false;
-        // this.player.enterFullScreen();
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
@@ -204,12 +202,11 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = 1;
-        this.duration = 2;
+        this.trySee = data.trySee;
+        this.duration = data.trySeeTime;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
-        this.videoCount = data.videoCount ? data.videoCount : 0;
         this.curriculumName = data.curriculumName;
         this.poster = data.coverImg;
         this.loadFlag += 1;
@@ -223,13 +220,14 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
+        this.videoUrl = data.videoAddress;
         this.player = videojs("my-video", {
           controls: true,
           aspectRatio: "16:9",
           sources: [
             {
-              // src: data.videoAddress,
-              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              src: data.videoAddress,
+              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -243,7 +241,8 @@ export default {
             nativeAudioTracks: false
           },
           controlBar: {
-            volumePanel: false
+            volumePanel: false,
+            playToggle: false
           }
         });
         this.watchPlayer();
@@ -264,6 +263,10 @@ export default {
             this.player.play();
           } else {
           }
+        });
+
+        this.player.on("pause", () => {
+          this.isPause = true;
         });
 
         this.player.on("play", () => {

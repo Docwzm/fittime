@@ -24,7 +24,7 @@
         <p class="title" v-html="course.contentTitle"></p>
         <p class="content" v-html="course.content"></p>
         <div class="wrap-img">
-          <img src="../../assets/images/poster.png" />
+          <img :src="course.contentImg" />
           <div class="img-wrap">
             <p class="img-title">{{ course.imgContent[0] }}</p>
             <div v-for="(item,index) in course.imgContent" :key="index">
