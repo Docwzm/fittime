@@ -69,7 +69,6 @@ export default {
           if (res.code === 200) {
             const { data } = res;
             this.list = this.list.concat(data.list);
-
             this.maxPage = data.maxPage;
             this.page += 1;
           }
