@@ -187,11 +187,11 @@ export default {
           this.player.play();
         }
       } else {
-        this.playerOnFlag = true;
         this.showNetworkTip = false;
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
+          this.no_network = true;
         }
       }
     },
@@ -259,12 +259,12 @@ export default {
           }
         });
 
-        this.player.on("fullscreenchange", () => {
-          if (this.player.isFullscreen()) {
-            this.player.play();
-          } else {
-          }
-        });
+        // this.player.on("fullscreenchange", () => {
+        //   if (this.player.isFullscreen()) {
+        //     // this.player.play();
+        //   } else {
+        //   }
+        // });
 
         this.player.on("pause", () => {
           this.isPause = true;
