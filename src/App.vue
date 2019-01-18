@@ -21,15 +21,9 @@ export default {
 </script>
 
 <style lang="less">
-.app{
-  overflow: hidden;
-}
 @import './assets/styles/reset.less';
 @import '~vux/src/styles/1px.less';
 
-// .my-video-dimensions.vjs-fluid{
-//   padding-top:0;
-// }
 .vjs-poster{
   background-color:inherit;
   background-size:inherit;
@@ -47,7 +41,6 @@ export default {
   height: 4px;
   border-radius: 2px;
 }
-
 .video-js .vjs-big-play-button{
   width: 96px;
   height: 96px;
@@ -72,22 +65,15 @@ export default {
 .video-js.no-play .vjs-play-control{
   display: none;
 }
+
 .vux-1px-b:after{
   border-bottom:1PX solid #F0F0F0
 }
-
-
-
 
 .weui-dialog{
   width:560px!important;
   box-sizing: border-box;
 }
-
-// 194/750 280/1080
-
-
-
 </style>
 
 

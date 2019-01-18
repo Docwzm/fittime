@@ -1,14 +1,14 @@
 <template>
   <div class="list-item" @click="handleListItemClick">
-    <img class="item-bg" v-lazy="data.coverImg" alt>
+    <img class="item-bg" v-lazy="itemData.coverImg" alt>
     <div class="item-content">
-      <div class="marker" v-if="data.type == 0">免费</div>
+      <div class="marker" v-if="itemData.type == 0">免费</div>
       <!-- <div class="marker" v-else></div> -->
-      <div class="title">{{data.title}}</div>
-      <div class="key-words">{{data.label}}</div>
+      <div class="title">{{itemData.title}}</div>
+      <div class="key-words">{{itemData.label}}</div>
       <div class="heat">
         <img src="@/assets/images/icons/hot@2x.png">
-        <span>{{data.heat}}</span>
+        <span>{{itemData.heat}}</span>
       </div>
     </div>
   </div>
@@ -18,13 +18,17 @@
 export default {
   props: ["data"],
   data() {
-    return {};
+    return {
+      itemData:this.data
+    };
   },
   created() {},
   methods: {
     handleListItemClick() {
-      this.$router.push("/course-detail/" + this.data.id);
-      //this.$emit('onClick')
+      this.$router.push("/course-detail/" + this.itemData.id);
+      // let heat = this.itemData.heat + 1;
+      // this.$set(this.itemData,'heat',heat)
+      this.itemData.heat += 1;
     }
   }
 };

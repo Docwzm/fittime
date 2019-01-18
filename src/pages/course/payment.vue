@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import busEvent from '@/util/busEvent';
 import { payInfo, createOrder, buyCourse } from "@/api/course";
 import {
   LSJavascriptBridgeInit,
@@ -137,6 +138,7 @@ export default {
       buyCourse(id).then(res => {
         if (res.code === 200) {
           this.$vux.toast.text("购买成功");
+          busEvent.$emit("payDone",res.data.curriculumId)
           setTimeout(() => {
             this.$router.push("/course-detail/" + res.data.curriculumId);
           }, 1000);
