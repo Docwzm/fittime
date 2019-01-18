@@ -178,8 +178,6 @@ export default {
         }
       };
 
-      let self = this;
-
       LSJavascriptBridgeInit(() => {
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
