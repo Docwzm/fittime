@@ -34,14 +34,14 @@
       <!-- 课程 -->
       <div class="course-list" v-show="slectedTab==2">
         <ul>
-          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&!isBuy&&!item.trySee)?' lock':'')"
+          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&(!isBuy||course.lapse==1)&&!item.trySee)?' lock':'')"
             @click="gotoPlay(item)">
             <p class="mess">
               <span class="name">{{item.title}}</span>
               <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
               <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
             </p>
-            <p class="btn" v-if="course.type==1&&!isBuy&&item.trySee">免费试看</p>
+            <p class="btn" v-if="course.type==1&&(!isBuy||course.lapse==1)&&item.trySee">免费试看</p>
           </li>
         </ul>
       </div>
@@ -53,17 +53,22 @@
     </div>
 
     <div class="repay-tip" v-if="course.type==1&&isBuy">
-      <p class="title">课程已购买</p>
+      <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
       <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
-      <div @click="gotoPay" class="repay-btn" v-if="course.isexpire==1">>>前往续费</div>
+      <div @click="gotoPay" class="repay-btn" v-if="course.lapse==1||course.isexpire==1">>>前往续费</div>
     </div>
 
     <div class="footer">
-      <div class="buy-wrap" v-if="course.type==1&&!isBuy">
-        <div @click="gotoService" class="concat"><span>客服</span></div>
-        <div @click="gotoPay" class="buy-btn">
-          <span>购买课程</span>
-          <b>(￥{{course.price}})</b>
+      <div class="buy-wrap" v-if="course.type==1">
+        <div class="not-buy" v-if="!isBuy">
+          <div @click="gotoService" class="concat"><span>客服</span></div>
+          <div @click="gotoPay" class="buy-btn">
+            <span>购买课程</span>
+            <b>(￥{{course.price}})</b>
+          </div>
+        </div>
+        <div class="lapse" v-else-if="course.lapse==1">
+          已过期，请购买续费
         </div>
       </div>
 
@@ -243,7 +248,7 @@ export default {
 
         let label = data.label.split(",").join(" . ");
         // let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
-        this.isBuy =
+        this.isBuy = 
           data.userCurriculumDto && data.userCurriculumDto.type == 1
             ? true
             : false;
@@ -253,6 +258,7 @@ export default {
             : false;
         this.slectedTab = this.isAdd ? 2 : 1;
         this.course = {
+          lapse: data.lapse, //
           isexpire: data.isexpire,
           type: data.type, //0-免费 1-购买
           id: data.id,
@@ -667,12 +673,26 @@ export default {
   background: #fff;
   overflow: hidden;
   //
-
-
   .buy-wrap {
     padding: 15px 0;
     padding-left: 50px;
-    display: flex;
+    .not-buy {
+      display: flex;
+    }
+    .lapse {
+      text-align: center;
+      width: 640px;
+      height: 80px;
+      line-height: 80px;
+      background: linear-gradient(
+        180deg,
+        rgba(213, 238, 255, 1) 0%,
+        rgba(166, 215, 255, 1) 100%
+      );
+      border-radius: 100px;
+      font-size: 32px;
+      color: rgba(255, 255, 255, 1);
+    }
     .buy-btn {
       width: 582px;
       height: 80px;
