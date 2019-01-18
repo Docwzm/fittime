@@ -135,7 +135,6 @@ export default {
     window.onscroll = null;
   },
   created() {
-    console.log(this.$route)
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
     // this.noAuth = this.$route.query.from == "share" ? true : false;

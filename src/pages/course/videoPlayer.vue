@@ -143,7 +143,7 @@ export default {
     webviewCancel() {
       if (this.playFlag) {
         this.showConfirmTip = true;
-        this.player.fullscreen(false);
+        this.player.exitFullscreen();
         this.player.pause();
       } else {
         this.$router.back(-1);
@@ -154,7 +154,7 @@ export default {
       if (!this.no_network) {
         //显示网络弹窗
         if (this.networkStatus != 1) {
-          this.player.fullscreen(false);
+          this.player.exitFullscreen();
           this.player.pause();
           this.showNetworkTip = true;
         }
