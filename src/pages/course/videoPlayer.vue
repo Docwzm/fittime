@@ -234,12 +234,12 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          html5: {
-            nativeControlsForTouch: false,
-            nativeVideoTracks: false,
-            nativeTextTracks: false,
-            nativeAudioTracks: false
-          },
+          // html5: {
+          //   nativeControlsForTouch: false,
+          //   nativeVideoTracks: false,
+          //   nativeTextTracks: false,
+          //   nativeAudioTracks: false
+          // },
           controlBar: {
             volumePanel: false,
             playToggle: false
