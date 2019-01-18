@@ -225,7 +225,7 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              src:data.videoAddress,
+              src: data.videoAddress,
               type: "application/x-mpegURL"
             }
           ],
@@ -248,7 +248,6 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
-       
         this.player.on("loadedmetadata", () => {
           this.loadFlag += 1;
           if (this.loadFlag == 2) {
@@ -298,16 +297,20 @@ export default {
         this.player.on("ended", () => {
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.trySee != 1) {
-             //完成训练
+            //完成训练
             finishCourse({
               curriculumId: this.curriculumId,
               drillId: this.drillId
-            }).then(res => {
-              busEvent.$emit("playDone", this.drillId);
-              this.$router.push(
-                "/course-share/" + this.videoTime + "/" + this.curriculumName
-              );
-            });
+            })
+              .then(res => {
+                busEvent.$emit("playDone", this.drillId);
+                this.$router.push(
+                  "/course-share/" + this.videoTime + "/" + this.curriculumName
+                );
+              })
+              .catch(err => {
+                this.$vux.toast.text(err.msg, "middle");
+              });
           }
         });
 
@@ -336,11 +339,11 @@ export default {
 
 <style lang="less">
 @import "../../assets/styles/mixin";
-  .video-js .vjs-big-play-button{
-    .bg("icons/play");
-    width: 96px;
-    height: 96px;
-  }
+.video-js .vjs-big-play-button {
+  .bg("icons/play");
+  width: 96px;
+  height: 96px;
+}
 </style>
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
