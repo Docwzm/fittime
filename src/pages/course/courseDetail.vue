@@ -18,16 +18,18 @@
           courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
     </div>
 
-    <div class="content">
+    <div class="content-wrap">
       <!-- 介绍 -->
       <div class="intro" v-show="slectedTab==1">
-        <p class="title">{{course.contentTitle}}</p>
+        <p class="title" v-html="course.contentTitle"></p>
         <p class="content" v-html="course.content"></p>
-        <img src="../../assets/images/poster.png" />
-        <div class="img-wrap">
-          <p class="img-title">{{ course.imgContent[0] }}</p>
-          <div v-for="(item,index) in course.imgContent" :key="index">
-            <p class="mess" v-if="index!=0">{{ item }}</p>
+        <div class="wrap-img">
+          <img src="../../assets/images/poster.png" />
+          <div class="img-wrap">
+            <p class="img-title">{{ course.imgContent[0] }}</p>
+            <div v-for="(item,index) in course.imgContent" :key="index">
+              <p class="mess" v-if="index!=0">{{ item }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -45,17 +47,17 @@
           </li>
         </ul>
       </div>
-    </div>
 
-    <div class="buy-tip" v-if="course.type==1&&!isBuy">
-      <p>购买须知</p>
-      <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
-    </div>
+      <div class="buy-tip" v-if="course.type==1&&!isBuy">
+        <p>购买须知</p>
+        <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
+      </div>
 
-    <div class="repay-tip" v-if="course.type==1&&isBuy">
-      <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
-      <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
-      <div @click="gotoPay" class="repay-btn" v-if="course.lapse==1||course.isexpire==1">>>前往续费</div>
+      <div class="repay-tip" v-if="course.type==1&&isBuy">
+        <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
+        <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
+        <div @click="gotoPay" class="repay-btn" v-if="course.lapse==1||course.isexpire==1">>>前往续费</div>
+      </div>
     </div>
 
     <div class="footer">
@@ -271,7 +273,7 @@ export default {
           label,
           heat: data.heat,
           coverImg: data.coverImg,
-          contentTitle: data.contentTitle,
+          contentTitle: data.contentTitle.replace(/\n/g, "<br/>"),
           content: data.content.replace(/\n/g, "<br/>"),
           contentImg: data.contentImg,
           imgContent: data.imgConten.split("\n")
@@ -494,7 +496,9 @@ export default {
     line-height: 40px;
     padding: 13px 0;
     &.active {
-      color: rgba(74, 144, 226, 1);
+      span {
+        color: rgba(74, 144, 226, 1);
+      }
       &::before {
         content: "";
         position: absolute;
@@ -514,9 +518,8 @@ export default {
     color: rgba(65, 65, 65, 1);
     b {
       position: absolute;
-      right: 20px;
-      top: 0;
-      transform: translate(100%, -50%);
+      right: -42px;
+      top: -8px;
       display: block;
       width: 52px;
       height: 28px;
@@ -529,13 +532,16 @@ export default {
     }
   }
 }
-.content {
+.content-wrap {
+  padding-bottom:60px;
   .intro {
-    padding-top: 132px;
-    position: relative;
+    padding: 132px 40px 0;
     .bg("icons/quotation");
     background-size: 50px 50px;
     background-position: center 64px;
+    .wrap-img {
+      position: relative;
+    }
     img {
       max-width: 100%;
       height: auto;
@@ -581,7 +587,8 @@ export default {
   }
   .course-list {
     li {
-      padding: 27px 30px;
+      height:130px;
+      padding: 30px 30px 26px;
       overflow: hidden;
       &.lock {
         &:before {
@@ -614,8 +621,8 @@ export default {
     .btn {
       margin-top: 11px;
       float: right;
-      // width: 128px;
-      padding: 0 20px;
+      width: 128px;
+      // padding: 0 20px;
       height: 46px;
       line-height: 46px;
       text-align: center;
@@ -627,7 +634,7 @@ export default {
   }
 }
 .buy-tip {
-  margin: 60px 40px 0;
+  margin-top: 60px;
   p {
     text-align: center;
     font-size: 28px;
@@ -643,7 +650,7 @@ export default {
   }
 }
 .repay-tip {
-  padding: 70px 0;
+  margin-top: 70px;
   p,
   .repay-btn {
     display: block;
@@ -676,6 +683,7 @@ export default {
   background: #fff;
   overflow: hidden;
   //
+
 
   .buy-wrap {
     padding: 15px 0;

@@ -1,8 +1,7 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        x-webkit-airplay="allow" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5"
+      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered" x5-video-player-type="h5"
         x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
@@ -114,12 +113,12 @@ export default {
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
 
-      this.getCourseUrl();
-      this.getVideoDetail();
+      // this.getCourseUrl();
+      // this.getVideoDetail();
     });
 
-    // this.getCourseUrl();
-    // this.getVideoDetail();
+    this.getCourseUrl();
+    this.getVideoDetail();
   },
   beforeDestroy() {
     setBackbuttonCallBack("", () => {}); //页面销毁时删除返回键监听
@@ -172,24 +171,25 @@ export default {
         this.posterFlag = false;
         if (!this.no_network) {
           //需要网络验证
+          this.player.play();
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
-              this.player.enterFullscreen();
+              // this.player.enterFullScreen();
               this.player.play();
             }
           });
         } else {
-          this.player.enterFullscreen();
+          // this.player.enterFullScreen();
           this.player.play();
         }
       } else {
         this.playerOnFlag = true;
         this.showNetworkTip = false;
-        this.player.enterFullscreen();
+        // this.player.enterFullScreen();
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
@@ -204,8 +204,8 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;
-        this.duration = data.trySeeTime;
+        this.trySee = 1;
+        this.duration = 2;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
@@ -228,8 +228,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              src: data.videoAddress,
-              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              // src: data.videoAddress,
+              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -238,9 +238,9 @@ export default {
           autoplay: false, // 如为 true，则视频将会自动播放
           html5: {
             nativeControlsForTouch: false,
-            // nativeVideoTracks: false,
+            nativeVideoTracks: false,
             nativeTextTracks: false,
-            // nativeAudioTracks: false
+            nativeAudioTracks: false
           },
           controlBar: {
             volumePanel: false
@@ -259,11 +259,12 @@ export default {
           }
         });
 
-        // this.player.on("fullscreenchange", () => {
-        //   if (this.player.isFullscreen()) {
-        //   } else {
-        //   }
-        // });
+        this.player.on("fullscreenchange", () => {
+          if (this.player.isFullscreen()) {
+            this.player.play();
+          } else {
+          }
+        });
 
         this.player.on("play", () => {
           if (!this.playFlag) {
