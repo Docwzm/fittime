@@ -135,10 +135,13 @@ export default {
     window.onscroll = null;
   },
   created() {
+    console.log(this.$route)
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
     // this.noAuth = this.$route.query.from == "share" ? true : false;
-    this.getCourseDetail();
+    if (!this.$route.meta.flush) {
+      this.getCourseDetail();
+    }
 
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
@@ -249,7 +252,7 @@ export default {
 
         let label = data.label.split(",").join(" . ");
         // let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
-        this.isBuy = 
+        this.isBuy =
           data.userCurriculumDto && data.userCurriculumDto.type == 1
             ? true
             : false;
@@ -674,6 +677,7 @@ export default {
   background: #fff;
   overflow: hidden;
   //
+
   .buy-wrap {
     padding: 15px 0;
     padding-left: 50px;
