@@ -150,7 +150,6 @@ export default {
       }
     },
     networkChange(status) {
-      alert(status)
       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
       if (!this.no_network) {
         //显示网络弹窗
@@ -183,7 +182,6 @@ export default {
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
-            alert(this.networkStatus)
             if (this.networkStatus != 1) {
               // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
               // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
@@ -243,18 +241,6 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
-        let options = {
-          controls: true,
-          url: data.videoAddress,
-          // url:
-          //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
-          type: "hls",
-          preload: "auto",
-          autoplay: false, // 如为 true，则视频将会自动播放
-          nativeControlsForTouch: false
-          // poster: '',
-          // stretching:'panscan'
-        };
 
         this.player = videojs("my-video", {
           controls: true,
@@ -400,9 +386,7 @@ export default {
           ) {
             // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
             // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-            document
-              .getElementsByClassName("vjs-fullscreen-control")[0]
-              .click();
+            document.getElementsByClassName("vjs-fullscreen-control")[0].click();
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(

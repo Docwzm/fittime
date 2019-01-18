@@ -65,6 +65,7 @@ export default {
 .video-js.no-play .vjs-play-control{
   display: none;
 }
+
 .vux-1px-b:after{
   border-bottom:1PX solid #F0F0F0
 }
