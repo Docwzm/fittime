@@ -137,8 +137,6 @@ export default {
   created() {
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
-    this.noAuth = this.$route.query.from == "share" ? true : false;
-    this.getCourseDetail();
 
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
@@ -165,7 +163,7 @@ export default {
   },
   activated() {
     this.init();
-    if (this.$route.meta.flush) {
+    if (this.$route.meta.flush || this.from == 'share') {
       this.getCourseDetail();
     }
   },
@@ -184,6 +182,7 @@ export default {
       };
 
       LSJavascriptBridgeInit(() => {
+        this.noAuth = false;
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
