@@ -45,8 +45,7 @@
 </template>
 
 <script>
-// import QiniuPlayer from '@static/qiniuPlayer/qiniuplayer-0.3.9.min.js';
-import busEvent from '@/util/busEvent';
+import busEvent from "@/util/busEvent";
 import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog, TransferDom } from "vux";
 import {
@@ -100,13 +99,6 @@ export default {
     if (no_network_tip) {
       this.no_network = true;
     }
-    // document.addEventListener("fullscreenchange", function() {
-    //   alert("..");
-    // });
-    // document.addEventListener("webkitfullscreenchange", function() {
-    //   alert("..");
-    // });
-
     LSJavascriptBridgeInit(() => {
       let title =
         this.$route.meta && this.$route.meta.title
@@ -125,6 +117,7 @@ export default {
       this.getCourseUrl();
       this.getVideoDetail();
     });
+
     // this.getCourseUrl();
     // this.getVideoDetail();
   },
@@ -144,7 +137,7 @@ export default {
       getVideoDetail({
         drillId: this.drillId
       }).then(res => {
-        alert(JSON.stringify(res))
+        alert(JSON.stringify(res));
       });
     },
     webviewCancel() {
@@ -179,9 +172,11 @@ export default {
     play(type) {
       if (type == 0) {
         this.posterFlag = false;
+        
         if (!this.no_network) {
           //需要网络验证
           // alert(this.player.state())
+          // this.player.play();
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
@@ -225,8 +220,8 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;
-        this.duration = data.trySeeTime;
+        this.trySee =1;
+        this.duration = 2;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
@@ -244,47 +239,67 @@ export default {
         courseKey: this.videoKey
       }).then(res => {
         let data = res.data;
-        let options = {
+
+        this.player = videojs("my-video", {
           controls: true,
-          url: data.videoAddress,
+          aspectRatio: "16:9",
+          sources: [
+            {
+              src:
+                "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+              type: "application/x-mpegURL"
+            }
+          ],
+          // url: data.videoAddress,
           // url:
           //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          nativeControlsForTouch: false
+          html5: {
+            nativeControlsForTouch: false,
+            nativeVideoTracks: false,
+            nativeTextTracks: false,
+            nativeAudioTracks: false
+          },
+          // children: ["controlBar"],
+          controlBar: {
+            volumePanel: false
+          }
+  //         children: {
+  //   controlBar: {
+  //     volumePanel: false
+  //   }
+  // }
           // poster: '',
           // stretching:'panscan'
-        };
-        this.loadFlag += 1;
-        if (this.loadFlag == 2) {
-          this.player = new QiniuPlayer("my-video", options);
-          this.watchPlayer();
-        }
+        });
+        this.watchPlayer();
       });
     },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
         // this.player.fullscreen(true)
-        this.player.aspectRatio("16:9", () => {});
+        // this.player.aspectRatio("16:9", () => {});
         // this.player.on("loadeddata",() => {
         //   this.player.play();
         // })
         this.player.on("loadedmetadata", () => {
           // this.player.play();
-          this.posterFlag = true;
+          this.loadFlag += 1;
+          if (this.loadFlag == 2) {
+            this.posterFlag = true;
+          }
         });
 
-        this.player.on('fullscreenchange',() => {
+        this.player.on("fullscreenchange", () => {
           // alert(this.$refs.myVideo)
-          if(this.player.isFullscreen()){
-
-          }else{
+          if (this.player.isFullscreen()) {
+          } else {
             // this.player.controls(false);
           }
-          
-        })
+        });
 
         // this.player.controls = false;
 
@@ -337,6 +352,21 @@ export default {
           }
         });
 
+        this.player.on("end", () => {
+          //非试看视屏 视频观看结束后 跳转视频分享页面
+          if (this.trySee != 1) {
+            finishCourse({
+              curriculumId: this.curriculumId,
+              drillId: this.drillId
+            }).then(res => {
+              busEvent.$emit("playDone", this.drillId);
+              this.$router.push(
+                "/course-share/" + this.videoTime + "/" + this.curriculumName
+              );
+            }); //完成训练
+          }
+        });
+
         //正在播放
         this.player.on("timeupdate", () => {
           if (this.networkStatus != 1) {
@@ -353,25 +383,16 @@ export default {
             Math.round(this.player.currentTime()) > this.duration
           ) {
             // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
-            this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+            // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
+            // document.getElementsByClassName("vjs-control-bar")[0].click();
+            // document.getElementsByClassName("vjs-button")[0].click();
+            this.player.exitFullscreen();
             this.player.pause(); //暂停播放
-            this.player.currentTime(0); //设置当前播放时间为0
+            // this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
               "试看结束,更多内容请购买课程后再观看",
               "middle"
             );
-          }
-          //非试看视屏 视频观看结束后 跳转视频分享页面
-          if (this.trySee != 1 && this.player.isEnded()) {
-            finishCourse({
-              curriculumId: this.curriculumId,
-              drillId: this.drillId
-            }).then(res => {
-              busEvent.$emit("playDone",this.drillId);
-              this.$router.push(
-                "/course-share/" + this.videoTime + "/" + this.curriculumName
-              );
-            }); //完成训练
           }
         });
       });
