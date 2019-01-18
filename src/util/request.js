@@ -29,6 +29,13 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
+    if (!config.params.noPending) {
+      removePending(config); //在一个ajax发送前执行一下取消操作
+    }
+    config.cancelToken = new cancelToken((c)=>{
+        // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+        pending.push({ u: config.url + '&' + config.method, f: c });  
+    });
     config.params['requestId'] = `${uuid.v1().replace(/-/g,'')}`
     config.params['appType'] = 6
     // config.params['accessToken'] = 'qwert'

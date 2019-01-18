@@ -45,6 +45,7 @@
 </template>
 
 <script>
+// import QiniuPlayer from '@static/qiniuPlayer/qiniuplayer-0.3.9.min.js';
 import busEvent from '@/util/busEvent';
 import { setLocal, getLocal } from "@/util/localStorage";
 import { XDialog, TransferDom } from "vux";
@@ -244,7 +245,7 @@ export default {
       }).then(res => {
         let data = res.data;
         let options = {
-          controls: false,
+          controls: true,
           url: data.videoAddress,
           // url:
           //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
@@ -280,7 +281,7 @@ export default {
           if(this.player.isFullscreen()){
 
           }else{
-            this.player.controls(false);
+            // this.player.controls(false);
           }
           
         })
@@ -351,7 +352,7 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
+            // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
             this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
