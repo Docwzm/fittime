@@ -178,15 +178,18 @@ export default {
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
+              // this.player.enterFullscreen();
               this.player.play();
             }
           });
         } else {
+          // this.player.enterFullscreen();
           this.player.play();
         }
       } else {
         this.playerOnFlag = true;
         this.showNetworkTip = false;
+        // this.player.enterFullscreen();
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
@@ -225,8 +228,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              // src: data.videoAddress,
-              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              src: data.videoAddress,
+              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -235,9 +238,9 @@ export default {
           autoplay: false, // 如为 true，则视频将会自动播放
           html5: {
             nativeControlsForTouch: false,
-            nativeVideoTracks: false,
+            // nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false
+            // nativeAudioTracks: false
           },
           controlBar: {
             volumePanel: false
