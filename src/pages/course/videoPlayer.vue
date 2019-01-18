@@ -178,18 +178,18 @@ export default {
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
-              // this.player.enterFullscreen();
+              this.player.enterFullscreen();
               this.player.play();
             }
           });
         } else {
-          // this.player.enterFullscreen();
+          this.player.enterFullscreen();
           this.player.play();
         }
       } else {
         this.playerOnFlag = true;
         this.showNetworkTip = false;
-        // this.player.enterFullscreen();
+        this.player.enterFullscreen();
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
