@@ -157,8 +157,6 @@ export default {
           this.player.fullscreen(false);
           this.player.pause();
           this.showNetworkTip = true;
-        }else{
-          this.player.play();
         }
       }
     },
@@ -386,9 +384,11 @@ export default {
           ) {
             // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
             // this.player.fullscreen(false); //退出全屏 （全屏播放时，toast看不到）
-            document.getElementsByClassName("vjs-fullscreen-control")[0].click();
+            // document.getElementsByClassName("vjs-control-bar")[0].click();
+            // document.getElementsByClassName("vjs-button")[0].click();
+            this.player.exitFullscreen();
             this.player.pause(); //暂停播放
-            this.player.currentTime(0); //设置当前播放时间为0
+            // this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
               "试看结束,更多内容请购买课程后再观看",
               "middle"
