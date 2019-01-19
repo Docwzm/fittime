@@ -7,7 +7,7 @@
       <div class="title">{{itemData.title}}</div>
       <div class="key-words">{{itemData.label}}</div>
       <div class="heat">
-        <img src="@/assets/images/icons/hot@2x.png">
+        <img src="@/assets/images/icons/hot@3x.png">
         <span>{{itemData.heat}}</span>
       </div>
     </div>
@@ -59,6 +59,7 @@ export default {
     .marker {
       position: absolute;
       height: 28px;
+      line-height: 28px;
       border-top-right-radius: 100px;
       border-bottom-right-radius: 100px;
       background: #69a8fa;
@@ -95,11 +96,14 @@ export default {
       font-size: 20px;
       color: #fff;
       bottom: 18px;
+      display: flex;
+      align-items: center;
       img {
         display: inline-block;
         vertical-align: middle;
         width: 20px;
         height: 22px;
+        margin-right: 11px;
       }
       span {
         vertical-align: middle;
