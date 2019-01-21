@@ -65,12 +65,11 @@ export default {
   name: "videoPlayer",
   data() {
     return {
-      isPause:false,
-      poster: "",
-      loadFlag: 0,
-      posterFlag: false,
-      sortIndex: "",
-      curriculumId: "", //课程ID
+      poster: "",//课程封面图
+      loadFlag: 0,//视频是否可播放标识 2-是
+      posterFlag: false,//
+      sortIndex: "",//
+      curriculumId: "",//课程ID
       drillId: "", //视频ID
       videoKey: "", //视频key
       title: "", //视频title
@@ -263,10 +262,6 @@ export default {
         //   } else {
         //   }
         // });
-
-        this.player.on("pause", () => {
-          this.isPause = true;
-        });
 
         this.player.on("play", () => {
           if (!this.playFlag) {

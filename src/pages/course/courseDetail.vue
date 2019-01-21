@@ -105,13 +105,13 @@ export default {
   name: "courseDetail",
   data() {
     return {
-      from: "",
-      noAuth: true, //鉴权否 用户分享页面调用非鉴权接口
+      from: "", // 页面来源 分享:share
+      noAuth: true, //鉴权否 分享页面不许鉴权 且不可操作
       slectedTab: 1, //选中的tab 1:介绍 2:课程
       showMenu: false, //已添加课程显示删除弹出框标识
       menus: {
-        delMenu: "结束课程"
-      }, //导航栏按钮触发底层弹出框
+        delMenu: "结束课程" //导航栏按钮触发底层弹出框
+      },
       courseId: "", //课程ID
       course: null, //课程详情数据
       haveTrySee: false, //是否有试看视频
@@ -139,7 +139,6 @@ export default {
   created() {
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
-    // this.noAuth = this.$route.query.from == "share" ? true : false;
     if (!this.$route.meta.flush) {
       this.getCourseDetail();
     }
@@ -176,6 +175,7 @@ export default {
   methods: {
     init() {
       window.onscroll = () => {
+        //滚动设置标题栏背景色
         let el = document.body || document.documentElement;
         if (el.scrollTop <= 240) {
           this.setNavigationBar({
@@ -193,7 +193,6 @@ export default {
       });
     },
     test() {
-      alert(JSON.stringify(this._data));
       getCourseDetail({
         curriculumId: this.courseId
       }).then(res => {
@@ -230,7 +229,7 @@ export default {
         this.courseList = data.drillDtoList;
         this.courseList.map(item => {
           if (item.trySee == 1) {
-            this.haveTrySee = true;
+            this.haveTrySee = true;//是否有试看视频
           }
         });
         let nextPlayIndex =
@@ -238,45 +237,43 @@ export default {
             ? data.userCurriculumDto.doneNum >= data.drillDtoList.length
               ? 0
               : data.userCurriculumDto.doneNum
-            : 0;
+            : 0;//下次播放的视频Index
         let finishIdArr = [];
         if (data.userCurriculumDto && data.userCurriculumDto.accomplishDrill) {
           finishIdArr = data.userCurriculumDto.accomplishDrill.split(",");
         }
         this.courseList.map((item, index) => {
           if (finishIdArr.findIndex(id => item.id == id) >= 0) {
-            item.over = true;
+            item.over = true;//完成训练的视频
           }
         });
-        this.nextPlayId = this.courseList[nextPlayIndex].id;
-        this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;
-
+        this.nextPlayId = this.courseList[nextPlayIndex].id;//下次播放的视频ID
+        this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;//下次播放的视频key
         let label = data.label.split(",").join(" . ");
-        // let deadline = dateFormat(data.deadline * 1000, "YYYY年MM月DD日");
         this.isBuy =
           data.userCurriculumDto && data.userCurriculumDto.type == 1
             ? true
-            : false;
+            : false;//是否已经购买了
         this.isAdd =
           data.userCurriculumDto && data.userCurriculumDto.plan == 1
             ? true
-            : false;
-        this.slectedTab = this.isAdd ? 2 : 1;
+            : false;//是否已经添加了
+        this.slectedTab = this.isAdd ? 2 : 1; // 添加了默认选择课程tab
         this.course = {
-          lapse: data.lapse, //
-          isexpire: data.isexpire,
-          type: 1, //0-免费 1-购买
+          lapse: data.lapse, //0-未过期 1-过期
+          isexpire: data.isexpire,//0-未快过期 1-快过期
+          type: data.type, //0-免费 1-购买
           id: data.id,
-          title: data.title,
-          price: data.price,
-          deadline: data.deadline,
-          label,
-          heat: data.heat,
-          coverImg: data.coverImg,
-          contentTitle: data.contentTitle.replace(/\n/g, "<br/>"),
-          content: data.content.replace(/\n/g, "<br/>"),
-          contentImg: data.contentImg,
-          imgContent: data.imgConten.split("\n")
+          title: data.title,//课程标题
+          price: data.price,//课程价格
+          deadline: data.deadline,//课程期限
+          label,//课程标签
+          heat: data.heat,//课程热度
+          coverImg: data.coverImg,//课程封面图
+          contentTitle: data.contentTitle.replace(/\n/g, "<br/>"),//课程介绍标题
+          content: data.content.replace(/\n/g, "<br/>"),//课程介绍正文
+          contentImg: data.contentImg,//课程介绍图片
+          imgContent: data.imgConten.split("\n")//课程介绍图片内容
         };
         this.setNavigationBarButtons();
       });

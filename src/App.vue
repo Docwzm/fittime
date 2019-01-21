@@ -56,7 +56,6 @@ export default {
   font-size: 40px;
   margin-top: -48px;
   margin-left: -48px;
-
   display: none;
   // visibility: hidden!important;
   // &.no-play{
