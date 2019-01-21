@@ -268,12 +268,13 @@ export default {
           }
         });
 
-        // this.player.on("fullscreenchange", () => {
-        //   if (this.player.isFullscreen()) {
-        //     // this.player.play();
-        //   } else {
-        //   }
-        // });
+        this.player.on("fullscreenchange", () => {
+          if (this.player.isFullscreen()) {
+            // this.player.play();
+          } else {
+            // this.player.end(); 
+          }
+        });
 
         this.player.on("play", () => {
           if (!this.playFlag) {
