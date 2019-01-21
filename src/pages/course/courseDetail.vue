@@ -78,7 +78,7 @@
         <button @click="joinCourse">加入课程</button>
       </div>
 
-      <div class="play-wrap" v-if="isAdd">
+      <div class="play-wrap" v-else>
         <button @click="gotoPlay">开始训练</button>
       </div>
     </div>
