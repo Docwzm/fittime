@@ -90,7 +90,7 @@ export default {
   directives: {
     TransferDom
   },
-  beforeDestroy(){
+  beforeDestroy() {
     window.onresize = null;
   },
   mounted() {
@@ -238,11 +238,19 @@ export default {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false
+            nativeAudioTracks: false,
+            hls: {
+              withCredentials: true
+            }
           },
           controlBar: {
             volumePanel: false,
             playToggle: false
+          },
+          flash: {
+            hls: {
+              withCredentials: true
+            }
           }
         });
         this.watchPlayer();
