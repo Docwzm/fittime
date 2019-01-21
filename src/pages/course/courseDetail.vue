@@ -207,7 +207,7 @@ export default {
           : "";
       navTitleBridge({
         title,
-        autoResetToDefaultConfigWhtenOpenLink: false,
+        autoResetToDefaultConfigWhtenOpenLink: true,
         tintColorType: 1,
         backButtonType: 1,
         topPadding: 0,

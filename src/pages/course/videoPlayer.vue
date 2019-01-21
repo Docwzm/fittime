@@ -115,8 +115,6 @@ export default {
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
 
-      // this.getCourseUrl();
-      // this.getVideoDetail();
     });
 
     this.getCourseUrl();
