@@ -2,8 +2,8 @@
   <div class="player-wrap">
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="landscape"
-        style="object-fit:fill"></video>
+        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
+        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -65,11 +65,11 @@ export default {
   name: "videoPlayer",
   data() {
     return {
-      poster: "",//课程封面图
-      loadFlag: 0,//视频是否可播放标识 2-是
-      posterFlag: false,//
-      sortIndex: "",//
-      curriculumId: "",//课程ID
+      poster: "", //课程封面图
+      loadFlag: 0, //视频是否可播放标识 2-是
+      posterFlag: false, //
+      sortIndex: "", //
+      curriculumId: "", //课程ID
       drillId: "", //视频ID
       videoKey: "", //视频key
       title: "", //视频title
@@ -113,7 +113,6 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-
     });
 
     this.getCourseUrl();
