@@ -94,11 +94,6 @@ export default {
     window.onresize = null;
   },
   mounted() {
-    // window.onresize = () => {
-    //   this.$refs.myVideo.style.width = window.innerWidth + "px";
-    //   this.$refs.myVideo.style.height = window.innerHeight + "px";
-    // };
-
     this.videoKey = this.$route.query.key;
     this.curriculumId = this.$route.params.courseId;
     this.drillId = this.$route.params.drillId;
@@ -239,16 +234,16 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          // html5: {
-          //   nativeControlsForTouch: false,
-          //   nativeVideoTracks: false,
-          //   nativeTextTracks: false,
-          //   nativeAudioTracks: false
-          // },
-          // controlBar: {
-          //   volumePanel: false,
-          //   playToggle: false
-          // }
+          html5: {
+            nativeControlsForTouch: false,
+            nativeVideoTracks: false,
+            nativeTextTracks: false,
+            nativeAudioTracks: false
+          },
+          controlBar: {
+            volumePanel: false,
+            playToggle: false
+          }
         });
         this.watchPlayer();
       });

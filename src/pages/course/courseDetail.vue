@@ -168,6 +168,7 @@ export default {
   },
   activated() {
     this.init();
+    
     if (this.$route.meta.flush) {
       this.getCourseDetail();
     }
@@ -232,21 +233,26 @@ export default {
             this.haveTrySee = true;//是否有试看视频
           }
         });
+        
         let nextPlayIndex =
           data.userCurriculumDto && data.userCurriculumDto.doneNum
             ? data.userCurriculumDto.doneNum >= data.drillDtoList.length
               ? 0
               : data.userCurriculumDto.doneNum
             : 0;//下次播放的视频Index
+            
         let finishIdArr = [];
         if (data.userCurriculumDto && data.userCurriculumDto.accomplishDrill) {
           finishIdArr = data.userCurriculumDto.accomplishDrill.split(",");
         }
         this.courseList.map((item, index) => {
-          if (finishIdArr.findIndex(id => item.id == id) >= 0) {
-            item.over = true;//完成训练的视频
-          }
+          finishIdArr.map(id => {
+            if(id == item.id){
+              item.over = true;
+            }
+          })
         });
+
         this.nextPlayId = this.courseList[nextPlayIndex].id;//下次播放的视频ID
         this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;//下次播放的视频key
         let label = data.label.split(",").join(" . ");
@@ -272,6 +278,7 @@ export default {
           contentImg: data.contentImg,//课程介绍图片
           imgContent: data.imgConten.split("\n")//课程介绍图片内容
         };
+        
         this.setNavigationBarButtons();
       });
     },
