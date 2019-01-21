@@ -2,8 +2,7 @@
   <div class="player-wrap">
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
-        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
+        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
