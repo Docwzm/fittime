@@ -2,7 +2,8 @@
   <div class="player-wrap">
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"></video>
+        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
+        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -89,7 +90,15 @@ export default {
   directives: {
     TransferDom
   },
+  beforeDestroy(){
+    window.onresize = null;
+  },
   mounted() {
+    // window.onresize = () => {
+    //   this.$refs.myVideo.style.width = window.innerWidth + "px";
+    //   this.$refs.myVideo.style.height = window.innerHeight + "px";
+    // };
+
     this.videoKey = this.$route.query.key;
     this.curriculumId = this.$route.params.courseId;
     this.drillId = this.$route.params.drillId;
@@ -230,16 +239,16 @@ export default {
           type: "hls",
           preload: "auto",
           autoplay: false, // 如为 true，则视频将会自动播放
-          html5: {
-            nativeControlsForTouch: false,
-            nativeVideoTracks: false,
-            nativeTextTracks: false,
-            nativeAudioTracks: false
-          },
-          controlBar: {
-            volumePanel: false,
-            playToggle: false
-          }
+          // html5: {
+          //   nativeControlsForTouch: false,
+          //   nativeVideoTracks: false,
+          //   nativeTextTracks: false,
+          //   nativeAudioTracks: false
+          // },
+          // controlBar: {
+          //   volumePanel: false,
+          //   playToggle: false
+          // }
         });
         this.watchPlayer();
       });
