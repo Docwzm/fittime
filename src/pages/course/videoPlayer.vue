@@ -132,6 +132,7 @@ export default {
       getNetworkState("networkChange", this.networkChange, status => {
         alert(status);
       });
+      alert(this.videoUrl)
     },
     test2() {
       getVideoDetail({
