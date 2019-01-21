@@ -152,15 +152,15 @@ export default {
       });
     });
 
-    busEvent.$on("payDone", id => {
-      if (id == this.courseId) {
-        this.isBuy = true;
-        this.slectedTab = 2;
-      }
-    });
+    // busEvent.$on("payDone", id => {
+    //   if (id == this.courseId) {
+    //     this.isBuy = true;
+    //     this.slectedTab = 2;
+    //   }
+    // });
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name == "courseList" || from.name == "courseSpecial") {
+    if (from.name == "courseList" || from.name == "courseSpecial" || from.name == "coursePayment") {
       to.meta.flush = true;
     } else {
       to.meta.flush = false;
@@ -265,7 +265,7 @@ export default {
         this.course = {
           lapse: data.lapse, //
           isexpire: data.isexpire,
-          type: data.type, //0-免费 1-购买
+          type: 1, //0-免费 1-购买
           id: data.id,
           title: data.title,
           price: data.price,
