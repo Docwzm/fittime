@@ -169,7 +169,6 @@ export default {
     },
     play(type) {
       if (type == 0) {
-        this.posterFlag = false;
         if (!this.no_network) {
           //需要网络验证
           // this.player.play();
@@ -179,10 +178,12 @@ export default {
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
+              this.posterFlag = false;
               this.player.play();
             }
           });
         } else {
+          this.posterFlag = false;
           this.player.play();
         }
       } else {
