@@ -631,7 +631,7 @@ export default {
   }
 }
 .buy-tip {
-  margin-top: 60px;
+  margin: 60px 40px 0;
   p {
     text-align: center;
     font-size: 28px;
