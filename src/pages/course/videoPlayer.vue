@@ -229,8 +229,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              // src: data.videoAddress,
-              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              src: data.videoAddress,
+              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
