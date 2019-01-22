@@ -61,26 +61,43 @@
     </div>
 
     <div class="footer">
-      <div class="buy-wrap" v-if="course.type==1">
-        <div class="not-buy" v-if="!isBuy">
-          <div @click="gotoService" class="concat"><span>客服</span></div>
-          <div @click="gotoPay" class="buy-btn">
-            <span>购买课程</span>
-            <b>(￥{{course.price}})</b>
+      <div v-if="course.type==1">
+        <!-- 付费 -->
+        <div class="buy-wrap" v-if="!isBuy">
+          <div class="not-buy">
+            <div @click="gotoService" class="concat"><span>客服</span></div>
+            <div @click="gotoPay" class="buy-btn">
+              <span>购买课程</span>
+              <b>(￥{{course.price}})</b>
+            </div>
           </div>
         </div>
-        <div class="lapse" v-else-if="course.lapse==1">
-          已过期，请购买续费
+
+        <div class="buy-wrap" v-else-if="course.lapse==1">
+          <div class="lapse">
+            已过期，请购买续费
+          </div>
+        </div>
+
+        <div class="add-wrap" v-else-if="!isAdd">
+          <button @click="joinCourse">加入课程</button>
+        </div>
+
+        <div class="play-wrap" v-else>
+          <button @click="gotoPlay">开始训练</button>
         </div>
       </div>
+      <div v-else>
+        <!-- 免费 -->
+        <div class="add-wrap" v-if="!isAdd">
+          <button @click="joinCourse">加入课程</button>
+        </div>
 
-      <div class="add-wrap" v-else-if="!isAdd">
-        <button @click="joinCourse">加入课程</button>
+        <div class="play-wrap" v-else>
+          <button @click="gotoPlay">开始训练</button>
+        </div>
       </div>
-
-      <div class="play-wrap" v-else>
-        <button @click="gotoPlay">开始训练</button>
-      </div>
+      
     </div>
 
     <div v-transfer-dom>
