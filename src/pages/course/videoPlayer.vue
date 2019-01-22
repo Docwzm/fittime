@@ -1,9 +1,9 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
+      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered"
         webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
-        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
+        x5-video-player-fullscreen="true" x5-video-orientation="landscape"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -172,8 +172,8 @@ export default {
       if (type == 0) {
         if (!this.no_network) {
           //需要网络验证
-          this.player.play();
-          this.posterFlag = false;
+          // this.player.play();
+          // this.posterFlag = false;
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
@@ -229,8 +229,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              src: data.videoAddress,
-              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              // src: data.videoAddress,
+              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -248,13 +248,15 @@ export default {
             // playToggle: false
           }
         });
-        
+
         this.watchPlayer();
       });
     },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
+        // this.requestFullscreen()
+
         this.player.on("loadedmetadata", () => {
           this.loadFlag += 1;
           if (this.loadFlag == 2) {
@@ -272,6 +274,7 @@ export default {
 
         this.player.on("play", () => {
           if (!this.playFlag) {
+            this.playeraspectRatio
             this.playFlag = true;
             updateVideoTime({
               curriculumId: this.curriculumId
