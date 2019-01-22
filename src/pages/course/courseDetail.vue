@@ -278,7 +278,6 @@ export default {
           contentImg: data.contentImg,//课程介绍图片
           imgContent: data.imgConten.split("\r")//课程介绍图片内容
         };
-        
         this.setNavigationBarButtons();
       });
     },
