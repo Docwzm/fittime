@@ -2,8 +2,8 @@
   <div class="player-wrap">
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" width="100%" height="100%" class="video-js vjs-big-play-centered"
-        x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="landscape"
-        style="object-fit:fill"></video>
+        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
+        x5-video-player-fullscreen="true" x5-video-orientation="landscape" style="object-fit:fill"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -65,11 +65,10 @@ export default {
   name: "videoPlayer",
   data() {
     return {
-      isPause:false,
-      poster: "",
-      loadFlag: 0,
-      posterFlag: false,
-      sortIndex: "",
+      poster: "", //课程封面图
+      loadFlag: 0, //视频是否可播放标识 2-是
+      posterFlag: false, //
+      sortIndex: "", //
       curriculumId: "", //课程ID
       drillId: "", //视频ID
       videoKey: "", //视频key
@@ -90,6 +89,9 @@ export default {
   },
   directives: {
     TransferDom
+  },
+  beforeDestroy() {
+    window.onresize = null;
   },
   mounted() {
     this.videoKey = this.$route.query.key;
@@ -114,9 +116,6 @@ export default {
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
-
-      // this.getCourseUrl();
-      // this.getVideoDetail();
     });
 
     this.getCourseUrl();
@@ -133,6 +132,7 @@ export default {
       getNetworkState("networkChange", this.networkChange, status => {
         alert(status);
       });
+      alert(this.videoUrl)
     },
     test2() {
       getVideoDetail({
@@ -170,7 +170,6 @@ export default {
     },
     play(type) {
       if (type == 0) {
-        this.posterFlag = false;
         if (!this.no_network) {
           //需要网络验证
           // this.player.play();
@@ -180,10 +179,12 @@ export default {
             if (this.networkStatus != 1) {
               this.showNetworkTip = true;
             } else {
+              this.posterFlag = false;
               this.player.play();
             }
           });
         } else {
+          this.posterFlag = false;
           this.player.play();
         }
       } else {
@@ -239,11 +240,19 @@ export default {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false
+            nativeAudioTracks: false,
+            hls: {
+              withCredentials: true
+            }
           },
           controlBar: {
             volumePanel: false,
             playToggle: false
+          },
+          flash: {
+            hls: {
+              withCredentials: true
+            }
           }
         });
         this.watchPlayer();
@@ -263,12 +272,9 @@ export default {
         //   if (this.player.isFullscreen()) {
         //     // this.player.play();
         //   } else {
+        //     // this.player.end(); 
         //   }
         // });
-
-        this.player.on("pause", () => {
-          this.isPause = true;
-        });
 
         this.player.on("play", () => {
           if (!this.playFlag) {
