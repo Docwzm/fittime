@@ -71,7 +71,7 @@ export default {
             // let arr = [...data.list,...data.list,...data.list]
             this.list = this.list.concat(data.list);
             //根绝分类计算宽度
-            let catLen = this.list.length;
+            let catLen = this.classify.length;
             let fullWidth = 100;
             let eachWidth = fullWidth
             if(catLen <= 5){
