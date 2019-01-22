@@ -14,18 +14,31 @@
 
 <script>
 import { courseShareBridge, popToRootControllerBridge } from "@/util/jsBridge";
+import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
 
 export default {
   name: "courseDetail",
   data() {
     return {};
   },
+
   created() {
-    console.log(this.$route)
     this.time = this.$route.params.time || '';
     this.className = this.$route.params.className || '';
-    console.log(this.$route)
   },
+
+  activated() {
+    LSJavascriptBridgeInit(() => {
+      navTitleBridge({
+        topPadding:0,
+        tintColorType: 2,
+        backButtonType: 1,
+        barLineHidden: true,
+        color: { red: 255, green: 255, blue: 255, alpha: 0 }
+      });
+    });
+  },
+
   methods: {
     handleShare() {
       const {time,className} = this;

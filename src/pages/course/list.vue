@@ -11,8 +11,8 @@
     <!-- <swiper class='swiper' height="100vh" :show-dots="false" @on-index-change="handleIndexChange" v-model="index"> -->
     <swiper class='swiper' height="100vh" :show-dots="false" @on-index-change="handleIndexChange" v-model="index">
       <swiper-item class="black swiper-item" v-for="cls in classify" :key="cls.id">
-        <div class="scroll">
-          <div class="list-content" ref='listContent'  @touchstart="handleTouchStart" @touchmove="handleTouchMove">
+        <div class="scroll" @scroll="handleListScroll">
+          <div class="list-content" :id="'scroll-'+cls.id">
             <list-item v-for="item in classifyStore[cls.id]" :key="cls.id + '-'+item.id" :data="item"></list-item>
           </div>
         </div>
@@ -42,7 +42,8 @@ export default {
       maxPage: 1,
       eachWidth:"100%",
       classifyStore:[],
-      scrollLeft:0
+      scrollLeft:0,
+      run:true
     };
   },
   components: {
@@ -53,8 +54,10 @@ export default {
   created() {
     let { classify, page } = this;
     let tab = this.$route.query.tab;
+    this.viewHeight = document.documentElement.clientHeight
     this.actionGetClassify(tab);
   },
+
   activated() {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
@@ -92,6 +95,26 @@ export default {
         step = index - 2
       }
       this.scrollLeft = "-" + (step * 20).toString() + "%"
+    },
+
+
+    handleListScroll(e){
+      let self = this;
+      let {run} = this
+      if(!run)return
+      this.run = false;
+      setTimeout(()=>{
+        this.run = true
+        //窗口高度
+        let {viewHeight} = this
+        //内容高度
+        let contentHeight = document.getElementById('scroll-'+this.currentCate).offsetHeight
+        let scrollTop = e.target.scrollTop;
+        if((contentHeight-viewHeight-scrollTop)<100){
+          //加载下一页
+          self.handleTouchBottom();
+        }
+      },500)
     },
 
     //根据课程类型拉取列表
@@ -161,26 +184,7 @@ export default {
       });
     },
 
-    handleTouchStart(e) {
-      this.startY = e.targetTouches[0].pageY;
-    },
-
-    handleTouchMove(e) {
-      //判断方向
-      if (e.targetTouches[0].pageY < this.startY) {
-        let innerHeight = document.querySelector(".list-content").clientHeight;
-        let scrollTop =
-          document.documentElement.scrollTop ||
-          window.pageYOffset ||
-          document.body.scrollTop;
-        let scrollHeight =
-          document.documentElement.clientHeight || document.body.scrollHeight;
-        if (scrollTop + scrollHeight >= innerHeight) {
-          //触底
-          this.handleTouchBottom();
-        }
-      }
-    },
+    //触底刷新
     handleTouchBottom() {
       const { bottomLoading, page, maxPage, currentCate } = this;
       let self = this;
@@ -194,6 +198,7 @@ export default {
         this.bottomLoading = true;
       }
     },
+
   }
 };
 </script>
