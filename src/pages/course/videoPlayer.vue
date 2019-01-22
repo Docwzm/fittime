@@ -172,7 +172,8 @@ export default {
       if (type == 0) {
         if (!this.no_network) {
           //需要网络验证
-          // this.player.play();
+          this.player.play();
+          this.posterFlag = false;
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
@@ -244,7 +245,7 @@ export default {
           },
           controlBar: {
             volumePanel: false,
-            playToggle: false
+            // playToggle: false
           }
         });
         this.watchPlayer();
