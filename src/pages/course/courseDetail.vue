@@ -260,7 +260,7 @@ export default {
           data.userCurriculumDto && data.userCurriculumDto.type == 1
             ? true
             : false;//是否已经购买了
-        this.isAdd = this.isBuy ? (data.userCurriculumDto && data.userCurriculumDto.plan == 1 ? true : false):false;//是否已经添加了  判断未购买即未添加
+        this.isAdd = data.userCurriculumDto && data.userCurriculumDto.plan == 1 ? true : false//是否已经添加了
         this.slectedTab = this.isAdd ? 2 : 1; // 添加了默认选择课程tab
         this.course = {
           lapse: data.lapse, //0-未过期 1-过期
