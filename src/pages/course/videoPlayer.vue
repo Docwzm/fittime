@@ -240,19 +240,11 @@ export default {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false,
-            hls: {
-              withCredentials: true
-            }
+            nativeAudioTracks: false
           },
           controlBar: {
             volumePanel: false,
             playToggle: false
-          },
-          flash: {
-            hls: {
-              withCredentials: true
-            }
           }
         });
         this.watchPlayer();
