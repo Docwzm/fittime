@@ -43,9 +43,9 @@ export default {
   height: 4px;
   border-radius: 2px;
 }
-.vjs-paused .vjs-big-play-button {
-  display: block !important;
-}
+// .vjs-paused .vjs-big-play-button {
+//   display: block !important;
+// }
 .video-js .vjs-big-play-button {
   width: 96px;
   height: 96px;
@@ -56,7 +56,7 @@ export default {
   font-size: 40px;
   margin-top: -48px;
   margin-left: -48px;
-  // display: none;
+  display: none
   // visibility: hidden!important;
   // &.no-play{
   //   display: none!important;
