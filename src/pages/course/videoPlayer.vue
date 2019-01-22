@@ -236,14 +236,14 @@ export default {
           ],
           type: "hls",
           preload: "auto",
-          liveui:true,
+          // liveui:true,
           autoplay: false, // 如为 true，则视频将会自动播放
           html5: {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
             nativeAudioTracks: false,
-            liveui:true
+            // liveui:true
           },
           controlBar: {
             volumePanel: false,
@@ -283,8 +283,8 @@ let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
         // });
 
         this.player.on("play", () => {
-          this.player.requestFullscreen()
-          
+          // this.player.requestFullscreen()
+          // this.player.isFullscreen(true);
           el_button_play.style.display = 'none';
           if (!this.playFlag) {
             this.playFlag = true;
