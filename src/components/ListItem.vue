@@ -1,6 +1,6 @@
 <template>
   <div class="list-item" @click="handleListItemClick">
-    <img class="item-bg" v-lazy="itemData.coverImg" alt>
+    <img class="item-bg" v-lazy="itemData.listImg" alt>
     <div class="item-content">
       <div class="marker" v-if="itemData.type == 0">免费</div>
       <!-- <div class="marker" v-else></div> -->
