@@ -2,7 +2,7 @@
   <div class="list-wrap" ref="list">
     <div class="list-header">
       <div class="class-box">
-        <div v-for="item in classify" :key="item.id" class="class-cate" :class="currentCate == item.id ?'current-cate':''"
+        <div v-for="item in classify" :key="item.id" :style="'width:'+eachWidth" class="class-cate" :class="currentCate == item.id ?'current-cate':''"
           @click="handleCategoryClick(item.id)">{{item.title}}</div>
       </div>
     </div>
@@ -30,7 +30,8 @@ export default {
         words: "加载中..."
       },
       page: 1,
-      maxPage: 1
+      maxPage: 1,
+      eachWidth:"100%"
     };
   },
   components: {
@@ -47,7 +48,6 @@ export default {
         title: "全部课程",
         autoResetToDefaultConfigWhtenOpenLink: true,
         autoTopPadding: true,
-        topPadding: 0,
         tintColorType: 2,
         backButtonType: 1,
         barLineHidden: false,
@@ -68,8 +68,19 @@ export default {
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
+            // let arr = [...data.list,...data.list,...data.list]
             this.list = this.list.concat(data.list);
-
+            //根绝分类计算宽度
+            let catLen = this.list.length;
+            let fullWidth = 100;
+            let eachWidth = fullWidth
+            if(catLen <= 5){
+              eachWidth = fullWidth / catLen
+            }else{
+              eachWidth = 20
+            }
+            eachWidth = eachWidth.toString()+"%"
+            this.eachWidth = eachWidth
             this.maxPage = data.maxPage;
             this.page += 1;
           }
@@ -150,7 +161,6 @@ export default {
       line-height: inherit;
       padding-bottom: 20px;
       .class-cate {
-        width: 20%;
         height: inherit;
         text-align: center;
         line-height: inherit;
@@ -165,8 +175,9 @@ export default {
             position: absolute;
             display: block;
             width: 40px;
-            height: 2.5px;
+            height: 4px;
             background: #4a90e2;
+            border-radius: 2px;
             top: 60px;
             left: 50%;
             margin-left: -20px;
