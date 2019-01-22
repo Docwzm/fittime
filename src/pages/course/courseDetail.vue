@@ -276,7 +276,7 @@ export default {
           contentTitle: data.contentTitle.replace(/(\n|\r)/g, "<br/>"),//课程介绍标题
           content: data.content.replace(/(\n|\r)/g, "<br/>"),//课程介绍正文
           contentImg: data.contentImg,//课程介绍图片
-          imgContent: data.imgConten.split("\n")//课程介绍图片内容
+          imgContent: data.imgConten.split("\r")//课程介绍图片内容
         };
         
         this.setNavigationBarButtons();
