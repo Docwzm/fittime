@@ -23,7 +23,7 @@
       <div class="intro" v-show="slectedTab==1">
         <p class="title" v-html="course.contentTitle"></p>
         <p class="content" v-html="course.content"></p>
-        <div class="wrap-img">
+        <div class="wrap-img" v-if="course.contentImg">
           <img :src="course.contentImg" />
           <div class="img-wrap">
             <p class="img-title">{{ course.imgContent[0] }}</p>
@@ -273,8 +273,8 @@ export default {
           label,//课程标签
           heat: data.heat,//课程热度
           coverImg: data.coverImg,//课程封面图
-          contentTitle: data.contentTitle.replace(/\n/g, "<br/>"),//课程介绍标题
-          content: data.content.replace(/\n/g, "<br/>"),//课程介绍正文
+          contentTitle: data.contentTitle.replace(/(\n|\r)/g, "<br/>"),//课程介绍标题
+          content: data.content.replace(/(\n|\r)/g, "<br/>"),//课程介绍正文
           contentImg: data.contentImg,//课程介绍图片
           imgContent: data.imgConten.split("\n")//课程介绍图片内容
         };
