@@ -152,6 +152,21 @@ const cancelWebview = (resCallback) => {
 }
 
 
+/**
+ * 退出video全屏
+ * @param {Function} resCallback 事件调用成功失败回调
+ */
+const hideCustomView = (resCallback) => {
+    try {
+        window.LSJavascriptBridge.callHandler("hideCustomView","",(responseData) => {
+            resCallback && resCallback(responseData)
+        })
+    } catch (err) {
+        console.error('退出video全屏失败:', err.message)
+    }
+}
+
+
 
 /**
  * 监听webview返回事件
@@ -182,5 +197,6 @@ export {
     cancelWebview,
     setBackbuttonCallBack,
     popToRootControllerBridge,
-    registerCallbackHandler
+    registerCallbackHandler,
+    hideCustomView
 }

@@ -28,7 +28,14 @@ export default {
   background-size: inherit;
 }
 .video-js .vjs-control-bar {
-  background: none;
+  // width:500px;
+  
+  // right:auto;
+  // background: none;
+}
+.video-js .vjs-control{
+  // width:auto!important;
+  // min-width:auto!important;
 }
 .video-js .vjs-load-progress {
   background: #fff;
@@ -46,6 +53,16 @@ export default {
 // .vjs-paused .vjs-big-play-button {
 //   display: block !important;
 // }
+.video-js .vjs-progress-control{
+  // width:100px;
+  // width:520px;
+  // flex:none;
+  min-width:auto;
+}
+.video-js .vjs-time-control{
+  // min-width:100px;
+  // padding:0;
+}
 .video-js .vjs-big-play-button {
   width: 96px;
   height: 96px;
@@ -56,7 +73,7 @@ export default {
   font-size: 40px;
   margin-top: -48px;
   margin-left: -48px;
-  display: none
+  display: none;
   // visibility: hidden!important;
   // &.no-play{
   //   display: none!important;

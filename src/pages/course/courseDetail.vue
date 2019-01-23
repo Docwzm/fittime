@@ -50,7 +50,8 @@
 
       <div class="buy-tip" v-if="course.type==1&&!isBuy">
         <p>购买须知</p>
-        <div>调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损调整身体状态，尽快进入活动提高肌肉温度，防止肌肉损伤伤温度，防止肌肉损调整身体状态，尽快进入活动提高</div>
+        <div>· 课程购买后在有效期内可无限次观看；由于此课程属于虚拟商品，一经购买后无法退款。</div>
+        <div>· 如有相关疑问，请至微信公众号「乐心运动」发送“人工客服”进行咨询</div>
       </div>
 
       <div class="repay-tip" v-if="course.type==1&&isBuy">
@@ -97,7 +98,7 @@
           <button @click="gotoPlay">开始训练</button>
         </div>
       </div>
-      
+
     </div>
 
     <div v-transfer-dom>
@@ -176,7 +177,11 @@ export default {
     // });
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name == "courseList" || from.name == "courseSpecial" || from.name == "coursePayment") {
+    if (
+      from.name == "courseList" ||
+      from.name == "courseSpecial" ||
+      from.name == "coursePayment"
+    ) {
       to.meta.flush = true;
     } else {
       to.meta.flush = false;
@@ -185,7 +190,7 @@ export default {
   },
   activated() {
     this.init();
-    
+
     if (this.$route.meta.flush) {
       this.getCourseDetail();
     }
@@ -247,53 +252,56 @@ export default {
         this.courseList = data.drillDtoList;
         this.courseList.map(item => {
           if (item.trySee == 1) {
-            this.haveTrySee = true;//是否有试看视频
+            this.haveTrySee = true; //是否有试看视频
           }
         });
-        
+
         let nextPlayIndex =
           data.userCurriculumDto && data.userCurriculumDto.doneNum
             ? data.userCurriculumDto.doneNum >= data.drillDtoList.length
               ? 0
               : data.userCurriculumDto.doneNum
-            : 0;//下次播放的视频Index
-            
+            : 0; //下次播放的视频Index
+
         let finishIdArr = [];
         if (data.userCurriculumDto && data.userCurriculumDto.accomplishDrill) {
           finishIdArr = data.userCurriculumDto.accomplishDrill.split(",");
         }
         this.courseList.map((item, index) => {
           finishIdArr.map(id => {
-            if(id == item.id){
+            if (id == item.id) {
               item.over = true;
             }
-          })
+          });
         });
 
-        this.nextPlayId = this.courseList[nextPlayIndex].id;//下次播放的视频ID
-        this.nextPlayKey = this.courseList[nextPlayIndex].videoKey;//下次播放的视频key
+        this.nextPlayId = this.courseList[nextPlayIndex].id; //下次播放的视频ID
+        this.nextPlayKey = this.courseList[nextPlayIndex].videoKey; //下次播放的视频key
         let label = data.label.split(",").join(" . ");
         this.isBuy =
           data.userCurriculumDto && data.userCurriculumDto.type == 1
             ? true
-            : false;//是否已经购买了
-        this.isAdd = data.userCurriculumDto && data.userCurriculumDto.plan == 1 ? true : false//是否已经添加了
+            : false; //是否已经购买了
+        this.isAdd =
+          data.userCurriculumDto && data.userCurriculumDto.plan == 1
+            ? true
+            : false; //是否已经添加了
         this.slectedTab = this.isAdd ? 2 : 1; // 添加了默认选择课程tab
         this.course = {
           lapse: data.lapse, //0-未过期 1-过期
-          isexpire: data.isexpire,//0-未快过期 1-快过期
+          isexpire: data.isexpire, //0-未快过期 1-快过期
           type: data.type, //0-免费 1-购买
           id: data.id,
-          title: data.title,//课程标题
-          price: data.price,//课程价格
-          deadline: data.deadline,//课程期限
-          label,//课程标签
-          heat: data.heat,//课程热度
-          coverImg: data.coverImg,//课程封面图
-          contentTitle: data.contentTitle.replace(/(\n|\r)/g, "<br/>"),//课程介绍标题
-          content: data.content.replace(/(\n|\r)/g, "<br/>"),//课程介绍正文
-          contentImg: data.contentImg,//课程介绍图片
-          imgContent: data.imgConten.replace(/(\n|\r)/g, "$").split('$'),//课程介绍图片内容
+          title: data.title, //课程标题
+          price: data.price, //课程价格
+          deadline: data.deadline, //课程期限
+          label, //课程标签
+          heat: data.heat, //课程热度
+          coverImg: data.coverImg, //课程封面图
+          contentTitle: data.contentTitle.replace(/(\n|\r)/g, "<br/>"), //课程介绍标题
+          content: data.content.replace(/(\n|\r)/g, "<br/>"), //课程介绍正文
+          contentImg: data.contentImg, //课程介绍图片
+          imgContent: data.imgConten.replace(/(\n|\r)/g, "$").split("$") //课程介绍图片内容
         };
         this.setNavigationBarButtons();
       });
@@ -434,9 +442,10 @@ export default {
     },
     //唤起app分享弹框
     shareApp() {
+      
       // _czc.push(["_trackEvent", "课程详情", "点击", "分享按钮"]);
       shareUrlBridge({
-        title: "课程详情",
+        title: "跟上我，一起练「"+this.course.title+"」。",
         url:
           location.origin +
           "/fittime/#/course-detail/" +
@@ -444,7 +453,7 @@ export default {
           "?from=share",
         imgUrl:
           "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
-        desc: "课程详情描述"
+        desc: "一共"+this.course.heat+"人在练。"
       });
     }
   }
@@ -550,7 +559,7 @@ export default {
   }
 }
 .content-wrap {
-  padding-bottom:60px;
+  padding-bottom: 60px;
   .intro {
     padding: 132px 40px 0;
     .bg("icons/quotation");
@@ -604,7 +613,7 @@ export default {
   }
   .course-list {
     li {
-      height:130px;
+      height: 130px;
       padding: 30px 30px 26px;
       overflow: hidden;
       &.lock {

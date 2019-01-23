@@ -1,9 +1,8 @@
 <template>
   <div class="player-wrap">
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered"
-        webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
-        x5-video-player-fullscreen="true" x5-video-orientation="landscape"></video>
+      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered" webkit-playsinline="true"
+        playsinline="true"></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -59,7 +58,8 @@ import {
   navTitleBridge,
   getNetworkState,
   cancelWebview,
-  setBackbuttonCallBack
+  setBackbuttonCallBack,
+  hideCustomView
 } from "@/util/jsBridge";
 export default {
   name: "videoPlayer",
@@ -132,7 +132,7 @@ export default {
       getNetworkState("networkChange", this.networkChange, status => {
         alert(status);
       });
-      alert(this.videoUrl)
+      alert(this.videoUrl);
     },
     test2() {
       getVideoDetail({
@@ -205,8 +205,8 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;
-        this.duration = data.trySeeTime;
+        this.trySee = 1;
+        this.duration = 4;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
@@ -242,12 +242,12 @@ export default {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false,
+            nativeAudioTracks: false
             // liveui:true
           },
           controlBar: {
-            volumePanel: false,
-            playToggle: false,
+            volumePanel: false
+            // playToggle: false,
             // fullscreenToggle:false
           }
         });
@@ -258,10 +258,10 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
-        // this.requestFullscreen()
-let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
-// console.log(el_button_play)
-// 
+        let el_button_play = document.getElementsByClassName(
+          "vjs-big-play-button"
+        )[0];
+
         this.player.on("loadedmetadata", () => {
           this.loadFlag += 1;
           if (this.loadFlag == 2) {
@@ -269,23 +269,12 @@ let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
           }
         });
 
-        this.player.on('pause',() => {
-          el_button_play.style.display = 'block';
-        })
-
-        // this.player.on("fullscreenchange", () => {
-        //   if (this.player.isFullscreen()) {
-        //     // this.player.play();
-        //     this.player.play();
-        //   } else {
-        //     // this.player.end(); 
-        //   }
-        // });
+        this.player.on("pause", () => {
+          el_button_play.style.display = "block";
+        });
 
         this.player.on("play", () => {
-          // this.player.requestFullscreen()
-          // this.player.isFullscreen(true);
-          el_button_play.style.display = 'none';
+          el_button_play.style.display = "none";
           if (!this.playFlag) {
             this.playFlag = true;
             updateVideoTime({
@@ -322,8 +311,9 @@ let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.trySee != 1) {
             //完成训练
-            // this.player.exitFullscreen();
-            // this.player.isFullscreen(false);
+            this.player.exitFullscreen();
+            // hideCustomView()
+
             finishCourse({
               curriculumId: this.curriculumId,
               drillId: this.drillId
@@ -347,10 +337,10 @@ let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            // this.player.controls(false); //隐藏控制条 （ios退出全屏时会显示另一个控制条）
             this.player.exitFullscreen();
+            // hideCustomView()
             this.player.pause(); //暂停播放
-            // this.player.currentTime(0); //设置当前播放时间为0
+            this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
               "试看结束,更多内容请购买课程后再观看",
               "middle"
