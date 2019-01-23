@@ -2,7 +2,7 @@
   <div class="list-item" @click="handleListItemClick">
     <img class="item-bg" v-lazy="itemData.listImg" alt>
     <div class="item-content">
-      <div class="marker" v-if="itemData.type == 0">免费</div>
+      <div class="marker" v-if="itemData.type == 0" :style="'paddingTop:'+paddingTop">免费</div>
       <!-- <div class="marker" v-else></div> -->
       <div class="title">{{itemData.title}}</div>
       <div class="key-words">{{itemData.label}}</div>
@@ -19,10 +19,17 @@ export default {
   props: ["data"],
   data() {
     return {
-      itemData:this.data
+      itemData:this.data,
+      paddingTop:0
     };
   },
-  created() {},
+  created() {
+    let u = navigator.userAgent
+    let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+    if(isAndroid){
+      this.paddingTop = "1.5px"
+    }
+  },
   methods: {
     handleListItemClick() {
       this.$router.push("/course-detail/" + this.itemData.id);
