@@ -2,9 +2,7 @@
   <div class="list-item" @click="handleListItemClick">
     <img class="item-bg" v-lazy="itemData.listImg" alt>
     <div class="item-content">
-      <div class='marker-wrap'>
-        <div class="marker" v-if="itemData.type == 0">免费</div>
-      </div>
+      <div class="marker" v-if="itemData.type == 0">免费</div>
       <!-- <div class="marker" v-else></div> -->
       <div class="title">{{itemData.title}}</div>
       <div class="key-words">{{itemData.label}}</div>
@@ -59,23 +57,21 @@ export default {
     width:100%;
     top: 0;
     z-index: 1;
-    .marker-wrap{
-      display: table;
+    .marker {
       position: absolute;
-      .marker {
-        display: table-cell;
-        height: 28px;
-        line-height: 28px;
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
-        background: #69a8fa;
-        padding: 0 12px;
-        font-size: 18px;
-        color: #fff;
-        -webkit-text-size-adjust: none;
-      }
+      height: 56px;
+      line-height: 56px;
+      border-top-right-radius: 200px;
+      border-bottom-right-radius: 200px;
+      background: #69a8fa;
+      padding: 0 24px;
+      font-size: 36px;
+      color: #fff;
+      -webkit-text-size-adjust: none;
+      transform: scale(0.5);
+      top:-14px;
+      left:-30px;
     }
-    
     .title {
       padding: 0 30px;
       box-sizing: border-box;
