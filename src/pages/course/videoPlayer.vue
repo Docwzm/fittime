@@ -61,6 +61,7 @@ import {
   setBackbuttonCallBack,
   hideCustomView
 } from "@/util/jsBridge";
+import {getPlatform} from '@/util/tool';
 export default {
   name: "videoPlayer",
   data() {
@@ -312,7 +313,9 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            hideCustomView()
+            // if(getPlatform()=='android'){
+            //   hideCustomView()
+            // }
 
             finishCourse({
               curriculumId: this.curriculumId,
@@ -338,7 +341,9 @@ export default {
             Math.round(this.player.currentTime()) > this.duration
           ) {
             this.player.exitFullscreen();
-            hideCustomView()
+            // if(getPlatform()=='android'){
+            //   hideCustomView()
+            // }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(

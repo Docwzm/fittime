@@ -35,3 +35,22 @@ export const dateFormat = (time,fmt = 'YYYY-MM-DD HH:mm:ss') => {
     }
     return fmt
 }
+
+
+/**
+ *
+ * 获取系统类型
+ * @export
+ * @returns
+ */
+export const getPlatform = () => {
+    const ua = navigator.userAgent
+    const isAndroid = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1; //android终端
+    const isiOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isAndroid) {
+      return 'android'
+    } else if (isiOS) {
+      return 'ios'
+    }
+    return ''
+  }
