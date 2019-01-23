@@ -205,8 +205,8 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = 1;
-        this.duration = 4;
+        this.trySee = data.trySee;
+        this.duration = data.duration;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
