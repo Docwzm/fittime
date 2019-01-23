@@ -1,36 +1,27 @@
 <template>
   <div class="list-wrap" ref="list">
     <div class="list-header">
-      <div class='scroll-box'>
-         <div class="class-box" :style="'left:' + scrollLeft">
-            <div v-for="(item,index ) in classify" :key="item.id" :style="'width:'+eachWidth" class="class-cate" :class="currentCate == item.id ?'current-cate':''"
-              @click="handleCategoryClick(item.id,index)">{{item.title}}</div>
-          </div>
+      <div class="class-box">
+        <div v-for="item in classify" :key="item.id" :style="'width:'+eachWidth" class="class-cate" :class="currentCate == item.id ?'current-cate':''"
+          @click="handleCategoryClick(item.id)">{{item.title}}</div>
       </div>
     </div>
-    <!-- <swiper class='swiper' height="100vh" :show-dots="false" @on-index-change="handleIndexChange" v-model="index"> -->
-    <swiper class='swiper' height="100vh" :show-dots="false" @on-index-change="handleIndexChange" v-model="index">
-      <swiper-item class="black swiper-item" v-for="cls in classify" :key="cls.id">
-        <div class="scroll" @scroll="handleListScroll">
-          <div class="list-content" :id="'scroll-'+cls.id">
-            <list-item v-for="item in classifyStore[cls.id]" :key="cls.id + '-'+item.id" :data="item"></list-item>
-          </div>
-        </div>
-      </swiper-item>
-    </swiper>
+    <div class="list-content" @touchstart="handleTouchStart" @touchmove="handleTouchMove">
+      <list-item v-for="item in list" :key="item.id" :data="item"></list-item>
+    </div>
     <div class="loading-wrap" v-if="bottomLoading">{{bottom.words}}</div>
   </div>
 </template>
+
 <script>
 import ListItem from "@/components/ListItem";
 import { curriculumPage, getClassify } from "@/api/course.js";
 import { navTitleBridge, LSJavascriptBridgeInit } from "@/util/jsBridge";
-import { Swiper,SwiperItem} from 'vux'
+
 export default {
   name: "courseList",
   data() {
     return {
-      index:0,
       currentCate: 1,
       classify: [],
       list: [],
@@ -40,24 +31,17 @@ export default {
       },
       page: 1,
       maxPage: 1,
-      eachWidth:"100%",
-      classifyStore:[],
-      scrollLeft:0,
-      run:true
+      eachWidth:"100%"
     };
   },
   components: {
-    "list-item": ListItem,
-    Swiper,
-    SwiperItem,
+    "list-item": ListItem
   },
   created() {
     let { classify, page } = this;
     let tab = this.$route.query.tab;
-    this.viewHeight = document.documentElement.clientHeight
     this.actionGetClassify(tab);
   },
-
   activated() {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
@@ -71,85 +55,40 @@ export default {
       });
     });
   },
-
   methods: {
     //切换课程类别
-    handleCategoryClick(key,index) {
+    handleCategoryClick(key) {
       this.currentCate = key;
-      this.index = index;
       this.list = []
       this.actionGetCourseListByCate({ pageNum: 1, classifyId: parseInt(key) });
     },
-    //头部滑动
-    handleIndexChange(index){
-      let {classify} = this;
-      this.currentCate = classify[index].id
-      this.actionGetCourseListByCate({pageNum:1,classifyId:classify[index].id})
-      this.handleHeaderScroll(index)
-    },
-
-    //根据index计算头部位置
-    handleHeaderScroll(index){
-      let step = 0;
-      if(index > 2){
-        step = index - 2
-      }
-      this.scrollLeft = "-" + (step * 20).toString() + "%"
-    },
-
-
-    handleListScroll(e){
-      let self = this;
-      let {run} = this
-      if(!run)return
-      this.run = false;
-      setTimeout(()=>{
-        this.run = true
-        //窗口高度
-        let {viewHeight} = this
-        //内容高度
-        let contentHeight = document.getElementById('scroll-'+this.currentCate).offsetHeight
-        let scrollTop = e.target.scrollTop;
-        if((contentHeight-viewHeight-scrollTop)<100){
-          //加载下一页
-          self.handleTouchBottom();
-        }
-      },500)
-    },
-
     //根据课程类型拉取列表
-    actionGetCourseListByCate(params, cb) {
-      let self = this
-      let {classifyStore,classify} = this
-      if(params.pageNum === 1){
-        if(classifyStore[params.classifyId].length === 0){
-          curriculumPage({ ...params, pageSize: 20 })
-          .then(res => {
-            if (res.code === 200) {
-              const { data } = res;
-              classifyStore[params.classifyId] = data.list
-              this.classifyStore = classifyStore
-              this.maxPage = res.data.maxPage;
-              this.page += 1;
-            }
-            cb && cb(res);
-          })
-        }
-      }else{
-        curriculumPage({ ...params, pageSize: 20 })
+    actionGetCourseListByCate(data, cb) {
+      curriculumPage({ ...data, pageSize: 10 })
         .then(res => {
           if (res.code === 200) {
             const { data } = res;
-            classifyStore[params.classifyId] = data.list
-            classifyStore[params.classifyId] = classifyStore[params.classifyId].concat(data.list)
-            this.classifyStore = classifyStore
-            this.maxPage = res.data.maxPage;
+            // let arr = [...data.list,...data.list,...data.list]
+            this.list = this.list.concat(data.list);
+            //根绝分类计算宽度
+            let catLen = this.classify.length;
+            let fullWidth = 100;
+            let eachWidth = fullWidth
+            if(catLen <= 5){
+              eachWidth = fullWidth / catLen
+            }else{
+              eachWidth = 20
+            }
+            eachWidth = eachWidth.toString()+"%"
+            this.eachWidth = eachWidth
+            this.maxPage = data.maxPage;
             this.page += 1;
           }
           cb && cb(res);
         })
-      }
-      
+        .catch(err => {
+          cb && cb(err);
+        });
     },
     //获取课程分类
     actionGetClassify(tab) {
@@ -159,23 +98,6 @@ export default {
           tab ? (this.currentCate = tab) : (this.currentCate = res.data[0].id);
           //所有
           this.classify = res.data;
-          let classifyStore = {}
-          this.classify.forEach(item => {
-            //创建列表内容保存栈
-            classifyStore[item.id] = []
-          })
-          this.classifyStore = classifyStore
-          //根绝分类计算宽度
-          let catLen = this.classify.length;
-          let fullWidth = 100;
-          let eachWidth = fullWidth
-          if(catLen <= 5){
-            eachWidth = fullWidth / catLen
-          }else{
-            eachWidth = 20
-          }
-          eachWidth = eachWidth.toString()+"%"
-          this.eachWidth = eachWidth
           this.actionGetCourseListByCate({
             pageNum: page,
             classifyId: tab || res.data[0].id
@@ -183,8 +105,25 @@ export default {
         }
       });
     },
-
-    //触底刷新
+    handleTouchStart(e) {
+      this.startY = e.targetTouches[0].pageY;
+    },
+    handleTouchMove(e) {
+      //判断方向
+      if (e.targetTouches[0].pageY < this.startY) {
+        let innerHeight = document.querySelector(".list-content").clientHeight;
+        let scrollTop =
+          document.documentElement.scrollTop ||
+          window.pageYOffset ||
+          document.body.scrollTop;
+        let scrollHeight =
+          document.documentElement.clientHeight || document.body.scrollHeight;
+        if (scrollTop + scrollHeight >= innerHeight) {
+          //触底
+          this.handleTouchBottom();
+        }
+      }
+    },
     handleTouchBottom() {
       const { bottomLoading, page, maxPage, currentCate } = this;
       let self = this;
@@ -197,11 +136,11 @@ export default {
         );
         this.bottomLoading = true;
       }
-    },
-
+    }
   }
 };
 </script>
+
 <style lang="less">
 .list-wrap {
   .list-header {
@@ -215,67 +154,42 @@ export default {
     top: 0;
     background: #fff;
     z-index: 99;
-    .scroll-box{
-      white-space: nowrap;
-      padding: relative;
-      //overflow:scroll;
-      .class-box {
-        display: -webkit-box;
+    .class-box {
+      display: -webkit-box;
+      overflow-x: scroll;
+      height: inherit;
+      line-height: inherit;
+      padding-bottom: 20px;
+      .class-cate {
         height: inherit;
+        text-align: center;
         line-height: inherit;
-        padding-bottom: 20px;
-        position:relative;
-        .class-cate {
-          height: inherit;
-          text-align: center;
-          line-height: inherit;
-          font-size: 26px;
-          color: #b6b6b6;
-          overflow: hidden;
-          &.current-cate {
-            color: #4a90e2;
-            position: relative;
-            &:after {
-              content: "";
-              position: absolute;
-              display: block;
-              width: 40px;
-              height: 4px;
-              background: #4a90e2;
-              border-radius: 2px;
-              top: 60px;
-              left: 50%;
-              margin-left: -20px;
-            }
-          }
-        }
-      }
-    }
-    
-  }
-  .swiper{
-    padding-top: 72px;
-    box-sizing: border-box;
-    height: calc(100vh);
-    .swiper-item{
-      .scroll{
-        width: 100%;
-        height: 100%;
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        .list-content {
-          //padding-top: 102px;
-          padding-bottom: 102px;
-          .list-item{
-            &:first-child{
-              margin-top: 30px;
-            }
+        font-size: 26px;
+        color: #b6b6b6;
+        overflow: hidden;
+        &.current-cate {
+          color: #4a90e2;
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #4a90e2;
+            border-radius: 2px;
+            top: 60px;
+            left: 50%;
+            margin-left: -20px;
           }
         }
       }
     }
   }
-  
+  .list-content {
+    padding-top: 102px;
+    padding-bottom: 40px;
+  }
   .loading-wrap {
     width: 100%;
     height: 120px;
@@ -283,6 +197,5 @@ export default {
     text-align: center;
     color: #999;
   }
-
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="list-item" @click="handleListItemClick">
     <img class="item-bg" v-lazy="itemData.listImg" alt>
     <div class="item-content">
-      <div class="marker" v-if="itemData.type == 0">免费</div>
+      <div class="marker" v-if="itemData.type == 0" :style="'paddingTop:'+paddingTop">免费</div>
       <!-- <div class="marker" v-else></div> -->
       <div class="title">{{itemData.title}}</div>
       <div class="key-words">{{itemData.label}}</div>
@@ -19,10 +19,17 @@ export default {
   props: ["data"],
   data() {
     return {
-      itemData:this.data
+      itemData:this.data,
+      paddingTop:0
     };
   },
-  created() {},
+  created() {
+    let u = navigator.userAgent
+    let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+    if(isAndroid){
+      this.paddingTop = "3px"
+    }
+  },
   methods: {
     handleListItemClick() {
       this.$router.push("/course-detail/" + this.itemData.id);
@@ -54,27 +61,22 @@ export default {
   .item-content {
     position: absolute;
     height: 100%;
+    width:100%;
     top: 0;
     z-index: 1;
     .marker {
       position: absolute;
-      height: 28px;
-      line-height: 28px;
-      border-top-right-radius: 100px;
-      border-bottom-right-radius: 100px;
+      height: 56px;
+      line-height: 56px;
+      border-top-right-radius: 200px;
+      border-bottom-right-radius: 200px;
       background: #69a8fa;
-      padding: 0 12px;
-      font-size: 18px;
+      padding: 0 24px;
+      font-size: 36px;
       color: #fff;
-      display: table-cell;
-      text-align: center;
-      vertical-align: middle;
-      span {
-        font-size: 18px;
-        color: #fff;
-        -webkit-text-size-adjust: none;
-        vertical-align: top;
-      }
+      -webkit-text-size-adjust: none;
+      transform: scale(0.5);
+      transform-origin: 0% 0%;
     }
     .title {
       padding: 0 30px;
