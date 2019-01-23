@@ -27,7 +27,7 @@ export default {
     let u = navigator.userAgent
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
     if(isAndroid){
-      this.paddingTop = "1.5px"
+      this.paddingTop = "2px"
     }
   },
   methods: {
