@@ -236,16 +236,19 @@ export default {
           ],
           type: "hls",
           preload: "auto",
+          // liveui:true,
           autoplay: false, // 如为 true，则视频将会自动播放
           html5: {
             nativeControlsForTouch: false,
             nativeVideoTracks: false,
             nativeTextTracks: false,
-            nativeAudioTracks: false
+            nativeAudioTracks: false,
+            // liveui:true
           },
           controlBar: {
             volumePanel: false,
-            // playToggle: false
+            playToggle: false,
+            // fullscreenToggle:false
           }
         });
 
@@ -256,7 +259,9 @@ export default {
     watchPlayer() {
       this.player.ready(player => {
         // this.requestFullscreen()
-
+let el_button_play = document.getElementsByClassName('vjs-big-play-button')[0];
+// console.log(el_button_play)
+// 
         this.player.on("loadedmetadata", () => {
           this.loadFlag += 1;
           if (this.loadFlag == 2) {
@@ -264,17 +269,24 @@ export default {
           }
         });
 
+        this.player.on('pause',() => {
+          el_button_play.style.display = 'block';
+        })
+
         // this.player.on("fullscreenchange", () => {
         //   if (this.player.isFullscreen()) {
         //     // this.player.play();
+        //     this.player.play();
         //   } else {
         //     // this.player.end(); 
         //   }
         // });
 
         this.player.on("play", () => {
+          // this.player.requestFullscreen()
+          // this.player.isFullscreen(true);
+          el_button_play.style.display = 'none';
           if (!this.playFlag) {
-            this.playeraspectRatio
             this.playFlag = true;
             updateVideoTime({
               curriculumId: this.curriculumId
@@ -310,6 +322,8 @@ export default {
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.trySee != 1) {
             //完成训练
+            // this.player.exitFullscreen();
+            // this.player.isFullscreen(false);
             finishCourse({
               curriculumId: this.curriculumId,
               drillId: this.drillId
