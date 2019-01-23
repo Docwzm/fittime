@@ -2,7 +2,7 @@
   <div class="list-item" @click="handleListItemClick">
     <img class="item-bg" v-lazy="itemData.listImg" alt>
     <div class="item-content">
-      <div class="marker" v-if="itemData.type == 0">免费</div>
+      <div class="marker" v-if="itemData.type == 0"><span>免费</span></div>
       <!-- <div class="marker" v-else></div> -->
       <div class="title">{{itemData.title}}</div>
       <div class="key-words">{{itemData.label}}</div>
@@ -66,14 +66,13 @@ export default {
       padding: 0 12px;
       font-size: 18px;
       color: #fff;
-      display: table-cell;
-      text-align: center;
-      vertical-align: middle;
+      display: flex;
+      align-items: center;
       span {
+        display: inline-block;
         font-size: 18px;
         color: #fff;
         -webkit-text-size-adjust: none;
-        vertical-align: top;
       }
     }
     .title {
