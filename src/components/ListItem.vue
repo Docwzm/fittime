@@ -69,8 +69,7 @@ export default {
       color: #fff;
       -webkit-text-size-adjust: none;
       transform: scale(0.5);
-      top:-14px;
-      left:-30px;
+      transform-origin: 0% 0%;
     }
     .title {
       padding: 0 30px;
