@@ -61,7 +61,7 @@ import {
   setBackbuttonCallBack,
   hideCustomView
 } from "@/util/jsBridge";
-import {getPlatform} from '@/util/tool';
+// import {getPlatform} from '@/util/tool';
 export default {
   name: "videoPlayer",
   data() {
@@ -314,7 +314,7 @@ export default {
             //完成训练
             this.player.exitFullscreen();
             // if(getPlatform()=='android'){
-            //   hideCustomView()
+              hideCustomView()
             // }
 
             finishCourse({
@@ -342,7 +342,7 @@ export default {
           ) {
             this.player.exitFullscreen();
             // if(getPlatform()=='android'){
-            //   hideCustomView()
+              hideCustomView()
             // }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
