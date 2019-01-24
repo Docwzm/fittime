@@ -106,9 +106,10 @@ export default {
       img {
         display: inline-block;
         vertical-align: middle;
-        width: 20px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
         margin-right: 11px;
+        margin-top:-4px;
       }
       span {
         vertical-align: middle;
