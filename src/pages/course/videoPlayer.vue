@@ -163,6 +163,7 @@ export default {
           // this.player.play();
           // this.posterFlag = false;
           getNetworkState("networkChange", this.networkChange, status => {
+            alert(status);
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //显示网络弹窗
             if (this.networkStatus != 1) {
