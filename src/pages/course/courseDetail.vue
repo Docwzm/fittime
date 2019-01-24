@@ -17,47 +17,48 @@
       <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
           courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
     </div>
-
-    <div class="content-wrap">
-      <!-- 介绍 -->
-      <div class="intro" v-show="slectedTab==1">
-        <p class="title" v-html="course.contentTitle"></p>
-        <p class="content" v-html="course.content"></p>
-        <div class="wrap-img" v-if="course.contentImg">
-          <img :src="course.contentImg" />
-          <div class="img-wrap">
-            <p class="img-title">{{ course.imgContent[0] }}</p>
-            <div v-for="(item,index) in course.imgContent" :key="index">
-              <p class="mess" v-if="index!=0">{{ item }}</p>
+    <div class="main-content">
+      <div class="content-wrap">
+        <!-- 介绍 -->
+        <div class="intro" v-show="slectedTab==1">
+          <p class="title" v-html="course.contentTitle"></p>
+          <p class="content" v-html="course.content"></p>
+          <div class="wrap-img" v-if="course.contentImg">
+            <img :src="course.contentImg" />
+            <div class="img-wrap">
+              <p class="img-title">{{ course.imgContent[0] }}</p>
+              <div v-for="(item,index) in course.imgContent" :key="index">
+                <p class="mess" v-if="index!=0">{{ item }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- 课程 -->
-      <div class="course-list" v-show="slectedTab==2">
-        <ul>
-          <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&(!isBuy||course.lapse==1)&&!item.trySee)?' lock':'')"
-            @click="gotoPlay(item)">
-            <p class="mess">
-              <span class="name">{{item.title}}</span>
-              <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
-              <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
-            </p>
-            <p class="btn" v-if="course.type==1&&(!isBuy||course.lapse==1)&&item.trySee">免费试看</p>
-          </li>
-        </ul>
-      </div>
+        <!-- 课程 -->
+        <div class="course-list" v-show="slectedTab==2">
+          <ul>
+            <li v-for="(item,index) in courseList" :key="index" :class="'vux-1px-b'+((course.type==1&&(!isBuy||course.lapse==1)&&!item.trySee)?' lock':'')"
+              @click="gotoPlay(item)">
+              <p class="mess">
+                <span class="name">{{item.title}}</span>
+                <span class="time" v-if="item.over">{{ item.videoTime }}分钟,已完成训练</span>
+                <span class="time" v-if="!item.over">{{ item.videoTime }}分钟</span>
+              </p>
+              <p class="btn" v-if="course.type==1&&(!isBuy||course.lapse==1)&&item.trySee">免费试看</p>
+            </li>
+          </ul>
+        </div>
 
-      <div class="buy-tip" v-if="course.type==1&&!isBuy">
-        <p>购买须知</p>
-        <div>· 课程购买后在有效期内可无限次观看；由于此课程属于虚拟商品，一经购买后无法退款。</div>
-        <div>· 如有相关疑问，请至微信公众号「乐心运动」发送“人工客服”进行咨询</div>
-      </div>
+        <div class="buy-tip" v-if="course.type==1&&!isBuy">
+          <p>购买须知</p>
+          <div>· 课程购买后在有效期内可无限次观看；由于此课程属于虚拟商品，一经购买后无法退款。</div>
+          <div>· 如有相关疑问，请至微信公众号「乐心运动」发送“人工客服”进行咨询</div>
+        </div>
 
-      <div class="repay-tip" v-if="course.type==1&&isBuy">
-        <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
-        <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
-        <div @click="gotoPay" class="repay-btn" v-if="course.lapse==1||course.isexpire==1">>>前往续费</div>
+        <div class="repay-tip">
+          <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
+          <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
+          <div @click="gotoPay" class="repay-btn">>>前往续费</div>
+        </div>
       </div>
     </div>
 
@@ -192,13 +193,27 @@ export default {
   activated() {
     this.init();
     let from = this.$route.meta.from;
-    if(from != 'coursePayment' && from!= 'videoPlayer' && from!='systemService'){
+    if (
+      from != "coursePayment" &&
+      from != "videoPlayer" &&
+      from != "systemService"
+    ) {
       //防止页面返回时触发
-      _czc.push(["_trackEvent", "newclass_class", "进入", "课程详情页_courseId_"+this.courseId]);
+      _czc.push([
+        "_trackEvent",
+        "newclass_class",
+        "进入",
+        "课程详情页_courseId_" + this.courseId
+      ]);
     }
-    if(this.from == 'share'){
+    if (this.from == "share") {
       //分享页面进入
-      _czc.push(["_trackEvent", "newclass_share_class", "进入", "分享课程详情页_courseId_"+this.courseId]);
+      _czc.push([
+        "_trackEvent",
+        "newclass_share_class",
+        "进入",
+        "分享课程详情页_courseId_" + this.courseId
+      ]);
     }
     if (this.$route.meta.flush) {
       this.getCourseDetail();
@@ -327,7 +342,7 @@ export default {
       if (this.noAuth) {
         return;
       }
-      let isAdd = this.isAdd?1:0;
+      let isAdd = this.isAdd ? 1 : 0;
       if (data.id) {
         //点击课程tab下的视频
         if (this.course.type == 1) {
@@ -340,7 +355,9 @@ export default {
                 "/" +
                 data.id +
                 "?key=" +
-                data.videoKey + '&isAdd='+ isAdd
+                data.videoKey +
+                "&isAdd=" +
+                isAdd
             );
           } else {
             if (data.trySee) {
@@ -351,7 +368,9 @@ export default {
                   "/" +
                   data.id +
                   "?key=" +
-                  data.videoKey + '&isAdd='+ isAdd
+                  data.videoKey +
+                  "&isAdd=" +
+                  isAdd
               );
             } else {
               //不可试看
@@ -366,7 +385,9 @@ export default {
               "/" +
               data.id +
               "?key=" +
-              data.videoKey + '&isAdd='+ isAdd
+              data.videoKey +
+              "&isAdd=" +
+              isAdd
           );
         }
       } else {
@@ -377,7 +398,9 @@ export default {
             "/" +
             this.nextPlayId +
             "?key=" +
-            this.nextPlayKey + '&isAdd='+ isAdd
+            this.nextPlayKey +
+            "&isAdd=" +
+            isAdd
         );
       }
     },
@@ -446,7 +469,7 @@ export default {
     //唤起app分享弹框
     shareApp() {
       shareUrlBridge({
-        title: "跟上我，一起练「"+this.course.title+"」。",
+        title: "跟上我，一起练「" + this.course.title + "」。",
         url:
           location.origin +
           "/fittime/#/course-detail/" +
@@ -454,7 +477,7 @@ export default {
           "?from=share",
         imgUrl:
           "https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png",
-        desc: "一共"+this.course.heat+"人在练。"
+        desc: "一共" + this.course.heat + "人在练。"
       });
     }
   }
@@ -557,6 +580,11 @@ export default {
       font-size: 18px;
       color: rgba(255, 255, 255, 1);
     }
+  }
+}
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .main-content {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 .content-wrap {

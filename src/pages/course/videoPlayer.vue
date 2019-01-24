@@ -92,9 +92,6 @@ export default {
   directives: {
     TransferDom
   },
-  beforeDestroy() {
-    window.onresize = null;
-  },
   mounted() {
     this.videoKey = this.$route.query.key;
     this.isAdd = this.$route.query.isAdd;
