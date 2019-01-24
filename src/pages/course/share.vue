@@ -27,7 +27,7 @@ export default {
     this.className = this.$route.params.className || '';
   },
 
-  activated() {
+  mounted() {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
         title:"",
