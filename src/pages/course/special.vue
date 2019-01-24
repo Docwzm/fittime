@@ -8,7 +8,7 @@
       <p>{{subject.content}}</p>
     </div>
     <div class="list-content">
-      <list-item v-for="item in subject.curriculumDtos" :key="item.id" :data="item"></list-item>
+      <list-item v-for="item in subject.curriculumDtos" :key="item.id" :data="item" pageType="newclass_specialtopic_class" pageName="课程专题页"></list-item>
     </div>
     <div class="all-course">
       <img src="@/assets/images/icons/right@2x.png">
@@ -35,6 +35,8 @@ export default {
   created() {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
+    //进入专题页面
+    _czc.push(["_trackEvent", 'newclass_specialtopic','进入','课程专题页_curriculumId_'+id]);
   },
   activated() {
     LSJavascriptBridgeInit(() => {
