@@ -192,6 +192,7 @@ export default {
         }
       } else {
         this.showNetworkTip = false;
+        this.posterFlag = false;
         this.player.play();
         if (type == 1) {
           setLocal("no_network_tip", true);
@@ -231,8 +232,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              // src: data.videoAddress,
-              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              src: data.videoAddress,
+              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -273,6 +274,7 @@ export default {
 
         this.player.on("pause", () => {
           el_button_play.style.display = "block";
+          this.checkNetWork = true;
         });
 
         this.player.on("play", () => {
@@ -285,6 +287,16 @@ export default {
             //设置返回监听
             setBackbuttonCallBack("webviewCancel", this.webviewCancel);
           }
+          // if(this.checkNetWork&&this.networkStatus!=1){
+          //   this.player.pause();
+          //   this.player.exitFullscreen();
+          //   this.showNetworkTip = true;
+          // }
+          // this.checkNetWork = false;
+          // if(this.networkStatus!=1){
+          //   this.player.pause();
+          //   this.showNetworkTip = true;
+          // }
         });
 
         //进度条拖动的时候
