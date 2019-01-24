@@ -17,7 +17,7 @@ umScript.setAttribute('language', 'JavaScript');
 document.head.appendChild(umScript)
 umScript.onload = function () {
   //声明_czc对象:
-  var _czc = _czc || [];
+  var _czc = _czc || []; 
   //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
   _czc.push(["_setAccount", umIdByHost]);
   var u = navigator.userAgent;
@@ -32,8 +32,8 @@ umScript.onload = function () {
   }
   console.log("umemgScript onload")
   window.umTrigger = function(type, action = '点击', label = ''){
-    console.log(type, action, label)
     try {
+      console.log(type, action, label)
       _czc.push(["_trackEvent", type, action, label]);
     } catch (e) {
       console.log('数据统计异常: ' + type, e)
