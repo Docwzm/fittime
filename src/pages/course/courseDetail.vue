@@ -17,6 +17,7 @@
       <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
           courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
     </div>
+
     <div class="main-content">
       <div class="content-wrap">
         <!-- 介绍 -->
@@ -54,10 +55,10 @@
           <div>· 如有相关疑问，请至微信公众号「乐心运动」发送“人工客服”进行咨询</div>
         </div>
 
-        <div class="repay-tip">
+        <div class="repay-tip" v-if="course.type==1&&isBuy">
           <p class="title">课程{{ course.lapse==1?'已过期':'已购买'}}</p>
           <p class="endtime">有效期至{{course.deadline | dateFilter}}</p>
-          <div @click="gotoPay" class="repay-btn">>>前往续费</div>
+          <div @click="gotoPay" class="repay-btn" v-if="course.lapse==1||course.isexpire==1">>>前往续费</div>
         </div>
       </div>
     </div>
@@ -582,11 +583,13 @@ export default {
     }
   }
 }
+
 @supports (bottom: env(safe-area-inset-bottom)) {
   .main-content {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+
 .content-wrap {
   padding-bottom: 60px;
   .intro {
