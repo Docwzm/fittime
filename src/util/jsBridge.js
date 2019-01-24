@@ -111,6 +111,7 @@ const shareUrlBridge = (param, callback) => {
 const getNetworkState = (callbackName,registerCall,resCallback) => {
     try {
         window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
+            alert(responseData)
             registerCall && registerCall(responseData)
         });
         window.LSJavascriptBridge.callHandler("getNetworkState", callbackName, (responseData) => {
