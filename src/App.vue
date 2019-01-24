@@ -29,11 +29,11 @@ export default {
 }
 .video-js .vjs-control-bar {
   // width:500px;
-  
+
   // right:auto;
   // background: none;
 }
-.video-js .vjs-control{
+.video-js .vjs-control {
   // width:auto!important;
   // min-width:auto!important;
 }
@@ -53,13 +53,13 @@ export default {
 // .vjs-paused .vjs-big-play-button {
 //   display: block !important;
 // }
-.video-js .vjs-progress-control{
+.video-js .vjs-progress-control {
   // width:100px;
   // width:520px;
   // flex:none;
-  min-width:auto;
+  min-width: auto;
 }
-.video-js .vjs-time-control{
+.video-js .vjs-time-control {
   // min-width:100px;
   // padding:0;
 }
@@ -99,6 +99,7 @@ export default {
   width: 560px !important;
   box-sizing: border-box;
 }
+
 </style>
 
 

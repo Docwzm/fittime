@@ -171,6 +171,7 @@ export default {
     },
     play(type) {
       if (type == 0) {
+        _czc.push(["_trackEvent", "newclass_classtraining_play", "点击", "视频页_"+this.curriculumId+'_'+this.drillId]);
         if (!this.no_network) {
           //需要网络验证
           // this.player.play();
@@ -230,8 +231,8 @@ export default {
           aspectRatio: "16:9",
           sources: [
             {
-              src: data.videoAddress,
-              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              // src: data.videoAddress,
+              src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
               type: "application/x-mpegURL"
             }
           ],
@@ -310,6 +311,7 @@ export default {
 
         this.player.on("ended", () => {
           //非试看视屏 视频观看结束后 跳转视频分享页面
+          _czc.push(["_trackEvent", "newclass_classtraining_playover	", "播放完成", "视频页_"+this.curriculumId+'_'+this.drillId]);
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();

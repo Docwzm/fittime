@@ -177,6 +177,7 @@ export default {
     // });
   },
   beforeRouteEnter(to, from, next) {
+    to.meta.from = from.name;
     if (
       from.name == "courseList" ||
       from.name == "courseSpecial" ||
@@ -190,7 +191,15 @@ export default {
   },
   activated() {
     this.init();
-
+    let from = this.$route.meta.from;
+    if(from != 'coursePayment' && from!= 'videoPlayer' && from!='systemService'){
+      //防止页面返回时触发
+      _czc.push(["_trackEvent", "newclass_class", "进入", "课程页_"+this.courseId]);
+    }
+    if(this.from == 'share'){
+      //分享页面进入
+      _czc.push(["_trackEvent", "newclass_share_class", "进入", "分享课程页_"+this.courseId]);
+    }
     if (this.$route.meta.flush) {
       this.getCourseDetail();
     }
