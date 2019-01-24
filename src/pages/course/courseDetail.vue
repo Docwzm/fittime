@@ -5,7 +5,7 @@
     </div>
 
     <div class="base-info">
-      <p class="title" @click="test">{{course.title}}</p>
+      <p class="title">{{course.title}}</p>
       <div class="line-wrap">
         <span class="tag">{{ course.label }}</span>
         <span class="hot-count">{{ course.heat }}</span>
@@ -224,13 +224,6 @@ export default {
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
-    test() {
-      getCourseDetail({
-        curriculumId: this.courseId
-      }).then(res => {
-        alert(JSON.stringify(res));
-      });
-    },
     setNavigationBar(color) {
       let title =
         this.$route.meta && this.$route.meta.title
@@ -334,6 +327,7 @@ export default {
       if (this.noAuth) {
         return;
       }
+      let isAdd = this.isAdd?1:0;
       if (data.id) {
         //点击课程tab下的视频
         if (this.course.type == 1) {
@@ -346,7 +340,7 @@ export default {
                 "/" +
                 data.id +
                 "?key=" +
-                data.videoKey
+                data.videoKey + '&isAdd='+ isAdd
             );
           } else {
             if (data.trySee) {
@@ -357,7 +351,7 @@ export default {
                   "/" +
                   data.id +
                   "?key=" +
-                  data.videoKey
+                  data.videoKey + '&isAdd='+ isAdd
               );
             } else {
               //不可试看
@@ -372,7 +366,7 @@ export default {
               "/" +
               data.id +
               "?key=" +
-              data.videoKey
+              data.videoKey + '&isAdd='+ isAdd
           );
         }
       } else {
@@ -383,7 +377,7 @@ export default {
             "/" +
             this.nextPlayId +
             "?key=" +
-            this.nextPlayKey
+            this.nextPlayKey + '&isAdd='+ isAdd
         );
       }
     },

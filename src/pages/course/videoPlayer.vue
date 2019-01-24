@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="intro vux-1px-b">
-      <p class="title" @click="test1">{{ title }}</p>
-      <span @click="test2">第{{sortIndex}}次训练</span>
+      <p class="title">{{ title }}</p>
+      <span>第{{sortIndex}}次训练</span>
     </div>
     <div class="detail-wrap">
       <!-- <img src="../../assets/images/poster.png"> -->
@@ -66,6 +66,7 @@ export default {
   name: "videoPlayer",
   data() {
     return {
+      networkCheck: true,
       poster: "", //课程封面图
       loadFlag: 0, //视频是否可播放标识 2-是
       posterFlag: false, //
@@ -96,6 +97,7 @@ export default {
   },
   mounted() {
     this.videoKey = this.$route.query.key;
+    this.isAdd = this.$route.query.isAdd;
     this.curriculumId = this.$route.params.courseId;
     this.drillId = this.$route.params.drillId;
 
@@ -129,19 +131,6 @@ export default {
     }
   },
   methods: {
-    test1() {
-      getNetworkState("networkChange", this.networkChange, status => {
-        alert(status);
-      });
-      alert(this.videoUrl);
-    },
-    test2() {
-      getVideoDetail({
-        drillId: this.drillId
-      }).then(res => {
-        alert(JSON.stringify(res));
-      });
-    },
     webviewCancel() {
       if (this.playFlag) {
         this.showConfirmTip = true;
@@ -155,7 +144,7 @@ export default {
       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
       if (!this.no_network) {
         //显示网络弹窗
-        if (this.networkStatus != 1) {
+        if (this.networkCheck && this.networkStatus != 1) {
           this.player.exitFullscreen();
           this.player.pause();
           this.showNetworkTip = true;
@@ -194,6 +183,7 @@ export default {
         this.showNetworkTip = false;
         this.posterFlag = false;
         this.player.play();
+        this.networkCheck = false;
         if (type == 1) {
           setLocal("no_network_tip", true);
           this.no_network = true;
@@ -233,7 +223,8 @@ export default {
           sources: [
             {
               src: data.videoAddress,
-              // src:'http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8',
+              // src:
+              //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
               type: "application/x-mpegURL"
             }
           ],
@@ -281,22 +272,23 @@ export default {
           el_button_play.style.display = "none";
           if (!this.playFlag) {
             this.playFlag = true;
-            updateVideoTime({
-              curriculumId: this.curriculumId
-            });
+            if (this.isAdd == 1) {
+              updateVideoTime({
+                curriculumId: this.curriculumId
+              });
+            }
             //设置返回监听
             setBackbuttonCallBack("webviewCancel", this.webviewCancel);
           }
-          // if(this.checkNetWork&&this.networkStatus!=1){
-          //   this.player.pause();
-          //   this.player.exitFullscreen();
-          //   this.showNetworkTip = true;
-          // }
-          // this.checkNetWork = false;
-          // if(this.networkStatus!=1){
-          //   this.player.pause();
-          //   this.showNetworkTip = true;
-          // }
+
+          if (this.networkCheck) {
+            if (this.checkNetWork && this.networkStatus != 1) {
+              this.player.pause();
+              this.player.exitFullscreen();
+              this.showNetworkTip = true;
+            }
+          }
+          this.checkNetWork = false;
         });
 
         //进度条拖动的时候
@@ -323,27 +315,45 @@ export default {
 
         this.player.on("ended", () => {
           //非试看视屏 视频观看结束后 跳转视频分享页面
-          _czc.push(["_trackEvent", "newclass_classtraining_playover", "播放完成", "视频播放页_courseId_"+this.curriculumId+'_drillId_'+this.drillId]);
+          _czc.push([
+            "_trackEvent",
+            "newclass_classtraining_playover",
+            "播放完成",
+            "视频播放页_courseId_" +
+              this.curriculumId +
+              "_drillId_" +
+              this.drillId
+          ]);
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
             // if(getPlatform()=='android'){
-              hideCustomView()
+            hideCustomView();
             // }
 
-            finishCourse({
-              curriculumId: this.curriculumId,
-              drillId: this.drillId
-            })
-              .then(res => {
-                busEvent.$emit("playDone", this.drillId);
-                this.$router.push(
-                  "/course-share/" + this.videoTime + "/" + this.curriculumName
-                );
+            if (this.isAdd == 1) {
+              finishCourse({
+                curriculumId: this.curriculumId,
+                drillId: this.drillId
               })
-              .catch(err => {
-                this.$vux.toast.text(err.msg, "middle");
-              });
+                .then(res => {
+                  busEvent.$emit("playDone", this.drillId);
+                  this.$router.push(
+                    "/course-share/" +
+                      this.videoTime +
+                      "/" +
+                      this.curriculumName
+                  );
+                })
+                .catch(err => {
+                  this.$vux.toast.text(err.msg, "middle");
+                });
+            } else {
+              busEvent.$emit("playDone", this.drillId);
+              this.$router.push(
+                "/course-share/" + this.videoTime + "/" + this.curriculumName
+              );
+            }
           }
         });
 
@@ -356,7 +366,7 @@ export default {
           ) {
             this.player.exitFullscreen();
             // if(getPlatform()=='android'){
-              hideCustomView()
+            hideCustomView();
             // }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
