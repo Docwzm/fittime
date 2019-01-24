@@ -27,12 +27,14 @@ export default {
     this.className = this.$route.params.className || '';
   },
 
-  activated() {
+  mounted() {
     LSJavascriptBridgeInit(() => {
       navTitleBridge({
-        topPadding:0,
-        tintColorType: 2,
+        title:"",
+        autoResetToDefaultConfigWhtenOpenLink: true,
+        tintColorType: 1,
         backButtonType: 1,
+        topPadding: 0,
         barLineHidden: true,
         color: { red: 255, green: 255, blue: 255, alpha: 0 }
       });
@@ -63,7 +65,7 @@ export default {
   .share-img {
     width: 492px;
     height: 396px;
-    margin: 90px auto 0;
+    margin: 217px auto 0;
     img {
       display: block;
       width: 446px;
