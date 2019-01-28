@@ -144,7 +144,8 @@ export default {
         if (res.code === 200) {
           this.$vux.toast.text("购买成功");
           setTimeout(() => {
-            this.$router.replace("/course-detail/" + res.data.curriculumId);
+            this.$router.back(-1);
+            // this.$router.replace("/course-detail/" + res.data.curriculumId);
           }, 1000);
         }
       });
