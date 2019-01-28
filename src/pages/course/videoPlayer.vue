@@ -318,7 +318,17 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.player.currentTime(0);
+            this.player.controls(false)
+            this.player.exitFullscreen();
+            // if(getPlatform()=='android'){
+            hideCustomView();
+            // }
+            this.player.pause(); //暂停播放
+            this.player.currentTime(0); //设置当前播放时间为0
+            this.$vux.toast.text(
+              "试看结束,更多内容请购买课程后再观看",
+              "middle"
+            );
           }
         });
 
@@ -329,7 +339,17 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.player.currentTime(0);
+            this.player.controls(false);
+            this.player.exitFullscreen();
+            // if(getPlatform()=='android'){
+            hideCustomView();
+            // }
+            this.player.pause(); //暂停播放
+            this.player.currentTime(0); //设置当前播放时间为0
+            this.$vux.toast.text(
+              "试看结束,更多内容请购买课程后再观看",
+              "middle"
+            );
           }
         });
 
@@ -385,6 +405,7 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
+            this.player.controls(false);
             this.player.exitFullscreen();
             // if(getPlatform()=='android'){
             hideCustomView();
