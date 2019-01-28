@@ -13,7 +13,21 @@
       <span>第{{sortIndex}}次训练</span>
     </div>
     <div class="detail-wrap">
-      <!-- <img src="../../assets/images/poster.png"> -->
+      <p class="title">训练注意事项</p>
+      <div class="tip-mess">
+        <p>
+          1·所有的动作要领视频里都有详细的讲解，建议认真听教练的讲解、跟随教练练习，尽量跟上视频节奏。
+        </p>
+        <p>
+          2·训练中配合正确的呼吸方式，不要憋气，训练效果会更好。
+        </p>
+        <p>
+          3·刚开始训练时，局部肌肉酸痛属于正常情况，几次训练之后，这样的情况就会得到缓解。
+        </p>
+        <p>
+          4·每次训练完成进行10分钟的拉伸，可以缓解肌肉酸痛。
+        </p>
+      </div>
     </div>
     <div v-transfer-dom>
       <x-dialog class="netwrokDialog" v-model="showNetworkTip">
@@ -157,7 +171,15 @@ export default {
     },
     play(type) {
       if (type == 0) {
-        _czc.push(["_trackEvent", "newclass_classtraining_play", "点击", "视频播放页_courseId_"+this.curriculumId+'_drillId_'+this.drillId]);
+        _czc.push([
+          "_trackEvent",
+          "newclass_classtraining_play",
+          "点击",
+          "视频播放页_courseId_" +
+            this.curriculumId +
+            "_drillId_" +
+            this.drillId
+        ]);
         if (!this.no_network) {
           //需要网络验证
           // this.player.play();
@@ -476,9 +498,20 @@ export default {
   }
 }
 .detail-wrap {
-  img {
-    max-width: 100%;
-    display: block;
+  padding: 80px 40px 0;
+  .title {
+    height: 36px;
+    font-size: 28px;
+    color: rgba(65, 65, 65, 1);
+    line-height: 36px;
+    margin-bottom: 30px;
+  }
+  .tip-mess {
+    p {
+      font-size: 24px;
+      color: rgba(155, 155, 155, 1);
+      line-height: 36px;
+    }
   }
 }
 </style>
