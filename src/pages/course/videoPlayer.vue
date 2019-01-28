@@ -219,7 +219,7 @@ export default {
       }).then(res => {
         let data = res.data;
         this.trySee = data.trySee;
-        this.duration = data.duration;
+        this.duration = data.trySeeTime * 60;
         this.title = data.title;
         this.sortIndex = data.indexes;
         this.videoTime = data.videoTime;
