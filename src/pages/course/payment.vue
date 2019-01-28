@@ -2,8 +2,8 @@
 <template>
   <div class="payment-wrap">
     <div class="pay-info">
-      <div class="title">购买该课程1年试用期</div>
-      <div class="sub-title">1次购买，1年内随意训练</div>
+      <div class="title">购买该课程{{orderInfo.deadline || 0}}天试用期</div>
+      <div class="sub-title">1次购买，{{orderInfo.deadline || 0}}天内随意训练</div>
       <div class="pay-title">支付金额</div>
       <div class="money">
         <span>￥</span>{{orderInfo.price}}
