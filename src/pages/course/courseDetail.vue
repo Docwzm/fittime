@@ -200,21 +200,23 @@ export default {
       from != "systemService"
     ) {
       //防止页面返回时触发
-      _czc.push([
-        "_trackEvent",
-        "newclass_class",
-        "进入",
-        "课程详情页_courseId_" + this.courseId
-      ]);
+      umTrigger('newclass_class',"进入","课程详情页_courseId_" + this.courseId)
+      // _czc.push([
+      //   "_trackEvent",
+      //   "newclass_class",
+      //   "进入",
+      //   "课程详情页_courseId_" + this.courseId
+      // ]);
     }
     if (this.from == "share") {
       //分享页面进入
-      _czc.push([
-        "_trackEvent",
-        "newclass_share_class",
-        "进入",
-        "分享课程详情页_courseId_" + this.courseId
-      ]);
+      umTrigger('newclass_share_class',"进入","分享课程详情页_courseId_" + this.courseId)
+      // _czc.push([
+      //   "_trackEvent",
+      //   "newclass_share_class",
+      //   "进入",
+      //   "分享课程详情页_courseId_" + this.courseId
+      // ]);
     }
     if (this.$route.meta.flush) {
       this.getCourseDetail();

@@ -171,15 +171,16 @@ export default {
     },
     play(type) {
       if (type == 0) {
-        _czc.push([
-          "_trackEvent",
-          "newclass_classtraining_play",
-          "点击",
-          "视频播放页_courseId_" +
-            this.curriculumId +
-            "_drillId_" +
-            this.drillId
-        ]);
+        umTrigger('newclass_classtraining_play',"点击","视频播放页_courseId_" + this.curriculumId + "_drillId_" + this.drillId)
+        // _czc.push([
+        //   "_trackEvent",
+        //   "newclass_classtraining_play",
+        //   "点击",
+        //   "视频播放页_courseId_" +
+        //     this.curriculumId +
+        //     "_drillId_" +
+        //     this.drillId
+        // ]);
         if (!this.no_network) {
           //需要网络验证
           // this.player.play();
@@ -334,15 +335,16 @@ export default {
 
         this.player.on("ended", () => {
           //非试看视屏 视频观看结束后 跳转视频分享页面
-          _czc.push([
-            "_trackEvent",
-            "newclass_classtraining_playover",
-            "播放完成",
-            "视频播放页_courseId_" +
-              this.curriculumId +
-              "_drillId_" +
-              this.drillId
-          ]);
+          umTrigger('newclass_classtraining_playover',"播放完成","视频播放页_courseId_" + this.curriculumId + "_drillId_" + this.drillId)
+          // _czc.push([
+          //   "_trackEvent",
+          //   "newclass_classtraining_playover",
+          //   "播放完成",
+          //   "视频播放页_courseId_" +
+          //     this.curriculumId +
+          //     "_drillId_" +
+          //     this.drillId
+          // ]);
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();

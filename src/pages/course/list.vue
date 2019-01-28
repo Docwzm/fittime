@@ -61,7 +61,8 @@ export default {
       this.currentCate = key;
       this.list = []
       //课程类别埋点
-      _czc.push(["_trackEvent", 'newclass_sort','点击','课程列表页_classifyId_'+key]);
+      umTrigger('newclass_sort',"点击",'课程列表页_classifyId_'+key)
+      // _czc.push(["_trackEvent", 'newclass_sort','点击','课程列表页_classifyId_'+key]);
       this.actionGetCourseListByCate({ pageNum: 1, classifyId: parseInt(key) });
     },
     //根据课程类型拉取列表

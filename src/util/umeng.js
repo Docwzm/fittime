@@ -15,9 +15,24 @@ var umScript = document.createElement('script');
 umScript.src = 'https://s95.cnzz.com/z_stat.php?id=' + umIdByHost + '&web_id=' + umIdByHost;
 umScript.setAttribute('language', 'JavaScript');
 document.head.appendChild(umScript)
+
+var eventList = [];
+window.umTrigger = function (type, action = '点击', label = '') {
+  try {
+    _czc.push(["_trackEvent", type, action, label]);
+  } catch (e) {
+    console.log('数据统计异常: ' + type, e)
+    eventList.push({
+      type,
+      action,
+      label
+    })
+  }
+}
+
 umScript.onload = function () {
   //声明_czc对象:
-  var _czc = _czc || []; 
+  var _czc = _czc || [];
   //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
   _czc.push(["_setAccount", umIdByHost]);
   var u = navigator.userAgent;
@@ -31,12 +46,9 @@ umScript.onload = function () {
     _czc.push(["_setCustomVar", "苹果用户", "是"]);
   }
   console.log("umemgScript onload")
-  window.umTrigger = function(type, action = '点击', label = ''){
-    try {
-      console.log(type, action, label)
-      _czc.push(["_trackEvent", type, action, label]);
-    } catch (e) {
-      console.log('数据统计异常: ' + type, e)
-    }
-  }
+
+  eventList.map(item => {
+    _czc.push(["_trackEvent", item.type, item.action, item.label]);
+  })
+  eventList = [];
 }

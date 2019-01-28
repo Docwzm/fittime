@@ -33,7 +33,8 @@ export default {
   methods: {
     handleListItemClick() {
       //点击每个课程的埋点
-      _czc.push(["_trackEvent", this.pageType,'点击',this.pageName+'_courseId_'+ this.itemData.id]);
+      umTrigger(this.pageType,"点击",this.pageName+'_courseId_'+ this.itemData.id)
+      // _czc.push(["_trackEvent", this.pageType,'点击',this.pageName+'_courseId_'+ this.itemData.id]);
       
       this.$router.push("/course-detail/" + this.itemData.id);
       // let heat = this.itemData.heat + 1;

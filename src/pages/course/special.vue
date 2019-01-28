@@ -36,7 +36,8 @@ export default {
     let id = this.$route.params.id;
     this.actionGetSubject(id);
     //进入专题页面
-    _czc.push(["_trackEvent", 'newclass_specialtopic','进入','课程专题页_curriculumId_'+id]);
+    umTrigger('newclass_specialtopic',"进入",'课程专题页_curriculumId_'+id)
+    // _czc.push(["_trackEvent", 'newclass_specialtopic','进入','课程专题页_curriculumId_'+id]);
   },
   activated() {
     LSJavascriptBridgeInit(() => {
