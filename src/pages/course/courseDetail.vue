@@ -107,15 +107,17 @@
 
     <!-- 下载APP  仅供分享出去的页面 -->
     <div :class="'download-wrap'+(from=='share'?' share-download':'')">
-      <img src="https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png">
-      <div class="mess">
-        <p class="title">乐心运动</p>
-        <p>每一步都很重要</p>
+      <div class="wrap">
+        <img src="https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png">
+        <div class="mess">
+          <p class="title">乐心运动</p>
+          <p>每一步都很重要</p>
+        </div>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=gz.lifesense.weidong">
+          <p>下载APP</p>
+          <span>动起来</span>
+        </a>
       </div>
-      <a href="http://a.app.qq.com/o/simple.jsp?pkgname=gz.lifesense.weidong">
-        <p>下载APP</p>
-        <span>动起来</span>
-      </a>
     </div>
 
     <div v-transfer-dom>
@@ -749,7 +751,7 @@ export default {
   border-top: 2px solid #d9d9d9;
   background: #fff;
   overflow: hidden;
-  &.share-footer{
+  &.share-footer {
     display: none;
   }
   .buy-wrap {
@@ -840,17 +842,19 @@ export default {
 .download-wrap {
   display: none;
   position: fixed;
-  left:0;
-  bottom:0;
-  width:100%;
-  z-index:10;
-  padding: 20px 30px 20px 40px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
   border-top: 2px solid #d9d9d9;
-  background:#fff;
+  background: #fff;
   font-size: 0;
   box-sizing: border-box;
-  &.share-download{
+  &.share-download {
     display: block;
+  }
+  .wrap {
+    padding: 20px 30px 20px 40px;
   }
   img,
   .mess,
@@ -897,7 +901,8 @@ export default {
 }
 
 @supports (bottom: env(safe-area-inset-bottom)) {
-  .footer,.download-wrap {
+  .footer,
+  .download-wrap {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
