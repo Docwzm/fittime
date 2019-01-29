@@ -1,9 +1,10 @@
 <template>
   <div class="detail-wrap" v-if="course">
+    <!-- 课程封面 -->
     <div class="top-img" ref="topImg">
       <img :src="course.coverImg" />
     </div>
-
+    <!-- 课程信息 -->
     <div class="base-info">
       <p class="title">{{course.title}}</p>
       <div class="line-wrap">
@@ -12,12 +13,12 @@
       </div>
     </div>
 
+    <!-- 课程介绍与视频 -->
     <div class="tab-bar vux-1px-b">
       <p :class="slectedTab==1?'active':''" @click="slectedTab=1"><span>介绍</span></p>
       <p :class="slectedTab==2?'active':''" @click="slectedTab=2"><span>课程{{
           courseList.length?'('+courseList.length+')':'' }}<b v-if="course.type==1&&!isBuy&&haveTrySee">试看</b></span></p>
     </div>
-
     <div class="main-content">
       <div class="content-wrap">
         <!-- 介绍 -->
@@ -63,9 +64,11 @@
       </div>
     </div>
 
-    <div class="footer">
+    <!-- 底部操作按钮 -->
+    <div :class="'footer'+(from=='share'?' share-footer':'')">
+      <!-- 付费 -->
       <div v-if="course.type==1">
-        <!-- 付费 -->
+        <!-- 未购买 -->
         <div class="buy-wrap" v-if="!isBuy">
           <div class="not-buy">
             <div @click="gotoService" class="concat"><span>客服</span></div>
@@ -75,32 +78,44 @@
             </div>
           </div>
         </div>
-
+        <!-- 已购买 且过期 -->
         <div class="buy-wrap" v-else-if="course.lapse==1">
           <div class="lapse">
             已过期，请购买续费
           </div>
         </div>
-
+        <!-- 已购买 未过期 未加入 -->
         <div class="add-wrap" v-else-if="!isAdd">
           <button @click="joinCourse">加入课程</button>
         </div>
-
+        <!-- 已购买 未过期 已加入 -->
         <div class="play-wrap" v-else>
           <button @click="gotoPlay">开始训练</button>
         </div>
       </div>
       <div v-else>
-        <!-- 免费 -->
+        <!-- 免费 未加入 -->
         <div class="add-wrap" v-if="!isAdd">
           <button @click="joinCourse">加入课程</button>
         </div>
-
+        <!-- 免费 已加入 -->
         <div class="play-wrap" v-else>
           <button @click="gotoPlay">开始训练</button>
         </div>
       </div>
+    </div>
 
+    <!-- 下载APP  仅供分享出去的页面 -->
+    <div :class="'download-wrap'+(from=='share'?' share-download':'')">
+      <img src="https://files.lifesense.com/other/20181029/c2b8c1bfd33140069d4cc3bc19b0f402.png">
+      <div class="mess">
+        <p class="title">乐心运动</p>
+        <p>每一步都很重要</p>
+      </div>
+      <a href="http://a.app.qq.com/o/simple.jsp?pkgname=gz.lifesense.weidong">
+        <p>下载APP</p>
+        <span>动起来</span>
+      </a>
     </div>
 
     <div v-transfer-dom>
@@ -160,9 +175,10 @@ export default {
     this.courseId = this.$route.params.id;
     this.from = this.$route.query.from == "share" ? "share" : "app";
     if (!this.$route.meta.flush) {
-      this.getCourseDetail();
+      this.getCourseDetail(); //用户从app页面运动-健身tab直接进入
     }
 
+    //播放完成后触发课程视频状态更新
     busEvent.$on("playDone", id => {
       this.courseList.map((item, index) => {
         if (item.id == id) {
@@ -180,6 +196,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     to.meta.from = from.name;
+    //因为当前页面用户路由缓存  需要判断从列表页进来和支付页面进来时刷新
     if (
       from.name == "courseList" ||
       from.name == "courseSpecial" ||
@@ -194,30 +211,28 @@ export default {
   activated() {
     this.init();
     let from = this.$route.meta.from;
+
+    //页面返回时不触发埋点事件
     if (
       from != "coursePayment" &&
       from != "videoPlayer" &&
       from != "systemService"
     ) {
-      //防止页面返回时触发
-      umTrigger('newclass_class',"进入","课程详情页_courseId_" + this.courseId)
-      // _czc.push([
-      //   "_trackEvent",
-      //   "newclass_class",
-      //   "进入",
-      //   "课程详情页_courseId_" + this.courseId
-      // ]);
+      umTrigger(
+        "newclass_class",
+        "进入",
+        "课程详情页_courseId_" + this.courseId
+      );
     }
     if (this.from == "share") {
       //分享页面进入
-      umTrigger('newclass_share_class',"进入","分享课程详情页_courseId_" + this.courseId)
-      // _czc.push([
-      //   "_trackEvent",
-      //   "newclass_share_class",
-      //   "进入",
-      //   "分享课程详情页_courseId_" + this.courseId
-      // ]);
+      umTrigger(
+        "newclass_share_class",
+        "进入",
+        "分享课程详情页_courseId_" + this.courseId
+      );
     }
+
     if (this.$route.meta.flush) {
       this.getCourseDetail();
     }
@@ -238,7 +253,7 @@ export default {
       };
 
       LSJavascriptBridgeInit(() => {
-        this.noAuth = false;
+        this.noAuth = false; //app进入标识
         this.setNavigationBar({ red: 38, green: 38, blue: 38, alpha: 0 });
       });
     },
@@ -261,6 +276,7 @@ export default {
     //获取视频详情
     getCourseDetail() {
       let noAuth = this.from == "share" ? true : false;
+      //根据页面来源 不同接口调用（鉴权与非鉴权）
       getCourseDetail({
         noAuth,
         curriculumId: this.courseId
@@ -268,7 +284,7 @@ export default {
         let data = res.data;
         data.drillDtoList.sort((a, b) => {
           return a.indexes - b.indexes;
-        });
+        }); //排序
         this.courseList = data.drillDtoList;
         this.courseList.map(item => {
           if (item.trySee == 1) {
@@ -283,14 +299,14 @@ export default {
               : data.userCurriculumDto.doneNum
             : 0; //下次播放的视频Index
 
-        let finishIdArr = [];
+        let finishIdArr = []; //已经播放完成的视频id
         if (data.userCurriculumDto && data.userCurriculumDto.accomplishDrill) {
           finishIdArr = data.userCurriculumDto.accomplishDrill.split(",");
         }
         this.courseList.map((item, index) => {
           finishIdArr.map(id => {
             if (id == item.id) {
-              item.over = true;
+              item.over = true; //已经播放完成的视频id over状态置为true
             }
           });
         });
@@ -323,7 +339,7 @@ export default {
           contentImg: data.contentImg, //课程介绍图片
           imgContent: data.imgConten.replace(/(\n|\r)/g, "$").split("$") //课程介绍图片内容
         };
-        this.setNavigationBarButtons();
+        this.setNavigationBarButtons(); //重新设置导航栏 因为导航栏有个按钮需要根据是否添加了该课程做判断
       });
     },
     //客服
@@ -490,17 +506,10 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
 .detail-wrap {
-  // padding: 430px 0 110px;
   padding-bottom: 110px;
 }
 .top-img {
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // width: 100%;
   height: 430px;
-  // background: #fff;
-  // z-index: 10;
   img {
     width: 100%;
     height: 100%;
@@ -682,7 +691,6 @@ export default {
       margin-top: 11px;
       float: right;
       width: 128px;
-      // padding: 0 20px;
       height: 46px;
       line-height: 46px;
       text-align: center;
@@ -739,12 +747,11 @@ export default {
   left: 0;
   width: 100%;
   border-top: 2px solid #d9d9d9;
-  // height:110px;
   background: #fff;
   overflow: hidden;
-  //
-
-
+  &.share-footer{
+    display: none;
+  }
   .buy-wrap {
     padding: 15px 0;
     padding-left: 50px;
@@ -830,8 +837,67 @@ export default {
   }
 }
 
+.download-wrap {
+  display: none;
+  position: fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:10;
+  padding: 20px 30px 20px 40px;
+  border-top: 2px solid #d9d9d9;
+  background:#fff;
+  font-size: 0;
+  box-sizing: border-box;
+  &.share-download{
+    display: block;
+  }
+  img,
+  .mess,
+  a {
+    display: inline-block;
+    vertical-align: top;
+  }
+  img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  .mess {
+    p {
+      color: #b7b7b7;
+      font-size: 24px;
+    }
+    .title {
+      color: #414141;
+      font-size: 32px;
+    }
+  }
+  a {
+    float: right;
+    background: #05aef0;
+    width: 200px;
+    height: 100px;
+    border-radius: 8px;
+    text-align: center;
+    p {
+      color: #ffffff;
+      font-size: 30px;
+      text-align: center;
+      margin-top: 18px;
+    }
+    span {
+      color: #a8e7ff;
+      font-size: 20px;
+      display: block;
+      margin-top: 2px;
+      text-align: center;
+    }
+  }
+}
+
 @supports (bottom: env(safe-area-inset-bottom)) {
-  .footer {
+  .footer,.download-wrap {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
