@@ -340,7 +340,7 @@ export default {
           ) {
             this.player.controls(false)//ios自动退出全屏时 控制条重复显示 需去除控制条
             this.player.exitFullscreen();//退出全屏
-            hideCustomView();//兼容android退出全屏
+            // hideCustomView();//兼容android退出全屏
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
@@ -364,7 +364,7 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            hideCustomView();
+            // hideCustomView();
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
               finishCourse({
