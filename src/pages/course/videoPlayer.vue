@@ -303,8 +303,9 @@ export default {
         });
 
         this.player.on("play", () => {
-          
-          this.player.requestFullscreen();
+
+          // this.player.requestFullscreen();
+          this.player.isFullscreen(true);
 
           el_button_play.style.display = "none";
 
