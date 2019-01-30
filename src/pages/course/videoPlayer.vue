@@ -303,7 +303,7 @@ export default {
         });
 
         this.player.on("play", () => {
-
+// this.player.enterFullScreen();
           // this.player.requestFullscreen();
           this.player.isFullscreen(true);
 
