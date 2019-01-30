@@ -85,7 +85,7 @@ export default {
   name: "videoPlayer",
   data() {
     return {
-      networkCheck: true,//是否需要检查网络
+      networkCheck: true, //是否需要检查网络
       poster: "", //课程封面图
       loadFlag: 0, //视频是否可播放标识 2-是
       posterFlag: false, //
@@ -100,8 +100,8 @@ export default {
       showNetworkTip: false, //显示网络状态提示弹框标识
       isPlayed: false, //是否已经播放过
       player: null, //播放器实例
-      playFlag: false,//播放器第一次播放标识
-      no_network: false,//网络判断是否已忽略 判断本地localStorage
+      playFlag: false, //播放器第一次播放标识
+      no_network: false, //网络判断是否已忽略 判断本地localStorage
       networkStatus: "" //网络环境状态
     };
   },
@@ -112,14 +112,14 @@ export default {
     TransferDom
   },
   mounted() {
-    this.videoKey = this.$route.query.key;//视频key
-    this.isAdd = this.$route.query.isAdd;//视频是否添加了
-    this.curriculumId = this.$route.params.courseId;//课程ID
-    this.drillId = this.$route.params.drillId;//视频ID
+    this.videoKey = this.$route.query.key; //视频key
+    this.isAdd = this.$route.query.isAdd; //视频是否添加了
+    this.curriculumId = this.$route.params.courseId; //课程ID
+    this.drillId = this.$route.params.drillId; //视频ID
 
-    let no_network_tip = getLocal("no_network_tip");//localStorage 网络状态忽略标识
+    let no_network_tip = getLocal("no_network_tip"); //localStorage 网络状态忽略标识
     if (no_network_tip) {
-      this.no_network = true;//如果有 则忽略网络状态的判断
+      this.no_network = true; //如果有 则忽略网络状态的判断
     }
 
     LSJavascriptBridgeInit(() => {
@@ -138,8 +138,8 @@ export default {
       });
     });
 
-    this.getCourseUrl();//视频链接
-    this.getVideoDetail();//视频详情
+    this.getCourseUrl(); //视频链接
+    this.getVideoDetail(); //视频详情
   },
   beforeDestroy() {
     setBackbuttonCallBack("", () => {}); //页面销毁前 删除返回键监听
@@ -186,7 +186,14 @@ export default {
     play(type) {
       if (type == 0) {
         // 视频播放-埋点
-        umTrigger('newclass_classtraining_play',"点击","视频播放页_courseId_" + this.curriculumId + "_drillId_" + this.drillId)
+        umTrigger(
+          "newclass_classtraining_play",
+          "点击",
+          "视频播放页_courseId_" +
+            this.curriculumId +
+            "_drillId_" +
+            this.drillId
+        );
         //开始播放前需要网络验证（非网络忽略状态）
         if (!this.no_network) {
           // this.player.play();
@@ -229,14 +236,14 @@ export default {
         drillId: this.drillId
       }).then(res => {
         let data = res.data;
-        this.trySee = data.trySee;//是否试看
-        this.duration = data.trySeeTime * 60;//试看时长 分钟
-        this.title = data.title;//视频title
-        this.sortIndex = data.indexes;//视频序列数
-        this.videoTime = data.videoTime;//视频时长
-        this.curriculumName = data.curriculumName;//课程名称
-        this.poster = data.coverImg;//视频课程封面
-        this.loadFlag += 1;//可播放标识 需等视频元数据加载完毕后方可播放
+        this.trySee = data.trySee; //是否试看
+        this.duration = data.trySeeTime * 60; //试看时长 分钟
+        this.title = data.title; //视频title
+        this.sortIndex = data.indexes; //视频序列数
+        this.videoTime = data.videoTime; //视频时长
+        this.curriculumName = data.curriculumName; //课程名称
+        this.poster = data.coverImg; //视频课程封面
+        this.loadFlag += 1; //可播放标识 需等视频元数据加载完毕后方可播放
         if (this.loadFlag == 2) {
           this.posterFlag = true;
         }
@@ -250,17 +257,17 @@ export default {
         let data = res.data;
         this.player = videojs("my-video", {
           controls: true,
-          aspectRatio: "16:9",//视频比例
+          aspectRatio: "16:9", //视频比例
           sources: [
             {
-              src: data.videoAddress,//视频地址
+              src: data.videoAddress, //视频地址
               // src:
               //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
-              type: "application/x-mpegURL"//m3u8格式
+              type: "application/x-mpegURL" //m3u8格式
             }
           ],
-          type: "hls",//流文件
-          preload: "auto",//预加载
+          type: "hls", //流文件
+          preload: "auto", //预加载
           autoplay: false, // 如为 true，则视频将会自动播放
           html5: {
             nativeControlsForTouch: false,
@@ -270,7 +277,7 @@ export default {
           },
           //控制条组件
           controlBar: {
-            volumePanel: false//声音
+            volumePanel: false //声音
             // playToggle: false,//播放
             // fullscreenToggle:false//全屏
           }
@@ -336,9 +343,9 @@ export default {
             this.trySee == 1 &&
             Math.round(this.player.currentTime()) > this.duration
           ) {
-            this.player.controls(false)//ios自动退出全屏时 控制条重复显示 需去除控制条
-            this.player.exitFullscreen();//退出全屏
-            hideCustomView();//兼容android退出全屏
+            this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
+            this.player.exitFullscreen(); //退出全屏
+            hideCustomView(); //兼容android退出全屏
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
@@ -346,7 +353,7 @@ export default {
               "middle"
             );
           }
-        }
+        };
         //进度条拖动
         this.player.on("seeking", trySeeGo);
         //进度条拖动结束
@@ -354,18 +361,20 @@ export default {
         //正在播放
         this.player.on("timeupdate", trySeeGo);
 
-
         this.player.on("ended", () => {
           // 视频播放完成-埋点
-          umTrigger('newclass_classtraining_playover',"播放完成","视频播放页_courseId_" + this.curriculumId + "_drillId_" + this.drillId)
+          umTrigger(
+            "newclass_classtraining_playover",
+            "播放完成",
+            "视频播放页_courseId_" +
+              this.curriculumId +
+              "_drillId_" +
+              this.drillId
+          );
           //非试看视屏 视频观看结束后 跳转视频分享页面
           if (this.trySee != 1) {
             //完成训练
-            this.player.exitFullscreen();
-            // hideCustomView();
-            if(this.player.isFullscreen()){
-              hideCustomView();
-            }
+
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
               finishCourse({
@@ -373,13 +382,15 @@ export default {
                 drillId: this.drillId
               })
                 .then(res => {
-                  busEvent.$emit("playDone", this.drillId);//触发播放完成
+                  busEvent.$emit("playDone", this.drillId); //触发播放完成
                   this.$router.push(
                     "/course-share/" +
                       this.videoTime +
                       "/" +
                       this.curriculumName
                   );
+                  this.player.exitFullscreen();
+                  hideCustomView();
                 })
                 .catch(err => {
                   this.$vux.toast.text(err.msg, "middle");
@@ -389,11 +400,11 @@ export default {
               this.$router.push(
                 "/course-share/" + this.videoTime + "/" + this.curriculumName
               );
+              this.player.exitFullscreen();
+              hideCustomView();
             }
           }
         });
-
-        
       });
     }
   }
