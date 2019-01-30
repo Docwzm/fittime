@@ -283,7 +283,7 @@ export default {
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
-        let element = this.$refs.myVideo;
+        // let element = this.$refs.myVideo;
         //获取视频播放按钮 播放时隐藏 暂停时显示（刚开始的时候按钮是隐藏的）
         let el_button_play = document.getElementsByClassName(
           "vjs-big-play-button"
@@ -304,19 +304,7 @@ export default {
         });
 
         this.player.on("play", () => {
-          if(element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if(element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if(element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if(element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-// this.player.enterFullScreen();
           // this.player.requestFullscreen();
-          // this.player.isFullscreen(true);
-
           el_button_play.style.display = "none";
 
           //第一次播放
