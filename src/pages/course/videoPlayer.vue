@@ -362,7 +362,10 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            hideCustomView();
+            // hideCustomView();
+            if(this.player.isFullscreen()){
+              hideCustomView();
+            }
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
               finishCourse({
