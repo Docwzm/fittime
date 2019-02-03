@@ -157,7 +157,7 @@ export default {
         this.player.pause();
       } else {
         //否则返回上一页
-        this.$router.back(-1);
+        this.$router.push('/course-detail/'+this.curriculumId)
       }
     },
     //监听网络状态-app回调事件（ios只能监听数据网络切换 不能监听wifi切换）
