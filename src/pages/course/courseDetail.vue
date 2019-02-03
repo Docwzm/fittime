@@ -133,7 +133,8 @@ import {
   LSJavascriptBridgeInit,
   navigationButtonsBridge,
   shareUrlBridge,
-  navTitleBridge
+  navTitleBridge,
+  cancelWebview
 } from "@/util/jsBridge";
 import { getCourseDetail, joinCourse, delCourse } from "@/api/detail.js";
 import { dateFormat } from "@/util/tool";
@@ -346,10 +347,12 @@ export default {
     },
     //客服
     gotoService() {
-      if (this.noAuth) {
-        return;
-      }
-      this.$router.push("/system-service");
+      cancelWebview()
+
+      // if (this.noAuth) {
+      //   return;
+      // }
+      // this.$router.push("/system-service");
     },
     //支付
     gotoPay() {
