@@ -175,7 +175,8 @@ export default {
     },
     //退出训练
     cancelWebview() {
-      this.$router.back(-1);
+      // this.$router.back(-1);
+      this.$router.push('/course-detail/'+this.curriculumId)
     },
     //继续训练
     goOnPlay() {
