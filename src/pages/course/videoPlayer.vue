@@ -187,7 +187,8 @@ export default {
     //退出训练
     cancelWebview() {
       if (this.$route.meta.haveStack) {
-        this.$router.back(-1);
+        // this.$router.back(-1);
+        cancelWebview();
       } else {
         cancelWebview();
       }
