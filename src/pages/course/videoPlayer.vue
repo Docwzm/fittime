@@ -275,9 +275,9 @@ export default {
           aspectRatio: "16:9", //视频比例
           sources: [
             {
-              // src: data.videoAddress, //视频地址
-              src:
-                "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+              src: data.videoAddress, //视频地址
+              // src:
+              //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
@@ -326,7 +326,6 @@ export default {
         });
 
         this.player.on("play", () => {
-          alert(this.player.isFullscreen())
           // this.player.requestFullscreen();//部分安卓机型不兼容 会导致整个webview退出
           el_button_play.style.display = "none";
 
@@ -381,7 +380,6 @@ export default {
 
         this.player.on("ended", () => {
           // 视频播放完成-埋点
-          alert(this.player.isFullscreen())
           umTrigger(
             "newclass_classtraining_playover",
             "播放完成",
