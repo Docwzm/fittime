@@ -362,7 +362,7 @@ export default {
           ) {
             this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
             this.player.exitFullscreen(); //ios退出全屏
-            if(window.orientation!=0){
+            if(window.orientation!=0||window.orientation!=180){
               hideCustomView();//兼容android退出全屏
             }
             this.player.pause(); //暂停播放
@@ -394,7 +394,7 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            if(window.orientation!=0){
+            if(window.orientation!=0&&window.orientation!=180){
               hideCustomView();//兼容android退出全屏
             }
             //已加入的课程 需要更新状态
