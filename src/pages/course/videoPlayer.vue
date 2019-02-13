@@ -302,15 +302,6 @@ export default {
         this.watchPlayer();
       });
     },
-    launchFullScreen(element) {
-      if(element.requestFullScreen) {
-        element.requestFullScreen();
-      } else if(element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if(element.webkitRequestFullScreen) {
-        element.webkitRequestFullScreen();
-      }
-    },
     //监听视频player 事件
     watchPlayer() {
       this.player.ready(player => {
@@ -335,7 +326,6 @@ export default {
         });
 
         this.player.on("play", () => {
-          this.launchFullScreen(document.documentElement)
           // this.player.requestFullscreen();//部分安卓机型不兼容 会导致整个webview退出
           el_button_play.style.display = "none";
 
@@ -372,7 +362,9 @@ export default {
           ) {
             this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
             this.player.exitFullscreen(); //ios退出全屏
-            hideCustomView();//兼容android退出全屏
+            if(window.orientation!=0){
+              hideCustomView();//兼容android退出全屏
+            }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
             this.$vux.toast.text(
@@ -402,7 +394,9 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            hideCustomView();
+            if(window.orientation!=0){
+              hideCustomView();//兼容android退出全屏
+            }
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
               finishCourse({
