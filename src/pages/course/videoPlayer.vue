@@ -326,7 +326,8 @@ export default {
         });
 
         this.player.on("play", () => {
-          // this.player.requestFullscreen();
+          alert(this.player.isFullscreen())
+          // this.player.requestFullscreen();//部分安卓机型不兼容 会导致整个webview退出
           el_button_play.style.display = "none";
 
           //第一次播放
@@ -361,7 +362,7 @@ export default {
             Math.round(this.player.currentTime()) > this.duration
           ) {
             this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
-            this.player.exitFullscreen(); //退出全屏
+            this.player.exitFullscreen(); //ios退出全屏
             // hideCustomView();//兼容android退出全屏
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
@@ -380,6 +381,7 @@ export default {
 
         this.player.on("ended", () => {
           // 视频播放完成-埋点
+          alert(this.player.isFullscreen())
           umTrigger(
             "newclass_classtraining_playover",
             "播放完成",
