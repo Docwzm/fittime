@@ -275,9 +275,9 @@ export default {
           aspectRatio: "16:9", //视频比例
           sources: [
             {
-              src: data.videoAddress, //视频地址
-              // src:
-              //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+              // src: data.videoAddress, //视频地址
+              src:
+                "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
