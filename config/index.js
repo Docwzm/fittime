@@ -62,7 +62,7 @@ module.exports = {
 
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
+    devtool: 'cheap-module-source-map',
 
     // Run the build command with an extra argument to
     // View the bundle analyzer report after build finishes:
