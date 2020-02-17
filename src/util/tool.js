@@ -54,3 +54,10 @@ export const getPlatform = () => {
     }
     return ''
   }
+
+  export function checkEnv() {
+    var mHost = window.location.hostname
+    return {
+       "cdn.lifesense.com": "online"
+    }[mHost] || 'dev'
+ }
