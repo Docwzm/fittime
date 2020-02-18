@@ -9,10 +9,10 @@
         webkit-playsinline="true"
         playsinline="true"
       ></video>
-      <div class="poster-wrap" v-if="posterFlag">
+      <!-- <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster" />
         <span @click.passive="play(0)"></span>
-      </div>
+      </div> -->
     </div>
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
