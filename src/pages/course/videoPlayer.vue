@@ -139,7 +139,7 @@ export default {
       });
     });
 
-    this.getCourseUrl(); //视频链接
+    // this.getCourseUrl(); //视频链接
     this.getVideoDetail(); //视频详情
   },
   beforeDestroy() {
@@ -258,10 +258,11 @@ export default {
         this.videoTime = data.videoTime; //视频时长
         this.curriculumName = data.curriculumName; //课程名称
         this.poster = data.coverImg; //视频课程封面
-        this.loadFlag += 1; //可播放标识 需等视频元数据加载完毕后方可播放
-        if (this.loadFlag == 2) {
-          this.posterFlag = true;
-        }
+        // this.loadFlag += 1; //可播放标识 需等视频元数据加载完毕后方可播放
+        // if (this.loadFlag == 2) {
+        //   this.posterFlag = true;
+        // }
+        this.getCourseUrl()
       });
     },
     // 视频链接
@@ -281,6 +282,7 @@ export default {
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
+          poster:this.poster,
           type: "hls", //流文件
           preload: "auto", //预加载
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -313,10 +315,10 @@ export default {
 
         this.player.on("loadedmetadata", () => {
           //视频元数据加载完成 可以播放了
-          this.loadFlag += 1;
-          if (this.loadFlag == 2) {
+          // this.loadFlag += 1;
+          // if (this.loadFlag == 2) {
             this.posterFlag = true;
-          }
+          // }
         });
 
         this.player.on("pause", () => {
