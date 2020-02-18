@@ -196,10 +196,11 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .payment-wrap {
   height: 100vh;
-  background: url("../../assets/images/pay_bg@2x.jpeg") top no-repeat;
+  background-image: url("../../assets/images/pay_bg@2x.png");
+  background-repeat: no-repeat;
   background-size: 100% calc(100% + 128px);
   background-position: 0 -128px;
   overflow: hidden;
