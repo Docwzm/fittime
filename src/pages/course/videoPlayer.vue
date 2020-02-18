@@ -439,6 +439,9 @@ export default {
   height: 96px;
   display: block;
 }
+.vjs-poster{
+  background-size: 100% 100%;
+}
 </style>
 <style lang="less" scoped>
 @import "../../assets/styles/mixin";
