@@ -360,9 +360,9 @@ export default {
     },
     //前往视频播放页面
     gotoPlay(data) {
-      // if (this.noAuth) {
-      //   return;
-      // }
+      if (this.noAuth) {
+        return;
+      }
       let isAdd = this.isAdd ? 1 : 0;
       if (data.id) {
         //点击课程tab下的视频
