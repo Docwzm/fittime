@@ -15,7 +15,7 @@
       </div>-->
     </div>
     <!-- 视频信息 -->
-    <div class="intro vux-1px-b">
+    <div class="intro vux-1px-b" @click="handletest">
       <p class="title">{{ title }}</p>
       <span>第{{sortIndex}}次训练</span>
     </div>
@@ -149,6 +149,9 @@ export default {
     }
   },
   methods: {
+    handletest() {
+      console.log("...test");
+    },
     //监听返回键-app回调事件
     webviewCancel() {
       if (this.playFlag) {
@@ -340,9 +343,11 @@ export default {
                 curriculumId: this.curriculumId
               });
             }
-
+console.log('..../start')
             //设置返回监听
-            setBackbuttonCallBack("webviewCancel", this.webviewCancel);
+            LSJavascriptBridgeInit(() => {
+              setBackbuttonCallBack("webviewCancel", this.webviewCancel);
+            });
 
             // 视频播放-埋点
             umTrigger(
@@ -353,27 +358,31 @@ export default {
                 "_drillId_" +
                 this.drillId
             );
+            console.log('../dddd')
             //开始播放前需要网络验证（非网络忽略状态）
             if (!this.no_network) {
               // this.player.play();
               // this.posterFlag = false;
-              getNetworkState("networkChange", this.networkChange, status => {
-                this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-                //数据网络 则显示弹窗
-                console.log('network.....',status)
-                if (this.networkStatus != 1 && this.networkStatus != null) {
-                  this.player.pause()
-                  this.player.exitFullscreen();
-                  this.showNetworkTip = true;
-                } else {
-                  this.posterFlag = false;
-                  this.player.play();
-                }
+              console.log('...//go')
+              LSJavascriptBridgeInit(() => {
+                getNetworkState("networkChange", this.networkChange, status => {
+                  this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+                  //数据网络 则显示弹窗
+                  console.log("network.....", status);
+                  if (this.networkStatus != 1 && this.networkStatus != null) {
+                    this.player.pause();
+                    this.player.exitFullscreen();
+                    this.showNetworkTip = true;
+                  } else {
+                    this.posterFlag = false;
+                    // this.player.play();
+                  }
+                });
               });
             } else {
               // 忽略网络状态 则直接开始播放
               this.posterFlag = false;
-              this.player.play();
+              // this.player.play();
             }
           }
 
