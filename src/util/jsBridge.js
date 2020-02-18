@@ -109,6 +109,7 @@ const shareUrlBridge = (param, callback) => {
  * @param {Function} resCallback 事件调用成功失败回调
  */
 const getNetworkState = (callbackName,registerCall,resCallback) => {
+    console.log(window.LSJavascriptBridge)
     try {
         window.LSJavascriptBridge.registerHandler(callbackName, (responseData) => {
             registerCall && registerCall(responseData)
@@ -117,7 +118,8 @@ const getNetworkState = (callbackName,registerCall,resCallback) => {
             resCallback && resCallback(responseData)
         })
     } catch (err) {
-        console.error('获取系统网络环境失败:', err.message)
+        console.log('获取系统网络环境失败:', err.message)
+        resCallback && resCallback(null)
     }
 }
 
