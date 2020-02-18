@@ -435,6 +435,7 @@ export default {
   .bg("icons/play");
   width: 96px;
   height: 96px;
+  display: block;
 }
 </style>
 <style lang="less" scoped>
