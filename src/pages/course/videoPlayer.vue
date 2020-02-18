@@ -2,20 +2,15 @@
   <div class="player-wrap">
     <!-- 视频播放区域 -->
     <div class="video-wrap">
-      <video
-        ref="myVideo"
-        id="my-video"
-        class="video-js vjs-big-play-centered"
-        webkit-playsinline="true"
-        playsinline="true"
-      ></video>
-      <!-- <div class="poster-wrap" v-if="posterFlag">
-        <img :src="poster" />
-        <span @click.passive="play(0)"></span>
-      </div>-->
+      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered" webkit-playsinline="true"
+        playsinline="true"></video>
+      <div class="poster-wrap" v-if="posterFlag">
+        <img :src="poster">
+        <span @click="play(0)"></span>
+      </div>
     </div>
     <!-- 视频信息 -->
-    <div class="intro vux-1px-b" @click="handletest">
+    <div class="intro vux-1px-b">
       <p class="title">{{ title }}</p>
       <span>第{{sortIndex}}次训练</span>
     </div>
@@ -23,17 +18,27 @@
     <div class="detail-wrap">
       <p class="title">训练注意事项</p>
       <div class="tip-mess">
-        <p>1·所有的动作要领视频里都有详细的讲解，建议认真听教练的讲解、跟随教练练习，尽量跟上视频节奏。</p>
-        <p>2·训练中配合正确的呼吸方式，不要憋气，训练效果会更好。</p>
-        <p>3·刚开始训练时，局部肌肉酸痛属于正常情况，几次训练之后，这样的情况就会得到缓解。</p>
-        <p>4·每次训练完成进行10分钟的拉伸，可以缓解肌肉酸痛。</p>
+        <p>
+          1·所有的动作要领视频里都有详细的讲解，建议认真听教练的讲解、跟随教练练习，尽量跟上视频节奏。
+        </p>
+        <p>
+          2·训练中配合正确的呼吸方式，不要憋气，训练效果会更好。
+        </p>
+        <p>
+          3·刚开始训练时，局部肌肉酸痛属于正常情况，几次训练之后，这样的情况就会得到缓解。
+        </p>
+        <p>
+          4·每次训练完成进行10分钟的拉伸，可以缓解肌肉酸痛。
+        </p>
       </div>
     </div>
     <!-- 网络状态弹窗 -->
     <div v-transfer-dom>
       <x-dialog class="netwrokDialog" v-model="showNetworkTip">
         <div>
-          <div class="title">当前非Wi-Fi环境，是否继续播放</div>
+          <div class="title">
+            当前非Wi-Fi环境，是否继续播放
+          </div>
           <div class="btn-wrap">
             <span @click="play">继续播放</span>
             <span @click="play(1)">继续播放，下次不再提醒</span>
@@ -139,7 +144,7 @@ export default {
       });
     });
 
-    // this.getCourseUrl(); //视频链接
+    this.getCourseUrl(); //视频链接
     this.getVideoDetail(); //视频详情
   },
   beforeDestroy() {
@@ -149,10 +154,6 @@ export default {
     }
   },
   methods: {
-    handletest() {
-      // var vConsole = new VConsole();
-      console.log("...test");
-    },
     //监听返回键-app回调事件
     webviewCancel() {
       if (this.playFlag) {
@@ -172,7 +173,6 @@ export default {
     },
     //监听网络状态-app回调事件（ios只能监听数据网络切换 不能监听wifi切换）
     networkChange(status) {
-      console.log('.....////////status...',status)
       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
       //网络状态非忽略（未点击过继续播放，不再提醒或清空过app数据）
       if (!this.no_network) {
@@ -199,40 +199,35 @@ export default {
     },
     //开始播放 type:0 第一次点击播放
     play(type) {
-      console.log("....play.");
       if (type == 0) {
         // 视频播放-埋点
-        // umTrigger(
-        //   "newclass_classtraining_play",
-        //   "点击",
-        //   "视频播放页_courseId_" +
-        //     this.curriculumId +
-        //     "_drillId_" +
-        //     this.drillId
-        // );
-        // //开始播放前需要网络验证（非网络忽略状态）
-        // if (!this.no_network) {
-        //   // this.player.play();
-        //   // this.posterFlag = false;
-        //   console.log(".../networkChange");
-        //   LSJavascriptBridgeInit(() => {
-        //     getNetworkState("networkChange", this.networkChange, status => {
-        //       console.log(".../networkChange done");
-        //       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-        //       //数据网络 则显示弹窗
-        //       if (this.networkStatus != 1 && this.networkStatus != null) {
-        //         this.showNetworkTip = true;
-        //       } else {
-        //         this.posterFlag = false;
-        //         this.player.play();
-        //       }
-        //     });
-        //   });
-        // } else {
-        //   // 忽略网络状态 则直接开始播放
-        //   this.posterFlag = false;
-        //   this.player.play();
-        // }
+        umTrigger(
+          "newclass_classtraining_play",
+          "点击",
+          "视频播放页_courseId_" +
+            this.curriculumId +
+            "_drillId_" +
+            this.drillId
+        );
+        //开始播放前需要网络验证（非网络忽略状态）
+        if (!this.no_network) {
+          // this.player.play();
+          // this.posterFlag = false;
+          getNetworkState("networkChange", this.networkChange, status => {
+            this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+            //数据网络 则显示弹窗
+            if (this.networkStatus != 1) {
+              this.showNetworkTip = true;
+            } else {
+              this.posterFlag = false;
+              this.player.play();
+            }
+          });
+        } else {
+          // 忽略网络状态 则直接开始播放
+          this.posterFlag = false;
+          this.player.play();
+        }
       } else {
         //其他播放 继续训练/继续播放/继续播放，下次不再提醒
         this.showNetworkTip = false;
@@ -263,11 +258,10 @@ export default {
         this.videoTime = data.videoTime; //视频时长
         this.curriculumName = data.curriculumName; //课程名称
         this.poster = data.coverImg; //视频课程封面
-        // this.loadFlag += 1; //可播放标识 需等视频元数据加载完毕后方可播放
-        // if (this.loadFlag == 2) {
-        //   this.posterFlag = true;
-        // }
-        this.getCourseUrl();
+        this.loadFlag += 1; //可播放标识 需等视频元数据加载完毕后方可播放
+        if (this.loadFlag == 2) {
+          this.posterFlag = true;
+        }
       });
     },
     // 视频链接
@@ -287,7 +281,6 @@ export default {
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
-          poster: this.poster,
           type: "hls", //流文件
           preload: "auto", //预加载
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -320,10 +313,10 @@ export default {
 
         this.player.on("loadedmetadata", () => {
           //视频元数据加载完成 可以播放了
-          // this.loadFlag += 1;
-          // if (this.loadFlag == 2) {
-          this.posterFlag = true;
-          // }
+          this.loadFlag += 1;
+          if (this.loadFlag == 2) {
+            this.posterFlag = true;
+          }
         });
 
         this.player.on("pause", () => {
@@ -345,47 +338,9 @@ export default {
                 curriculumId: this.curriculumId
               });
             }
-console.log('..../start')
-            //设置返回监听
-            LSJavascriptBridgeInit(() => {
-              setBackbuttonCallBack("webviewCancel", this.webviewCancel);
-            });
 
-            // 视频播放-埋点
-            umTrigger(
-              "newclass_classtraining_play",
-              "点击",
-              "视频播放页_courseId_" +
-                this.curriculumId +
-                "_drillId_" +
-                this.drillId
-            );
-            console.log('../dddd')
-            //开始播放前需要网络验证（非网络忽略状态）
-            if (!this.no_network) {
-              // this.player.play();
-              // this.posterFlag = false;
-              console.log('...//go')
-              LSJavascriptBridgeInit(() => {
-                getNetworkState("networkChange", this.networkChange, status => {
-                  this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-                  //数据网络 则显示弹窗
-                  console.log("network.....", status);
-                  if (this.networkStatus != 1 && this.networkStatus != null) {
-                    this.player.pause();
-                    this.player.exitFullscreen();
-                    this.showNetworkTip = true;
-                  } else {
-                    this.posterFlag = false;
-                    // this.player.play();
-                  }
-                });
-              });
-            } else {
-              // 忽略网络状态 则直接开始播放
-              this.posterFlag = false;
-              // this.player.play();
-            }
+            //设置返回监听
+            setBackbuttonCallBack("webviewCancel", this.webviewCancel);
           }
 
           // 每次播放的时候进行网络验证
@@ -407,8 +362,8 @@ console.log('..../start')
           ) {
             this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
             this.player.exitFullscreen(); //ios退出全屏
-            if (window.orientation != 0 || window.orientation != 180) {
-              hideCustomView(); //兼容android退出全屏
+            if(window.orientation!=0||window.orientation!=180){
+              hideCustomView();//兼容android退出全屏
             }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
@@ -439,8 +394,8 @@ console.log('..../start')
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            if (window.orientation != 0 && window.orientation != 180) {
-              hideCustomView(); //兼容android退出全屏
+            if(window.orientation!=0&&window.orientation!=180){
+              hideCustomView();//兼容android退出全屏
             }
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
@@ -480,10 +435,6 @@ console.log('..../start')
   .bg("icons/play");
   width: 96px;
   height: 96px;
-  display: block;
-}
-.vjs-poster {
-  background-size: 100% 100%;
 }
 </style>
 <style lang="less" scoped>
