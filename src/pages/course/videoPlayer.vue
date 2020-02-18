@@ -2,10 +2,15 @@
   <div class="player-wrap">
     <!-- 视频播放区域 -->
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered" webkit-playsinline="true"
-        playsinline="true"></video>
+      <video
+        ref="myVideo"
+        id="my-video"
+        class="video-js vjs-big-play-centered"
+        webkit-playsinline="true"
+        playsinline="true"
+      ></video>
       <div class="poster-wrap" v-if="posterFlag">
-        <img :src="poster">
+        <img :src="poster" />
         <span @click="play(0)"></span>
       </div>
     </div>
@@ -18,27 +23,17 @@
     <div class="detail-wrap">
       <p class="title">训练注意事项</p>
       <div class="tip-mess">
-        <p>
-          1·所有的动作要领视频里都有详细的讲解，建议认真听教练的讲解、跟随教练练习，尽量跟上视频节奏。
-        </p>
-        <p>
-          2·训练中配合正确的呼吸方式，不要憋气，训练效果会更好。
-        </p>
-        <p>
-          3·刚开始训练时，局部肌肉酸痛属于正常情况，几次训练之后，这样的情况就会得到缓解。
-        </p>
-        <p>
-          4·每次训练完成进行10分钟的拉伸，可以缓解肌肉酸痛。
-        </p>
+        <p>1·所有的动作要领视频里都有详细的讲解，建议认真听教练的讲解、跟随教练练习，尽量跟上视频节奏。</p>
+        <p>2·训练中配合正确的呼吸方式，不要憋气，训练效果会更好。</p>
+        <p>3·刚开始训练时，局部肌肉酸痛属于正常情况，几次训练之后，这样的情况就会得到缓解。</p>
+        <p>4·每次训练完成进行10分钟的拉伸，可以缓解肌肉酸痛。</p>
       </div>
     </div>
     <!-- 网络状态弹窗 -->
     <div v-transfer-dom>
       <x-dialog class="netwrokDialog" v-model="showNetworkTip">
         <div>
-          <div class="title">
-            当前非Wi-Fi环境，是否继续播放
-          </div>
+          <div class="title">当前非Wi-Fi环境，是否继续播放</div>
           <div class="btn-wrap">
             <span @click="play">继续播放</span>
             <span @click="play(1)">继续播放，下次不再提醒</span>
@@ -213,16 +208,21 @@ export default {
         if (!this.no_network) {
           // this.player.play();
           // this.posterFlag = false;
-          getNetworkState("networkChange", this.networkChange, status => {
-            this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-            //数据网络 则显示弹窗
-            if (this.networkStatus != 1) {
-              this.showNetworkTip = true;
-            } else {
-              this.posterFlag = false;
-              this.player.play();
-            }
-          });
+          try {
+            getNetworkState("networkChange", this.networkChange, status => {
+              this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+              //数据网络 则显示弹窗
+              if (this.networkStatus != 1) {
+                this.showNetworkTip = true;
+              } else {
+                this.posterFlag = false;
+                this.player.play();
+              }
+            });
+          } catch(e) {
+            this.posterFlag = false;
+            this.player.play();
+          }
         } else {
           // 忽略网络状态 则直接开始播放
           this.posterFlag = false;
@@ -362,8 +362,8 @@ export default {
           ) {
             this.player.controls(false); //ios自动退出全屏时 控制条重复显示 需去除控制条
             this.player.exitFullscreen(); //ios退出全屏
-            if(window.orientation!=0||window.orientation!=180){
-              hideCustomView();//兼容android退出全屏
+            if (window.orientation != 0 || window.orientation != 180) {
+              hideCustomView(); //兼容android退出全屏
             }
             this.player.pause(); //暂停播放
             this.player.currentTime(0); //设置当前播放时间为0
@@ -394,8 +394,8 @@ export default {
           if (this.trySee != 1) {
             //完成训练
             this.player.exitFullscreen();
-            if(window.orientation!=0&&window.orientation!=180){
-              hideCustomView();//兼容android退出全屏
+            if (window.orientation != 0 && window.orientation != 180) {
+              hideCustomView(); //兼容android退出全屏
             }
             //已加入的课程 需要更新状态
             if (this.isAdd == 1) {
