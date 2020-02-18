@@ -17,7 +17,7 @@
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
       <p class="title">{{ title }}</p>
-      <span>第{{sortIndex}}次训练</span>
+      <span>第{{sortIndex}}次训练___</span>
     </div>
     <!-- 注意事项 -->
     <div class="detail-wrap">
