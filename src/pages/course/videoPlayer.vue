@@ -172,6 +172,7 @@ export default {
     },
     //监听网络状态-app回调事件（ios只能监听数据网络切换 不能监听wifi切换）
     networkChange(status) {
+      console.log('.....////////status...',status)
       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
       //网络状态非忽略（未点击过继续播放，不再提醒或清空过app数据）
       if (!this.no_network) {
