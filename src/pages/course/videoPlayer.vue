@@ -194,6 +194,7 @@ export default {
     },
     //开始播放 type:0 第一次点击播放
     play(type) {
+      console.log('....play')
       if (type == 0) {
         // 视频播放-埋点
         umTrigger(
@@ -208,7 +209,9 @@ export default {
         if (!this.no_network) {
           // this.player.play();
           // this.posterFlag = false;
+          console.log('.../networkChange')
           getNetworkState("networkChange", this.networkChange, status => {
+            console.log('.../networkChange done')
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //数据网络 则显示弹窗
             if (this.networkStatus != 1 && this.networkStatus != null) {
