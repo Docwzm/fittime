@@ -11,7 +11,7 @@
       ></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster" />
-        <span @click="play(0)"></span>
+        <span @click.passive="play(0)"></span>
       </div>
     </div>
     <!-- 视频信息 -->
@@ -194,7 +194,7 @@ export default {
     },
     //开始播放 type:0 第一次点击播放
     play(type) {
-      console.log('....play')
+      console.log("....play");
       if (type == 0) {
         // 视频播放-埋点
         umTrigger(
@@ -209,17 +209,19 @@ export default {
         if (!this.no_network) {
           // this.player.play();
           // this.posterFlag = false;
-          console.log('.../networkChange')
-          getNetworkState("networkChange", this.networkChange, status => {
-            console.log('.../networkChange done')
-            this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-            //数据网络 则显示弹窗
-            if (this.networkStatus != 1 && this.networkStatus != null) {
-              this.showNetworkTip = true;
-            } else {
-              this.posterFlag = false;
-              this.player.play();
-            }
+          console.log(".../networkChange");
+          LSJavascriptBridgeInit(() => {
+            getNetworkState("networkChange", this.networkChange, status => {
+              console.log(".../networkChange done");
+              this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+              //数据网络 则显示弹窗
+              if (this.networkStatus != 1 && this.networkStatus != null) {
+                this.showNetworkTip = true;
+              } else {
+                this.posterFlag = false;
+                this.player.play();
+              }
+            });
           });
         } else {
           // 忽略网络状态 则直接开始播放
