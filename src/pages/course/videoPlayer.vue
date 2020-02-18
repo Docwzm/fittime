@@ -12,7 +12,7 @@
       <!-- <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster" />
         <span @click.passive="play(0)"></span>
-      </div> -->
+      </div>-->
     </div>
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
@@ -197,37 +197,37 @@ export default {
       console.log("....play");
       if (type == 0) {
         // 视频播放-埋点
-        umTrigger(
-          "newclass_classtraining_play",
-          "点击",
-          "视频播放页_courseId_" +
-            this.curriculumId +
-            "_drillId_" +
-            this.drillId
-        );
-        //开始播放前需要网络验证（非网络忽略状态）
-        if (!this.no_network) {
-          // this.player.play();
-          // this.posterFlag = false;
-          console.log(".../networkChange");
-          LSJavascriptBridgeInit(() => {
-            getNetworkState("networkChange", this.networkChange, status => {
-              console.log(".../networkChange done");
-              this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
-              //数据网络 则显示弹窗
-              if (this.networkStatus != 1 && this.networkStatus != null) {
-                this.showNetworkTip = true;
-              } else {
-                this.posterFlag = false;
-                this.player.play();
-              }
-            });
-          });
-        } else {
-          // 忽略网络状态 则直接开始播放
-          this.posterFlag = false;
-          this.player.play();
-        }
+        // umTrigger(
+        //   "newclass_classtraining_play",
+        //   "点击",
+        //   "视频播放页_courseId_" +
+        //     this.curriculumId +
+        //     "_drillId_" +
+        //     this.drillId
+        // );
+        // //开始播放前需要网络验证（非网络忽略状态）
+        // if (!this.no_network) {
+        //   // this.player.play();
+        //   // this.posterFlag = false;
+        //   console.log(".../networkChange");
+        //   LSJavascriptBridgeInit(() => {
+        //     getNetworkState("networkChange", this.networkChange, status => {
+        //       console.log(".../networkChange done");
+        //       this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+        //       //数据网络 则显示弹窗
+        //       if (this.networkStatus != 1 && this.networkStatus != null) {
+        //         this.showNetworkTip = true;
+        //       } else {
+        //         this.posterFlag = false;
+        //         this.player.play();
+        //       }
+        //     });
+        //   });
+        // } else {
+        //   // 忽略网络状态 则直接开始播放
+        //   this.posterFlag = false;
+        //   this.player.play();
+        // }
       } else {
         //其他播放 继续训练/继续播放/继续播放，下次不再提醒
         this.showNetworkTip = false;
@@ -262,7 +262,7 @@ export default {
         // if (this.loadFlag == 2) {
         //   this.posterFlag = true;
         // }
-        this.getCourseUrl()
+        this.getCourseUrl();
       });
     },
     // 视频链接
@@ -282,7 +282,7 @@ export default {
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
-          poster:this.poster,
+          poster: this.poster,
           type: "hls", //流文件
           preload: "auto", //预加载
           autoplay: false, // 如为 true，则视频将会自动播放
@@ -317,7 +317,7 @@ export default {
           //视频元数据加载完成 可以播放了
           // this.loadFlag += 1;
           // if (this.loadFlag == 2) {
-            this.posterFlag = true;
+          this.posterFlag = true;
           // }
         });
 
@@ -343,6 +343,35 @@ export default {
 
             //设置返回监听
             setBackbuttonCallBack("webviewCancel", this.webviewCancel);
+
+            // 视频播放-埋点
+            umTrigger(
+              "newclass_classtraining_play",
+              "点击",
+              "视频播放页_courseId_" +
+                this.curriculumId +
+                "_drillId_" +
+                this.drillId
+            );
+            //开始播放前需要网络验证（非网络忽略状态）
+            if (!this.no_network) {
+              // this.player.play();
+              // this.posterFlag = false;
+              getNetworkState("networkChange", this.networkChange, status => {
+                this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
+                //数据网络 则显示弹窗
+                if (this.networkStatus != 1 && this.networkStatus != null) {
+                  this.showNetworkTip = true;
+                } else {
+                  this.posterFlag = false;
+                  this.player.play();
+                }
+              });
+            } else {
+              // 忽略网络状态 则直接开始播放
+              this.posterFlag = false;
+              this.player.play();
+            }
           }
 
           // 每次播放的时候进行网络验证
@@ -439,7 +468,7 @@ export default {
   height: 96px;
   display: block;
 }
-.vjs-poster{
+.vjs-poster {
   background-size: 100% 100%;
 }
 </style>
