@@ -150,6 +150,7 @@ export default {
   },
   methods: {
     handletest() {
+      // var vConsole = new VConsole();
       console.log("...test");
     },
     //监听返回键-app回调事件
