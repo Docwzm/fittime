@@ -11,7 +11,7 @@
       ></video>
       <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster" />
-        <span @click="play(0)"></span>
+        <span @click.passive="play(0)"></span>
       </div>
     </div>
     <!-- 视频信息 -->
