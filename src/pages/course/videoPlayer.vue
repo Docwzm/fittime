@@ -199,7 +199,7 @@ export default {
     },
     //开始播放 type:0 第一次点击播放
     play(type) {
-      console.log("....play");
+      console.log("....play.");
       if (type == 0) {
         // 视频播放-埋点
         // umTrigger(
