@@ -216,7 +216,7 @@ export default {
           getNetworkState("networkChange", this.networkChange, status => {
             this.networkStatus = status; //0-未联网 1-wifi 2-手机网络
             //数据网络 则显示弹窗
-            if (this.networkStatus != 1) {
+            if (this.networkStatus != 1 && this.networkStatus != null) {
               this.showNetworkTip = true;
             } else {
               this.posterFlag = false;
