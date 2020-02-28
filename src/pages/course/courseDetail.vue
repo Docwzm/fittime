@@ -511,10 +511,10 @@ export default {
   padding-bottom: 110px;
 }
 .top-img {
-  height: 430px;
+  // height: 430px;
   img {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
   }
 }
