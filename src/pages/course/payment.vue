@@ -199,7 +199,7 @@ export default {
 <style lang="less" scoped>
 .payment-wrap {
   height: 100vh;
-  background-image: url("../../assets/images/pay_bg@2x.jpg");
+  background-image: url("../../assets/images/pay_bg@2x.png");
   background-repeat: no-repeat;
   background-size: 100% calc(100% + 128px);
   background-position: 0 -128px;
