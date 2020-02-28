@@ -2,7 +2,7 @@
   <div class="special-wrap">
     <div class="banner">
       <img v-lazy="subject.coverImg">
-      <div class="title">{{subject.title}}</div>
+      <!-- <div class="title">{{subject.title}}</div> -->
     </div>
     <div class="description">
       <p>{{subject.content}}</p>
@@ -71,16 +71,16 @@ export default {
 <style lang="less">
 .special-wrap {
   .banner {
-    height: 270px;
+    // height: 270px;
     background: #f5f5f5;
     position: relative;
     overflow: hidden;
     img {
       display: block;
       width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
+      height: auto;
+      // position: absolute;
+      // top: 0;
     }
     .title {
       font-size: 40px;
