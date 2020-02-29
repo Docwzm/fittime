@@ -4,10 +4,10 @@
     <div class="video-wrap">
       <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered" webkit-playsinline="true"
         playsinline="true"></video>
-      <div class="poster-wrap" v-if="posterFlag">
+      <!-- <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
-      </div>
+      </div> -->
     </div>
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
@@ -145,7 +145,7 @@ export default {
     });
 
     this.getCourseUrl(); //视频链接
-    this.getVideoDetail(); //视频详情
+    // this.getVideoDetail(); //视频详情
   },
   beforeDestroy() {
     setBackbuttonCallBack("", () => {}); //页面销毁前 删除返回键监听
@@ -266,18 +266,18 @@ export default {
     },
     // 视频链接
     getCourseUrl() {
-      getCourseUrl({
-        courseKey: this.videoKey
-      }).then(res => {
-        let data = res.data;
+      // getCourseUrl({
+      //   courseKey: this.videoKey
+      // }).then(res => {
+      //   let data = res.data;
         this.player = videojs("my-video", {
           controls: true,
           aspectRatio: "16:9", //视频比例
           sources: [
             {
-              src: data.videoAddress, //视频地址
-              // src:
-              //   "http://og9dz2jqu.cvoda.com/Zmlyc3R2b2RiOm9jZWFucy0xLm1wNA==_q00000001.m3u8",
+              // src: data.videoAddress, //视频地址
+              src:
+                "/playlists/test_001/stream.m3u8",
               type: "application/x-mpegURL" //m3u8格式
             }
           ],
@@ -300,7 +300,7 @@ export default {
 
         //监听视频
         this.watchPlayer();
-      });
+      // });
     },
     //监听视频player 事件
     watchPlayer() {
@@ -435,6 +435,7 @@ export default {
   .bg("icons/play");
   width: 96px;
   height: 96px;
+  display: block;
 }
 </style>
 <style lang="less" scoped>
