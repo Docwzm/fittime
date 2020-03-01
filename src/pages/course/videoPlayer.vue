@@ -7,7 +7,7 @@
         <img :src="poster">
         <span @click="play(0)"></span>
       </div> -->
-      <div id="my-video" class="video-js vjs-big-play-centered"></div>
+      <div id="my-video"></div>
     </div>
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
@@ -271,7 +271,8 @@ export default {
       // }).then(res => {
         // let data = res.data;
       const player = new QPlayer({
-      url: "http://7xlv47.com1.z0.glb.clouddn.com/xxx004.m3u8",
+      // url: "http://7xlv47.com1.z0.glb.clouddn.com/xxx004.m3u8",
+      url:'/playlists/test_001/stream.m3u8',
   // autoplay: true,
   // hls: {
   //       qualityName: ["低清", "标清", "高清", "超清"],
