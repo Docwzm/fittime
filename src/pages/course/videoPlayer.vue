@@ -2,8 +2,7 @@
   <div class="player-wrap">
     <!-- 视频播放区域 -->
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered" webkit-playsinline="true"
-        playsinline="true"></video>
+      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered"></video>
       <!-- <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
@@ -278,28 +277,35 @@ export default {
               // src: data.videoAddress, //视频地址
               src:
                 "/playlists/test_001/stream.m3u8",
+                // src:'http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4',
               type: "application/x-mpegURL" //m3u8格式
+              // type:'video/mp4'
             }
           ],
           type: "hls", //流文件
-          preload: "auto", //预加载
-          autoplay: false, // 如为 true，则视频将会自动播放
-          html5: {
-            nativeControlsForTouch: false,
-            nativeVideoTracks: false,
-            nativeTextTracks: false,
-            nativeAudioTracks: false
-          },
-          //控制条组件
-          controlBar: {
-            volumePanel: false //声音
-            // playToggle: false,//播放
-            // fullscreenToggle:false//全屏
+          flash: {
+  hls: {
+    withCredentials: true
+  }
           }
-        });
+          // preload: "auto", //预加载
+          // autoplay: false, // 如为 true，则视频将会自动播放
+          // html5: {
+          //   nativeControlsForTouch: false,
+          //   nativeVideoTracks: false,
+          //   nativeTextTracks: false,
+          //   nativeAudioTracks: false
+          // },
+          // //控制条组件
+          // controlBar: {
+          //   volumePanel: false //声音
+          //   // playToggle: false,//播放
+          //   // fullscreenToggle:false//全屏
+          // }
+        })
 
         //监听视频
-        this.watchPlayer();
+        // this.watchPlayer();
       // });
     },
     //监听视频player 事件
