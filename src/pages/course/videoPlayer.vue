@@ -2,11 +2,12 @@
   <div class="player-wrap">
     <!-- 视频播放区域 -->
     <div class="video-wrap">
-      <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered"></video>
+      <!-- <video ref="myVideo" id="my-video" class="video-js vjs-big-play-centered"></video> -->
       <!-- <div class="poster-wrap" v-if="posterFlag">
         <img :src="poster">
         <span @click="play(0)"></span>
       </div> -->
+      <div id="my-video" class="video-js vjs-big-play-centered"></div>
     </div>
     <!-- 视频信息 -->
     <div class="intro vux-1px-b">
@@ -268,7 +269,19 @@ export default {
       // getCourseUrl({
       //   courseKey: this.videoKey
       // }).then(res => {
-      //   let data = res.data;
+        // let data = res.data;
+      const player = new QPlayer({
+      url: "http://7xlv47.com1.z0.glb.clouddn.com/xxx004.m3u8",
+  // autoplay: true,
+  // hls: {
+  //       qualityName: ["低清", "标清", "高清", "超清"],
+  // },
+
+  container: document.getElementById("my-video"),
+});
+
+return false;
+
         this.player = videojs("my-video", {
           controls: true,
           aspectRatio: "16:9", //视频比例
