@@ -14,7 +14,7 @@
     "build-online": "node build/build.js --env online"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "node-uuid": "^1.4.8",
     "vue": "^2.5.17",
     "vue-dropload": "^1.0.16",
